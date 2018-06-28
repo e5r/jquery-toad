@@ -1,9 +1,9 @@
-+function ($, App) {
-	(function (exports) {
++ function($, App) {
+    (function(exports) {
 
-		exports.getUrlBase = function () {
-			return 'https://erlimar.com';
-		}
+        exports.getUrlBase = function() {
+            return 'https://erlimar.com';
+        }
 
-	})(App.utils = App.utils || {})
+    })(App.utils = App.utils || {})
 }(jQuery, window.ClientApp = window.ClientApp || {});

@@ -1,42 +1,45 @@
-+function ($, App) {
-	; function require(_) { return App[_] = App[_] || {} }
-	(function (exports) {
++ function($, App) {;
 
-		var core = require('core')
+    function require(_) {
+        return App[_] = App[_] || {}
+    }
+    (function(exports) {
 
-		/** @constant {string} */
-		var DATA_TITLE_SELECTOR = '[data-app-gui-title]'
+        var core = require('core')
 
-		/** @constant {string} */
-		var DATA_CONFIG_TITLE = 'app-config-title'
+        /** @constant {string} */
+        var DATA_TITLE_SELECTOR = '[data-app-gui-title]'
 
-		/**
-		 * HomeController
-		 * @constructor
-		 * 
-		 * @param {DOM} el - Elemento anexado a controller
-		 */
-		function HomeController(el) {
-			if (this instanceof HomeController === false)
-				return new HomeController(el)
+        /** @constant {string} */
+        var DATA_CONFIG_TITLE = 'app-config-title'
 
-			var scope = this.scope = $(el)
+        /**
+         * HomeController
+         * @constructor
+         *
+         * @param {DOM} el - Elemento anexado a controller
+         */
+        function HomeController(el) {
+            if (this instanceof HomeController === false)
+                return new HomeController(el)
 
-			this.model = {
-				title: scope.data(DATA_CONFIG_TITLE)
-			}
-		}
+            var scope = this.scope = $(el)
 
-		/**
-		 * Aplica o título da controller
-		 */
-		HomeController.prototype.ApplyTitle = function () {
-			$ctrl = $(this).ctrl()
+            this.model = {
+                title: scope.data(DATA_CONFIG_TITLE)
+            }
+        }
 
-			$(DATA_TITLE_SELECTOR, $ctrl.scope).text($ctrl.model.title)
-		}
+        /**
+         * Aplica o título da controller
+         */
+        HomeController.prototype.ApplyTitle = function() {
+            $ctrl = $(this).ctrl()
 
-		exports['home-controller'] = HomeController
+            $(DATA_TITLE_SELECTOR, $ctrl.scope).text($ctrl.model.title)
+        }
 
-	})(App.controllers = App.controllers || {})
+        exports['home-controller'] = HomeController
+
+    })(App.controllers = App.controllers || {})
 }(jQuery, window.ClientApp = window.ClientApp || {});

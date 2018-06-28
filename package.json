@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/e5r/jquery-toad/issues"
   },
-  "homepage": "https://github.com/e5r/jquery-toad#readme"
+  "homepage": "https://github.com/e5r/jquery-toad#readme",
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-concat-util": "^0.5.5",
+    "gulp-uglify": "^3.0.0"
+  }
 }
