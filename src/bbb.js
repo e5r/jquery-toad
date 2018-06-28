@@ -1,3 +1,3 @@
-$namespace('bbb', function(exports) {
+$namespace(2, 'bbb', function (exports) {
     exports.B = 'b';
 })

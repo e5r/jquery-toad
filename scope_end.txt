@@ -1,5 +1,14 @@
 
-})(
+// Inicializa os namespaces na ordem especificada
+_NAMESPACES_
+    .sort(function (a, b) { 
+        return a.idx - b.idx; 
+    })
+    .map(function (n) { 
+        n.cb(); 
+    });
+
+}) (
     /* $ */
     jQuery,
 
@@ -7,15 +16,5 @@
     document,
 
     /* $app */
-    window[__TOAD__],
-
-    /* $require */
-    function require(_) {
-        return window[__TOAD__][_] = window[__TOAD__][_] || {};
-    },
-
-    /* $namespace */
-    function namespace(_, __) {
-        __((window[__TOAD__][_] = window[__TOAD__][_] || {}));
-    }
+    window[__TOAD__]
 );
