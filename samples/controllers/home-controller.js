@@ -1,8 +1,7 @@
-MyApp.namespace('app/controllers', function(exports) {
-    var $ = MyApp.$jq,
-        $app = MyApp,
-        Controller = function() {}, //$app.require('@controller')
-        utils = $app.require('app/utils');
+E5R.namespace('app/controllers', function (exports) {
+    var $ = E5R.$jq,
+        Controller = function () { }, //E5R.require('@controller')
+        utils = E5R.require('app/utils');
 
     exports['home'] = Controller({
         /* TODO: Implementar */

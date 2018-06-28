@@ -1,12 +1,10 @@
-MyApp.namespace('app/utils', function(exports) {
-    var $app = MyApp;
-
+E5R.namespace('app/utils', function (exports) {
     /**
      * Converte os caracteres de uma string para maiúsculas
      *
      * @param {string} str - String a converter
      */
-    exports.toUpper = function(str) {
+    exports.toUpper = function (str) {
         return (str || '').toLocaleUpperCase();
     }
 
@@ -15,18 +13,18 @@ MyApp.namespace('app/utils', function(exports) {
      *
      * @param {string} str - String a converter
      */
-    exports.toLower = function(str) {
+    exports.toLower = function (str) {
         return (str || '').toLocaleLowerCase();
     }
 
     /**
      * Imprime informações da aplicação
      */
-    exports.printAppInfo = function() {
-        var appInfo = $app.require('app');
+    exports.printAppInfo = function () {
+        var info = E5R.require('app');
 
-        console.log(appInfo.name, 'v' + appInfo.version);
-        console.log(appInfo.copyright);
-        console.log('by', appInfo.author);
+        console.log(info.name, 'v' + info.version);
+        console.log(info.copyright);
+        console.log('by', info.author);
     }
 })

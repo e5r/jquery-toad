@@ -1,8 +1,7 @@
-MyApp.namespace('app/components', function(exports) {
-    var $ = MyApp.$jq,
-        $app = MyApp,
-        Component = function() {}, //$app.require('@component')
-        utils = $app.require('app/utils');
+E5R.namespace('app/components', function (exports) {
+    var $ = E5R.$jq,
+        Component = function () { }, //E5R.require('@component')
+        utils = E5R.require('app/utils');
 
     exports['toggleable'] = Component({
         /* TODO: Implementar */
