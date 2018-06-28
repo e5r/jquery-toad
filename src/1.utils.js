@@ -1,3 +1,18 @@
+//
+// @parametters: 
+// - $
+// - $elm
+// - $app
+//
+// @variables:
+// - _NAMESPACES_
+// - _APP_NAMESPACE_KEY_
+// - _APP_
+//
+// @methods:
+// - $require
+// - $namespace
+//
 $namespace(1, 'utils', function (exports) {
 
     /**

@@ -5,14 +5,14 @@ var fs = require('fs'),
     uglify = require("gulp-uglify"),
     pkg = require('./package.json');
 
-var initJs = fs.readFileSync('./src/init.js'),
+var initJs = fs.readFileSync('./src/0.init.js'),
     headerTxt = fs.readFileSync('./header.txt'),
     scopeBeginTxt = fs.readFileSync('./scope_begin.txt'),
     scopeEndTxt = fs.readFileSync('./scope_end.txt'),
     bannerTxt = fs.readFileSync('./banner.txt');
 
 var libs = [
-    "!src/init.js",
+    "!src/0.init.js",
     "src/**/*.js"
 ];
 
