@@ -1,4 +1,4 @@
-MyApp.namespace('utils', function(exports) {
+MyApp.namespace('app/utils', function(exports) {
     var $app = MyApp;
 
     /**
