@@ -9,6 +9,6 @@ E5R.namespace('app/controllers', function (exports) {
 
     exports['home'] = Controller({
         name: 'home',
-        ctor: Constructor
+        ctor: HomeController
     });
 });
