@@ -44,6 +44,15 @@ gulp.task('js', function() {
 gulp.task('js-min', function() {
     return gulp.src(libs)
         .pipe(concat('jquery-toad.min.js'))
+        .pipe(concat.header(scopeBeginTxt, {
+            pkg: pkg
+        }))
+        .pipe(concat.header(initJs, {
+            pkg: pkg
+        }))
+        .pipe(concat.footer(scopeEndTxt, {
+            pkg: pkg
+        }))
         .pipe(uglify())
         .pipe(concat.header(headerTxt, {
             pkg: pkg
