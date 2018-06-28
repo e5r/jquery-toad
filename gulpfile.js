@@ -7,8 +7,8 @@ var fs = require('fs'),
 
 var initJs = fs.readFileSync('./src/init.js'),
     headerTxt = fs.readFileSync('./header.txt'),
-    scopeBeginTxt = fs.readFileSync('./scope_begin.txt.js'),
-    scopeEndTxt = fs.readFileSync('./scope_end.txt.js'),
+    scopeBeginTxt = fs.readFileSync('./scope_begin.txt'),
+    scopeEndTxt = fs.readFileSync('./scope_end.txt'),
     bannerTxt = fs.readFileSync('./banner.txt');
 
 var libs = [
