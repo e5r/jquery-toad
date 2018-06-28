@@ -1,0 +1,25 @@
+{
+  "name": "jquery-toad",
+  "version": "1.0.0",
+  "description": "jQuery TOAD (The Old And Dear) - O velho e querido jQuery",
+  "main": "dist/jquery-toad.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/e5r/jquery-toad.git"
+  },
+  "keywords": [
+    "e5r",
+    "jquery",
+    "architecture",
+    "toad"
+  ],
+  "author": "E5R Development Team",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/e5r/jquery-toad/issues"
+  },
+  "homepage": "https://github.com/e5r/jquery-toad#readme"
+}
