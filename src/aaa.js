@@ -1,3 +1,3 @@
 $namespace('aaa', function(exports) {
-    exports.A = 'a'
+    exports.A = 'a';
 })

@@ -24,4 +24,4 @@ if (typeof __TOAD__ !== 'string') {
     throw new Error('You have not set a value for __TOAD__!')
 }
 
-window[__TOAD__] = window[__TOAD__] || {}
+window[__TOAD__] = window[__TOAD__] || {};

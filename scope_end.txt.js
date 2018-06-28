@@ -11,11 +11,11 @@
 
     /* $require */
     function require(_) {
-        return window[__TOAD__][_] = window[__TOAD__][_] || {}
+        return window[__TOAD__][_] = window[__TOAD__][_] || {};
     },
 
     /* $namespace */
     function namespace(_, __) {
-        __((window[__TOAD__][_] = window[__TOAD__][_] || {}))
+        __((window[__TOAD__][_] = window[__TOAD__][_] || {}));
     }
 );

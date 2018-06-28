@@ -1,11 +1,12 @@
-+ function($, App) {;
+MyApp.namespace('app', function(app) {
+    var $ = MyApp.$jq,
+        $app = MyApp,
+        utils = $app.require('utils');
 
-    function require(_) {
-        return App[_] = App[_] || {}
-    }
+    app.name = 'jQuery TOAD Sample Application';
+    app.version = '1.0.0';
+    app.copyright = 'Copyright (c) 2018 - E5R Development TEam';
+    app.author = 'Erlimar Silva Campos (erlimar@gmail.com)';
 
-    var core = require('core')
-
-    core.setConfig('app.title', 'Minha aplicação jQuery!')
-
-}(jQuery, window.ClientApp = window.ClientApp || {});
+    utils.printAppInfo()
+})
