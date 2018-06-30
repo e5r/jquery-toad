@@ -1,5 +1,5 @@
 //
-// @parametters: 
+// @parametters:
 // - $
 // - $elm
 // - $app
@@ -13,76 +13,93 @@
 // - $require
 // - $namespace
 //
-$namespace(5, 'app', function (exports) {
-    var at = $require('@').__internals__;
+$namespace(5, 'app', function(exports) {
+    var utils = $require('utils'),
+        atPrivate = $require('@').__internals__;
 
-    var CONTROLLER_IDENTIFIER = 'data-controller',
-        CONTROLLER_SELECTOR = '[' + CONTROLLER_IDENTIFIER + ']';
+    var CONTROLLER_IDENTIFIER = 'controller',
+        CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
+        CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
+        BIND_DATA_IDENTIFIER = 'data-events',
+        BIND_SELECTOR = '[' + BIND_DATA_IDENTIFIER + ']',
+        BIND_EVENT_COLLECTION_SPLITER = ',',
+        BIND_EVENT_SPLITER = '->',
+        BIND_ELEMENT_DATA_CTRL = '$ctrl';
 
     function _installControllers() {
-        console.group('_installControllers');
-        $(CONTROLLER_SELECTOR, $elm).each(function () {
-            var el = $(this);
+        $(CONTROLLER_SELECTOR, $elm).each(function() {
+            var el = $(this),
+                name = el.attr(CONTROLLER_DATA_IDENTIFIER),
+                ctor = atPrivate.getController(name),
+                options = {};
 
-            console.log('$elm:', $elm, $(this));
+            // Lê opções dos elementos [data-*] exceto [data-controller]
+            for (var opt in el.context.dataset) {
+                if (opt === CONTROLLER_IDENTIFIER)
+                    continue;
+                options[opt] = el.context.dataset[opt];
+            }
 
-            var name = el.attr(CONTROLLER_IDENTIFIER);
-            var ctor = at.getController(name);
-            var ctrl = new ctor(el);
-
-            console.log('name:', name);
-            console.log('ctor', ctor);
-            console.log('ctrl', ctrl);
+            var ctrl = new ctor(el, options);
 
             _bind(el, ctrl)
-            //initComponents(el, ctrl)
+            _components(el, ctrl);
         });
-        console.groupEnd();
     }
 
     function _bind(ctrlElm, ctrl) {
-        console.group('_bind');
-        var r = $('[data-event]', ctrlElm);
-        console.log('r:', r);
+        $(BIND_SELECTOR, ctrlElm).each(function() {
+            var el = $(this),
+                binder = el.attr(BIND_DATA_IDENTIFIER);
 
-        //data-event:click="showMessage"
+            if (!utils.isString(binder) || 0 > binder.indexOf(BIND_EVENT_SPLITER))
+                return;
 
-        r.each(function () {
-            console.log('ctrlElm:', ctrlElm, $(this));
-            // var el = $(this)
-            // var binder = el.data(BIND_IDENTIFIER)
+            binder = binder.split(BIND_EVENT_COLLECTION_SPLITER);
 
-            // if (!utils.isString(binder) || 0 > binder.indexOf(':')) return
+            if (!utils.isArray(binder) || binder.length < 1)
+                return;
 
-            // binder = binder.split(':')
+            for (var b in binder) {
+                var binderExpr = $.trim(binder[b]),
+                    bind = binderExpr.split(BIND_EVENT_SPLITER);
 
-            // if (!utils.isArray(binder) || binder.length < 2) retun
+                if (!utils.isArray(bind) || bind.length < 2)
+                    continue;
 
-            // var event = binder[0]
-            // var handler = ctrl[binder[1]]
+                var bEvent = bind[0],
+                    bHandler = ctrl[bind[1]];
 
-            // if (!utils.isString(event) || !utils.isFunction(handler)) return
+                if (!utils.isString(bEvent) || !utils.isFunction(bHandler))
+                    return;
 
-            // el.on(event, handler)
-            // el.ctrl(ctrl)
+                el.on(bEvent, bHandler);
+
+                // TODO: Criar component [ctrl] pra
+                //el.ctrl(ctrl);
+                el.data(BIND_ELEMENT_DATA_CTRL, ctrl);
+            }
         });
-        console.groupEnd();
     }
 
-    // var initComponents = function (el, ctrl) {
-    //     core.listComponents().map(function (cmp) {
-    //         if (!utils.isString(cmp.id)) return
-    //         if (!utils.isFunction(cmp.component)) return
-    //         if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return
-    //         if (!utils.isString(cmp.component[COMPONENT_NAME_KEY])) return
-    //         if (cmp.id.lastIndexOf(COMPONENT_SUFFIX) !== cmp.id.length - COMPONENT_SUFFIX.length) return
-
-    //         var jqSelector = cmp.component[COMPONENT_SELECTOR_KEY]
-    //         var jqFn = cmp.component[COMPONENT_NAME_KEY]
-
-    //         $(jqSelector, el)[jqFn](el)
-    //     })
-    // }
+    function _components(el, ctrl) {
+        console.group('_components');
+        console.log('el:', el);
+        console.log('ctrl:', ctrl);
+        // core.listComponents().map(function(cmp) {
+        //     if (!utils.isString(cmp.id)) return
+        //     if (!utils.isFunction(cmp.component)) return
+        //     if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return
+        //     if (!utils.isString(cmp.component[COMPONENT_NAME_KEY])) return
+        //     if (cmp.id.lastIndexOf(COMPONENT_SUFFIX) !== cmp.id.length - COMPONENT_SUFFIX.length) return
+        //
+        //     var jqSelector = cmp.component[COMPONENT_SELECTOR_KEY]
+        //     var jqFn = cmp.component[COMPONENT_NAME_KEY]
+        //
+        //     $(jqSelector, el)[jqFn](el)
+        // })
+        console.groupEnd();
+    }
 
     function _installToad() {
         //setTitle()

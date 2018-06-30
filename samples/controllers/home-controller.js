@@ -1,11 +1,18 @@
-E5R.namespace('app/controllers', function (exports) {
+E5R.namespace('app/controllers', function(exports) {
     var $ = E5R.$jq,
         Controller = E5R.require('@').Controller,
         utils = E5R.require('app/utils');
 
-    function HomeController(view) {
-        console.log('HomeController#constructor!', view);
+    var ctrlOptions;
+
+    function HomeController(view, options) {
+        console.log('HomeController#constructor!', view, options);
+        ctrlOptions = options;
     };
+
+    HomeController.prototype.showMessage = function() {
+        alert('Exibindo mensagem: ' + ctrlOptions.message);
+    }
 
     var ctrl = exports['home'] = Controller({
         name: 'home',

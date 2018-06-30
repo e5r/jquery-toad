@@ -1,5 +1,5 @@
 //
-// @parametters: 
+// @parametters:
 // - $
 // - $elm
 // - $app
@@ -25,7 +25,7 @@ $namespace(3, '@', function (exports) {
 
     /**
      * Cria uma controller
-     * 
+     *
      * @param {object} options - Opções da controller
      */
     exports.Controller = function (options) {
