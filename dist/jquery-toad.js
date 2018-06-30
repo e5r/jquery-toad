@@ -352,37 +352,25 @@ $namespace(3, '@', function (exports) {
 // ========================================================================
 // 4.create-component.js
 // ========================================================================
-//
-// @parametters: 
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
-$namespace(4, '@', function (exports) {
+$namespace(4, '@', function(exports) {
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',
-        EXPORT_NAME_FIELD = '$name';
+        SELECTOR_FIELD = 'selector',
+        EXPORT_NAME_FIELD = '$name',
+        EXPORT_SELECTOR_FIELD = '$selector';
 
     var components = [];
     var private = exports.__internals__ = exports.__internals__ || {};
 
     private.getComponent = _getComponent;
+    private.listComponents = _listComponents;
 
     /**
      * Cria um componente
-     * 
+     *
      * @param {object} options - Opções do componente
      */
-    exports.Component = function (options) {
+    exports.Component = function(options) {
         options = ensureOptions(options);
 
         var componentName = options[NAME_FIELD];
@@ -394,6 +382,7 @@ $namespace(4, '@', function (exports) {
         var fnCmp = options[CONSTRUCTOR_FIELD];
 
         fnCmp[EXPORT_NAME_FIELD] = options[NAME_FIELD];
+        fnCmp[EXPORT_SELECTOR_FIELD] = options[SELECTOR_FIELD];
 
         components[componentName] = fnCmp;
 
@@ -408,6 +397,9 @@ $namespace(4, '@', function (exports) {
 
         if (typeof options[CONSTRUCTOR_FIELD] != 'function')
             throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
+
+        if (typeof options[SELECTOR_FIELD] != 'string')
+            throw invalidOptionMessage(SELECTOR_FIELD, 'string');
 
         return options;
     }
@@ -429,34 +421,45 @@ $namespace(4, '@', function (exports) {
 
         return components[componentName];
     }
+
+    function _listComponents() {
+        var list = []
+
+        for (var c in components)
+            list.push({
+                id: c,
+                component: components[c]
+            })
+
+        return list
+    }
 })
 
 
 // ========================================================================
-// 5.app.js
+// 5.controller-bind-component.js
 // ========================================================================
-//
-// @parametters:
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
-$namespace(5, 'app', function(exports) {
+$namespace(5, 'core', function() {
+    var BIND_ELEMENT_DATA_CTRL = '$ctrl';
+
+    $.fn['controller'] = function CtrlComponent() {
+        return $(this).data(BIND_ELEMENT_DATA_CTRL);
+    }
+})
+
+
+// ========================================================================
+// 6.app.js
+// ========================================================================
+$namespace(6, 'app', function(exports) {
     var utils = $require('utils'),
         atPrivate = $require('@').__internals__;
 
     var CONTROLLER_IDENTIFIER = 'controller',
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
         CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
+        COMPONENT_SELECTOR_KEY = '$selector',
+        COMPONENT_NAME_KEY = '$name',
         BIND_DATA_IDENTIFIER = 'data-events',
         BIND_SELECTOR = '[' + BIND_DATA_IDENTIFIER + ']',
         BIND_EVENT_COLLECTION_SPLITER = ',',
@@ -479,12 +482,13 @@ $namespace(5, 'app', function(exports) {
 
             var ctrl = new ctor(el, options);
 
-            _bind(el, ctrl)
-            _components(el, ctrl);
+            _setupEvents(el, ctrl)
+            _setupComponents(el, ctrl);
+            _setupModel(el, ctrl);
         });
     }
 
-    function _bind(ctrlElm, ctrl) {
+    function _setupEvents(ctrlElm, ctrl) {
         $(BIND_SELECTOR, ctrlElm).each(function() {
             var el = $(this),
                 binder = el.attr(BIND_DATA_IDENTIFIER);
@@ -512,34 +516,39 @@ $namespace(5, 'app', function(exports) {
 
                 el.on(bEvent, bHandler);
 
-                // TODO: Criar component [ctrl] pra
-                //el.ctrl(ctrl);
                 el.data(BIND_ELEMENT_DATA_CTRL, ctrl);
             }
         });
     }
 
-    function _components(el, ctrl) {
-        console.group('_components');
-        console.log('el:', el);
+    function _setupComponents(ctrlElm, ctrl) {
+        console.group('_setupComponents');
+        console.log('ctrlElm:', ctrlElm);
         console.log('ctrl:', ctrl);
-        // core.listComponents().map(function(cmp) {
-        //     if (!utils.isString(cmp.id)) return
-        //     if (!utils.isFunction(cmp.component)) return
-        //     if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return
-        //     if (!utils.isString(cmp.component[COMPONENT_NAME_KEY])) return
-        //     if (cmp.id.lastIndexOf(COMPONENT_SUFFIX) !== cmp.id.length - COMPONENT_SUFFIX.length) return
-        //
-        //     var jqSelector = cmp.component[COMPONENT_SELECTOR_KEY]
-        //     var jqFn = cmp.component[COMPONENT_NAME_KEY]
-        //
-        //     $(jqSelector, el)[jqFn](el)
-        // })
+
+        atPrivate.listComponents().map(function(cmp) {
+            console.log('#cmp:', cmp);
+            if (!utils.isString(cmp.id)) return;
+            if (!utils.isFunction(cmp.component)) return;
+            if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return;
+            if (!utils.isString(cmp.component[COMPONENT_NAME_KEY])) return;
+
+            var jqSelector = cmp.component[COMPONENT_SELECTOR_KEY];
+            var jqFn = cmp.component[COMPONENT_NAME_KEY];
+
+            $(jqSelector, ctrlElm)[jqFn](ctrl);
+        })
+        console.groupEnd();
+    }
+
+    function _setupModel(el, ctrl) {
+        console.group('_setupModel');
+        console.log('TODO: Implementar _setupModel');
         console.groupEnd();
     }
 
     function _installToad() {
-        //setTitle()
+        //setTitle() // TODO: Mover para algum utilitário
         _installControllers();
     }
 

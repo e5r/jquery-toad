@@ -3,27 +3,17 @@ E5R.namespace('app/controllers', function(exports) {
         Controller = E5R.require('@').Controller,
         utils = E5R.require('app/utils');
 
-    var ctrlOptions;
-
     function HomeController(view, options) {
-        console.log('HomeController#constructor!', view, options);
-        ctrlOptions = options;
+        this.options = options;
     };
 
     HomeController.prototype.showMessage = function() {
-        alert('Exibindo mensagem: ' + ctrlOptions.message);
+        var ctrl = $(this).controller();
+        alert('Exibindo mensagem: ' + ctrl.options.message);
     }
 
     var ctrl = exports['home'] = Controller({
         name: 'home',
         ctor: HomeController
     });
-
-    // var result = ctrl();
-    // var instance = new ctrl();
-
-    // console.log('ctrl.$name:', ctrl.$name);
-    // console.log('ctrl:', ctrl);
-    // console.log('result:', result);
-    // console.log('instance:', instance);
 });
