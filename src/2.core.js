@@ -14,28 +14,14 @@
 // - $namespace
 //
 $namespace(2, 'core', function (exports) {
-    console.log('#core:', exports);
-
     var controllers = $require('controllers')
     var components = $require('components')
     var utils = $require('utils')
     var config = $require('config')
 
-    // function _registerAndGetController(ctrlName, ctrlConstructor) {
-    //     if (utils.isString(ctrlName) && utils.isFunction(ctrlConstructor)) {
-    //         return controllers[ctrlName + CONTROLLER_SUFFIX] = ctrlConstructor
-    //     }
-
-    //     if (utils.isString(ctrlName)) {
-    //         var ctrl = controllers[ctrlName + CONTROLLER_SUFFIX]
-
-    //         return utils.isFunction(ctrl)
-    //             ? ctrl
-    //             : function () { }
-    //     }
-
-    //     return function () { };
-    // }
+    function _getController(ctrlName) {
+        var private = $require('@').__internals__;
+    }
 
     // function _listComponents() {
     //     var list = []

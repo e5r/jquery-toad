@@ -14,45 +14,65 @@
 // - $namespace
 //
 $namespace(3, '@', function (exports) {
-    console.log('#@/Controller:', exports);
-
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',
         EXPORT_NAME_FIELD = '$name';
+
+    var controllers = [];
+    var private = exports.__internals__ = exports.__internals__ || {};
+
+    private.getController = _getController;
 
     /**
      * Cria uma controller
      * 
      * @param {object} options - Opções da controller
      */
-    exports.Contrroller = function (options) {
+    exports.Controller = function (options) {
         options = ensureOptions(options);
 
-        var fnCtrl = function () {
-            console.log('fnCtrl#constructor');
-        };
+        var controllerName = options[NAME_FIELD];
 
-        // $("#parent").on('DOMNodeInserted', function(e) {
-        //     console.log(e.target, ' was inserted');
-        // });
-        
-        // $("#parent").on('DOMNodeRemoved', function(e) {
-        //     console.log(e.target, ' was removed');
-        // });
+        if (controllers[controllerName]) {
+            throw 'Controller ' + controllerName + ' already registered!';
+        }
 
-        // $("#parent").bind("DOMSubtreeModified",function(){
-        //     console.log('changed');
-        // });
+        var fnCtrl = options[CONSTRUCTOR_FIELD];
 
-        fnCtrl.prototype = options[CONSTRUCTOR_FIELD];
         fnCtrl[EXPORT_NAME_FIELD] = options[NAME_FIELD];
+
+        controllers[controllerName] = fnCtrl;
+
+        return fnCtrl;
     }
 
     function ensureOptions(options) {
-        if (!options || typeof options[NAME_FIELD] != 'string')
-            throw 'Invalid @controller option#' + NAME_FIELD + '. Must be a string.';
+        options = options || {};
 
-        if (!options || typeof options[CONSTRUCTOR_FIELD] != 'function')
-            throw 'Invalid @controller option#' + CONSTRUCTOR_FIELD + '. Must be a function.';
+        if (typeof options[NAME_FIELD] != 'string')
+            throw invalidOptionMessage(NAME_FIELD, 'string');
+
+        if (typeof options[CONSTRUCTOR_FIELD] != 'function')
+            throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
+
+        return options;
+    }
+
+    function invalidOptionMessage(fieldName, fieldType) {
+        return 'Invalid @controller option#{name}. Must be a {type}.'
+            .replace('{name}', fieldName)
+            .replace('{type}', fieldType);
+    }
+
+    function _getController(controllerName) {
+        if (typeof controllerName !== 'string' || controllerName == '') {
+            throw 'Parameter controllerName is required.';
+        }
+
+        if (!controllers[controllerName]) {
+            throw 'Controller ' + controllerName + ' not registered!';
+        }
+
+        return controllers[controllerName];
     }
 })

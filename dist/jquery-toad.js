@@ -190,28 +190,14 @@ $namespace(1, 'utils', function (exports) {
 // - $namespace
 //
 $namespace(2, 'core', function (exports) {
-    console.log('#core:', exports);
-
     var controllers = $require('controllers')
     var components = $require('components')
     var utils = $require('utils')
     var config = $require('config')
 
-    // function _registerAndGetController(ctrlName, ctrlConstructor) {
-    //     if (utils.isString(ctrlName) && utils.isFunction(ctrlConstructor)) {
-    //         return controllers[ctrlName + CONTROLLER_SUFFIX] = ctrlConstructor
-    //     }
-
-    //     if (utils.isString(ctrlName)) {
-    //         var ctrl = controllers[ctrlName + CONTROLLER_SUFFIX]
-
-    //         return utils.isFunction(ctrl)
-    //             ? ctrl
-    //             : function () { }
-    //     }
-
-    //     return function () { };
-    // }
+    function _getController(ctrlName) {
+        var private = $require('@').__internals__;
+    }
 
     // function _listComponents() {
     //     var list = []
@@ -299,47 +285,248 @@ $namespace(2, 'core', function (exports) {
 // - $namespace
 //
 $namespace(3, '@', function (exports) {
-    console.log('#@/Controller:', exports);
-
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',
         EXPORT_NAME_FIELD = '$name';
+
+    var controllers = [];
+    var private = exports.__internals__ = exports.__internals__ || {};
+
+    private.getController = _getController;
 
     /**
      * Cria uma controller
      * 
      * @param {object} options - Opções da controller
      */
-    exports.Contrroller = function (options) {
+    exports.Controller = function (options) {
         options = ensureOptions(options);
 
-        var fnCtrl = function () {
-            console.log('fnCtrl#constructor');
-        };
+        var controllerName = options[NAME_FIELD];
 
-        // $("#parent").on('DOMNodeInserted', function(e) {
-        //     console.log(e.target, ' was inserted');
-        // });
-        
-        // $("#parent").on('DOMNodeRemoved', function(e) {
-        //     console.log(e.target, ' was removed');
-        // });
+        if (controllers[controllerName]) {
+            throw 'Controller ' + controllerName + ' already registered!';
+        }
 
-        // $("#parent").bind("DOMSubtreeModified",function(){
-        //     console.log('changed');
-        // });
+        var fnCtrl = options[CONSTRUCTOR_FIELD];
 
-        fnCtrl.prototype = options[CONSTRUCTOR_FIELD];
         fnCtrl[EXPORT_NAME_FIELD] = options[NAME_FIELD];
+
+        controllers[controllerName] = fnCtrl;
+
+        return fnCtrl;
     }
 
     function ensureOptions(options) {
-        if (!options || typeof options[NAME_FIELD] != 'string')
-            throw 'Invalid @controller option#' + NAME_FIELD + '. Must be a string.';
+        options = options || {};
 
-        if (!options || typeof options[CONSTRUCTOR_FIELD] != 'function')
-            throw 'Invalid @controller option#' + CONSTRUCTOR_FIELD + '. Must be a function.';
+        if (typeof options[NAME_FIELD] != 'string')
+            throw invalidOptionMessage(NAME_FIELD, 'string');
+
+        if (typeof options[CONSTRUCTOR_FIELD] != 'function')
+            throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
+
+        return options;
     }
+
+    function invalidOptionMessage(fieldName, fieldType) {
+        return 'Invalid @controller option#{name}. Must be a {type}.'
+            .replace('{name}', fieldName)
+            .replace('{type}', fieldType);
+    }
+
+    function _getController(controllerName) {
+        if (typeof controllerName !== 'string' || controllerName == '') {
+            throw 'Parameter controllerName is required.';
+        }
+
+        if (!controllers[controllerName]) {
+            throw 'Controller ' + controllerName + ' not registered!';
+        }
+
+        return controllers[controllerName];
+    }
+})
+
+
+// ========================================================================
+// 4.create-component.js
+// ========================================================================
+//
+// @parametters: 
+// - $
+// - $elm
+// - $app
+//
+// @variables:
+// - _NAMESPACES_
+// - _APP_NAMESPACE_KEY_
+// - _APP_
+//
+// @methods:
+// - $require
+// - $namespace
+//
+$namespace(4, '@', function (exports) {
+    var NAME_FIELD = 'name',
+        CONSTRUCTOR_FIELD = 'ctor',
+        EXPORT_NAME_FIELD = '$name';
+
+    var components = [];
+    var private = exports.__internals__ = exports.__internals__ || {};
+
+    private.getComponent = _getComponent;
+
+    /**
+     * Cria um componente
+     * 
+     * @param {object} options - Opções do componente
+     */
+    exports.Component = function (options) {
+        options = ensureOptions(options);
+
+        var componentName = options[NAME_FIELD];
+
+        if (components[componentName]) {
+            throw 'Component ' + componentName + ' already registered!';
+        }
+
+        var fnCmp = options[CONSTRUCTOR_FIELD];
+
+        fnCmp[EXPORT_NAME_FIELD] = options[NAME_FIELD];
+
+        components[componentName] = fnCmp;
+
+        return fnCmp;
+    }
+
+    function ensureOptions(options) {
+        options = options || {};
+
+        if (typeof options[NAME_FIELD] != 'string')
+            throw invalidOptionMessage(NAME_FIELD, 'string');
+
+        if (typeof options[CONSTRUCTOR_FIELD] != 'function')
+            throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
+
+        return options;
+    }
+
+    function invalidOptionMessage(fieldName, fieldType) {
+        return 'Invalid @component option#{name}. Must be a {type}.'
+            .replace('{name}', fieldName)
+            .replace('{type}', fieldType);
+    }
+
+    function _getComponent(componentName) {
+        if (typeof componentName !== 'string' || componentName == '') {
+            throw 'Parameter componentName is required.';
+        }
+
+        if (!components[componentName]) {
+            throw 'Controller ' + componentName + ' not registered!';
+        }
+
+        return components[componentName];
+    }
+})
+
+
+// ========================================================================
+// 5.app.js
+// ========================================================================
+//
+// @parametters: 
+// - $
+// - $elm
+// - $app
+//
+// @variables:
+// - _NAMESPACES_
+// - _APP_NAMESPACE_KEY_
+// - _APP_
+//
+// @methods:
+// - $require
+// - $namespace
+//
+$namespace(5, 'app', function (exports) {
+    var at = $require('@').__internals__;
+
+    var CONTROLLER_IDENTIFIER = 'data-controller',
+        CONTROLLER_SELECTOR = '[' + CONTROLLER_IDENTIFIER + ']';
+
+    function _installControllers() {
+        console.group('_installControllers');
+        $(CONTROLLER_SELECTOR, $elm).each(function () {
+            var el = $(this);
+
+            console.log('$elm:', $elm, $(this));
+
+            var name = el.attr(CONTROLLER_IDENTIFIER);
+            var ctor = at.getController(name);
+            var ctrl = new ctor(el);
+
+            console.log('name:', name);
+            console.log('ctor', ctor);
+            console.log('ctrl', ctrl);
+
+            _bind(el, ctrl)
+            //initComponents(el, ctrl)
+        });
+        console.groupEnd();
+    }
+
+    function _bind(ctrlElm, ctrl) {
+        console.group('_bind');
+        var r = $('[data-event]', ctrlElm);
+        console.log('r:', r);
+
+        //data-event:click="showMessage"
+
+        r.each(function () {
+            console.log('ctrlElm:', ctrlElm, $(this));
+            // var el = $(this)
+            // var binder = el.data(BIND_IDENTIFIER)
+
+            // if (!utils.isString(binder) || 0 > binder.indexOf(':')) return
+
+            // binder = binder.split(':')
+
+            // if (!utils.isArray(binder) || binder.length < 2) retun
+
+            // var event = binder[0]
+            // var handler = ctrl[binder[1]]
+
+            // if (!utils.isString(event) || !utils.isFunction(handler)) return
+
+            // el.on(event, handler)
+            // el.ctrl(ctrl)
+        });
+        console.groupEnd();
+    }
+
+    // var initComponents = function (el, ctrl) {
+    //     core.listComponents().map(function (cmp) {
+    //         if (!utils.isString(cmp.id)) return
+    //         if (!utils.isFunction(cmp.component)) return
+    //         if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return
+    //         if (!utils.isString(cmp.component[COMPONENT_NAME_KEY])) return
+    //         if (cmp.id.lastIndexOf(COMPONENT_SUFFIX) !== cmp.id.length - COMPONENT_SUFFIX.length) return
+
+    //         var jqSelector = cmp.component[COMPONENT_SELECTOR_KEY]
+    //         var jqFn = cmp.component[COMPONENT_NAME_KEY]
+
+    //         $(jqSelector, el)[jqFn](el)
+    //     })
+    // }
+
+    function _installToad() {
+        //setTitle()
+        _installControllers();
+    }
+
+    $($elm).ready(_installToad);
 })
 
 // Inicializa os namespaces na ordem especificada
