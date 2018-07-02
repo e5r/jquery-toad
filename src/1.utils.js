@@ -1,23 +1,8 @@
-//
-// @parametters: 
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
 $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia uma string
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isString = function (value) {
@@ -26,7 +11,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia uma função
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isFunction = function (value) {
@@ -35,7 +20,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia uma indefinição
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isUndefined = function (value) {
@@ -44,7 +29,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia um objeto
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isObject = function (value) {
@@ -54,7 +39,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia um número
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isNumber = function (value) {
@@ -63,7 +48,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia um array
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isArray = function (value) {

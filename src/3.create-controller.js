@@ -1,18 +1,3 @@
-//
-// @parametters:
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
 $namespace(3, '@', function (exports) {
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',

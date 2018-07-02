@@ -1,18 +1,3 @@
-//
-// @parametters: 
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
 $namespace(2, 'core', function (exports) {
     var controllers = $require('controllers')
     var components = $require('components')
@@ -22,30 +7,6 @@ $namespace(2, 'core', function (exports) {
     function _getController(ctrlName) {
         var private = $require('@').__internals__;
     }
-
-    // function _listComponents() {
-    //     var list = []
-
-    //     for (var c in components)
-    //         list.push({
-    //             id: c,
-    //             component: components[c]
-    //         })
-
-    //     return list
-    // }
-
-    // function _getComponent(cmpName) {
-    //     if (utils.isString(cmpName)) {
-    //         var cmp = components[cmpName + COMPONENT_SUFFIX]
-
-    //         return utils.isFunction(cmp)
-    //             ? cmp
-    //             : function () { }
-    //     }
-
-    //     return function () { };
-    // }
 
     // function _getConfig(key, defaultValue) {
     //     if (!utils.isString(key)) return
