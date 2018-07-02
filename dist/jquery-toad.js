@@ -97,26 +97,11 @@ $app.require = function (_) {
 // ========================================================================
 // 1.utils.js
 // ========================================================================
-//
-// @parametters: 
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
 $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia uma string
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isString = function (value) {
@@ -125,7 +110,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia uma função
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isFunction = function (value) {
@@ -134,7 +119,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia uma indefinição
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isUndefined = function (value) {
@@ -143,7 +128,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia um objeto
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isObject = function (value) {
@@ -153,7 +138,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia um número
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isNumber = function (value) {
@@ -162,7 +147,7 @@ $namespace(1, 'utils', function (exports) {
 
     /**
      * Verifica se referencia um array
-     * 
+     *
      * @param {any} value - Instância a verificar
      */
     exports.isArray = function (value) {
@@ -174,21 +159,6 @@ $namespace(1, 'utils', function (exports) {
 // ========================================================================
 // 2.core.js
 // ========================================================================
-//
-// @parametters: 
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
 $namespace(2, 'core', function (exports) {
     var controllers = $require('controllers')
     var components = $require('components')
@@ -198,30 +168,6 @@ $namespace(2, 'core', function (exports) {
     function _getController(ctrlName) {
         var private = $require('@').__internals__;
     }
-
-    // function _listComponents() {
-    //     var list = []
-
-    //     for (var c in components)
-    //         list.push({
-    //             id: c,
-    //             component: components[c]
-    //         })
-
-    //     return list
-    // }
-
-    // function _getComponent(cmpName) {
-    //     if (utils.isString(cmpName)) {
-    //         var cmp = components[cmpName + COMPONENT_SUFFIX]
-
-    //         return utils.isFunction(cmp)
-    //             ? cmp
-    //             : function () { }
-    //     }
-
-    //     return function () { };
-    // }
 
     // function _getConfig(key, defaultValue) {
     //     if (!utils.isString(key)) return
@@ -269,21 +215,6 @@ $namespace(2, 'core', function (exports) {
 // ========================================================================
 // 3.create-controller.js
 // ========================================================================
-//
-// @parametters:
-// - $
-// - $elm
-// - $app
-//
-// @variables:
-// - _NAMESPACES_
-// - _APP_NAMESPACE_KEY_
-// - _APP_
-//
-// @methods:
-// - $require
-// - $namespace
-//
 $namespace(3, '@', function (exports) {
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',
