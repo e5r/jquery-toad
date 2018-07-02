@@ -5,8 +5,8 @@ $namespace(6, 'app', function(exports) {
     var CONTROLLER_IDENTIFIER = 'controller',
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
         CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
-        COMPONENT_SELECTOR_KEY = '$selector',
-        COMPONENT_NAME_KEY = '$name',
+        COMPONENT_SELECTOR_KEY = '$jqSelector',
+        COMPONENT_NAME_KEY = '$jqName',
         BIND_DATA_IDENTIFIER = 'data-events',
         BIND_SELECTOR = '[' + BIND_DATA_IDENTIFIER + ']',
         BIND_EVENT_COLLECTION_SPLITER = ',',
@@ -69,12 +69,7 @@ $namespace(6, 'app', function(exports) {
     }
 
     function _setupComponents(ctrlElm, ctrl) {
-        console.group('_setupComponents');
-        console.log('ctrlElm:', ctrlElm);
-        console.log('ctrl:', ctrl);
-
         atPrivate.listComponents().map(function(cmp) {
-            console.log('#cmp:', cmp);
             if (!utils.isString(cmp.id)) return;
             if (!utils.isFunction(cmp.component)) return;
             if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return;
@@ -84,8 +79,7 @@ $namespace(6, 'app', function(exports) {
             var jqFn = cmp.component[COMPONENT_NAME_KEY];
 
             $(jqSelector, ctrlElm)[jqFn](ctrl);
-        })
-        console.groupEnd();
+        });
     }
 
     function _setupModel(el, ctrl) {

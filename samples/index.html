@@ -17,7 +17,7 @@
     <hr />
     <div data-controller="home" data-message="Mensagem da primeira controller!">
       <button class="btn btn-danger" data-events="click->showMessage">Exibe mensagem!</button>
-      <strong data-id:message>A mensagem virá aqui</strong>
+      <strong data-id-message>A mensagem virá aqui</strong>
     </div>
     <div data-controller="home" data-message="Segunda mensagem">
       <hr />
@@ -25,13 +25,13 @@
         <a class="btn btn-primary" href="#" data-events="click->showMessage">Link a</a>
       </div>
       <div>
-        <h1 data-id:message>...</h1>
+        <h1 data-id-message>...</h1>
       </div>
       <p>
-        <a data-gui:toggleable="Texto alternativo">Toggleable #1</a>
+        <a href="http://google.com" data-gui="toggleable" data-text="Texto alternativo">Toggleable #1</a>
       </p>
       <p>
-        <a data-gui:toggleable="Outro componente">Toggleable #2</a>
+        <a href="#" data-gui="toggleable" data-text="Outro componente">Toggleable #2</a>
       </p>
     </div>
     <div></div>
