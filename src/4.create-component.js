@@ -1,4 +1,4 @@
-$namespace(4, '@', function(exports) {
+$namespace(4, '@', function (exports) {
     var NAME_FIELD = 'name',
         COMPONENT_IDENTIFIER = 'gui',
         CONSTRUCTOR_FIELD = 'ctor',
@@ -6,17 +6,17 @@ $namespace(4, '@', function(exports) {
         EXPORT_SELECTOR_FIELD = '$jqSelector';
 
     var components = [];
-    var private = exports.__internals__ = exports.__internals__ || {};
+    var internals = exports.__internals__ = exports.__internals__ || {};
 
-    private.getComponent = _getComponent;
-    private.listComponents = _listComponents;
+    internals.getComponent = _getComponent;
+    internals.listComponents = _listComponents;
 
     /**
      * Cria um componente
      *
      * @param {object} options - Opções do componente
      */
-    exports.Component = function(options) {
+    exports.Component = function (options) {
         options = ensureOptions(options);
 
         var componentName = options[NAME_FIELD],
@@ -26,21 +26,21 @@ $namespace(4, '@', function(exports) {
             throw 'Component ' + componentName + ' already registered!';
         }
 
-        var fnCmp = function(ctrl) {
-                return this.each(function(_, htmlEl) {
-                    var dataOptions = {},
-                        el = $(htmlEl);
+        var fnCmp = function (ctrl) {
+            return this.each(function (_, htmlEl) {
+                var dataOptions = {},
+                    el = $(htmlEl);
 
-                    // Lê opções dos elementos [data-*] exceto [data-gui]
-                    for (var opt in el.context.dataset) {
-                        if (opt === COMPONENT_IDENTIFIER)
-                            continue;
-                        dataOptions[opt] = el.context.dataset[opt];
-                    }
+                // Lê opções dos elementos [data-*] exceto [data-gui]
+                for (var opt in el.context.dataset) {
+                    if (opt === COMPONENT_IDENTIFIER)
+                        continue;
+                    dataOptions[opt] = el.context.dataset[opt];
+                }
 
-                    return options[CONSTRUCTOR_FIELD].bind(this)(ctrl, dataOptions);
-                });
-            },
+                return options[CONSTRUCTOR_FIELD].bind(this)(ctrl, dataOptions);
+            });
+        },
             selector = '[data-gui="{name}"]'.replace('{name}', componentName);
 
         fnCmp[EXPORT_NAME_FIELD] = componentJqName;

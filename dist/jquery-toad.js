@@ -32,7 +32,7 @@ if (typeof __TOAD__ !== 'string') {
 
 window[__TOAD__] = window[__TOAD__] || {};
 
-(function ($, $elm, $app) {
+(function ($, $elm, $app) { "use strict";
 
 var _NAMESPACES_ = [];
 var _APP_NAMESPACE_KEY_ = '_app_namespace_';
@@ -216,9 +216,9 @@ $namespace(3, '@', function (exports) {
         EXPORT_NAME_FIELD = '$name';
 
     var controllers = [];
-    var private = exports.__internals__ = exports.__internals__ || {};
+    var internals = exports.__internals__ = exports.__internals__ || {};
 
-    private.getController = _getController;
+    internals.getController = _getController;
 
     /**
      * Cria uma controller
@@ -286,10 +286,10 @@ $namespace(4, '@', function(exports) {
         EXPORT_SELECTOR_FIELD = '$jqSelector';
 
     var components = [];
-    var private = exports.__internals__ = exports.__internals__ || {};
+    var internals = exports.__internals__ = exports.__internals__ || {};
 
-    private.getComponent = _getComponent;
-    private.listComponents = _listComponents;
+    internals.getComponent = _getComponent;
+    internals.listComponents = _listComponents;
 
     /**
      * Cria um componente
@@ -408,7 +408,7 @@ $namespace(6, 'core', function (exports) {
 // ========================================================================
 $namespace(7, 'app', function(exports) {
     var utils = $require('utils'),
-        atPrivate = $require('@').__internals__;
+    internals = $require('@').__internals__;
 
     var CONTROLLER_IDENTIFIER = 'controller',
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
@@ -429,7 +429,7 @@ $namespace(7, 'app', function(exports) {
         $(CONTROLLER_SELECTOR, $elm).each(function() {
             var el = $(this),
                 name = el.attr(CONTROLLER_DATA_IDENTIFIER),
-                ctor = atPrivate.getController(name),
+                ctor = internals.getController(name),
                 options = {};
 
             // Lê opções dos elementos [data-*] exceto [data-controller]
@@ -486,7 +486,7 @@ $namespace(7, 'app', function(exports) {
     }
 
     function _setupComponents(ctrlElm, ctrl) {
-        atPrivate.listComponents().map(function(cmp) {
+        internals.listComponents().map(function(cmp) {
             if (!utils.isString(cmp.id)) return;
             if (!utils.isFunction(cmp.component)) return;
             if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return;

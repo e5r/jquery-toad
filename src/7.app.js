@@ -1,6 +1,6 @@
-$namespace(7, 'app', function(exports) {
+$namespace(7, 'app', function (exports) {
     var utils = $require('utils'),
-        atPrivate = $require('@').__internals__;
+        internals = $require('@').__internals__;
 
     var CONTROLLER_IDENTIFIER = 'controller',
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
@@ -11,17 +11,17 @@ $namespace(7, 'app', function(exports) {
 
         COMPONENT_SELECTOR_KEY = '$jqSelector',
         COMPONENT_NAME_KEY = '$jqName',
-        
+
         BIND_DATA_IDENTIFIER = 'data-events',
         BIND_SELECTOR = '[' + BIND_DATA_IDENTIFIER + ']',
         BIND_EVENT_COLLECTION_SPLITER = ',',
         BIND_EVENT_SPLITER = '=>';
 
     function _installControllers() {
-        $(CONTROLLER_SELECTOR, $elm).each(function() {
+        $(CONTROLLER_SELECTOR, $elm).each(function () {
             var el = $(this),
                 name = el.attr(CONTROLLER_DATA_IDENTIFIER),
-                ctor = atPrivate.getController(name),
+                ctor = internals.getController(name),
                 options = {};
 
             // Lê opções dos elementos [data-*] exceto [data-controller]
@@ -34,7 +34,7 @@ $namespace(7, 'app', function(exports) {
             var ctrl = new ctor();//(el, options);
 
             el.data(CONTROLLER_ELEMENT_DATA, ctrl);
-            
+
             ctrl[CONTROLLER_VIEW_FIELD] = el;
             ctrl[CONTROLLER_OPTIONS_FIELD] = options;
 
@@ -45,7 +45,7 @@ $namespace(7, 'app', function(exports) {
     }
 
     function _setupEvents(ctrlElm, ctrl) {
-        $(BIND_SELECTOR, ctrlElm).each(function() {
+        $(BIND_SELECTOR, ctrlElm).each(function () {
             var el = $(this),
                 binder = el.attr(BIND_DATA_IDENTIFIER);
 
@@ -78,7 +78,7 @@ $namespace(7, 'app', function(exports) {
     }
 
     function _setupComponents(ctrlElm, ctrl) {
-        atPrivate.listComponents().map(function(cmp) {
+        internals.listComponents().map(function (cmp) {
             if (!utils.isString(cmp.id)) return;
             if (!utils.isFunction(cmp.component)) return;
             if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return;

@@ -4,9 +4,9 @@ $namespace(3, '@', function (exports) {
         EXPORT_NAME_FIELD = '$name';
 
     var controllers = [];
-    var private = exports.__internals__ = exports.__internals__ || {};
+    var internals = exports.__internals__ = exports.__internals__ || {};
 
-    private.getController = _getController;
+    internals.getController = _getController;
 
     /**
      * Cria uma controller

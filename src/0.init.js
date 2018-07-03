@@ -4,7 +4,7 @@ if (typeof jQuery !== 'function') {
     throw new Error('jQuery TOAD\'s requires jQuery!');
 }
 
-(function($) {
+(function ($) {
     'use strict';
     var versionAll = $.fn.jquery.split(' ')[0].split('.'),
         vMajor = versionAll[0],

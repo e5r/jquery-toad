@@ -1,5 +1,5 @@
 
-(function ($, $elm, $app) {
+(function ($, $elm, $app) { "use strict";
 
 var _NAMESPACES_ = [];
 var _APP_NAMESPACE_KEY_ = '_app_namespace_';
