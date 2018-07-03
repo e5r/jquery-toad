@@ -35,26 +35,15 @@ gulp.task('js', function () {
         .pipe(concat.footer(scopeFooterTxt))
         .pipe(concat.header(globalInitJs))
         .pipe(concat.header(headerTxt, { pkg: pkg }))
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('js-min', ['js'], function () {
-    // return gulp.src(libs)
-    //     .pipe(concat('jquery-toad.min.js'))
-    //     .pipe(concat.header(scopeBeginTxt, {
-    //         pkg: pkg
-    //     }))
-    //     .pipe(concat.header(initJs, {
-    //         pkg: pkg
-    //     }))
-    //     .pipe(concat.footer(scopeEndTxt, {
-    //         pkg: pkg
-    //     }))
-    //     .pipe(uglify())
-    //     .pipe(concat.header(headerTxt, {
-    //         pkg: pkg
-    //     }))
-    //     .pipe(gulp.dest('dist'))
+    return gulp.src('dist/jquery-toad.js')
+        .pipe(concat('jquery-toad.min.js'))
+        .pipe(uglify())
+        .pipe(concat.header(headerTxt, { pkg: pkg }))
+        .pipe(gulp.dest('dist'))
 });
 
 gulp.task('dist', ['js', 'js-min'])
