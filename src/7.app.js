@@ -1,17 +1,21 @@
-$namespace(6, 'app', function(exports) {
+$namespace(7, 'app', function(exports) {
     var utils = $require('utils'),
         atPrivate = $require('@').__internals__;
 
     var CONTROLLER_IDENTIFIER = 'controller',
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
         CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
+        CONTROLLER_ELEMENT_DATA = '$ctrl',
+        CONTROLLER_VIEW_FIELD = '$view',
+        CONTROLLER_OPTIONS_FIELD = '$options',
+
         COMPONENT_SELECTOR_KEY = '$jqSelector',
         COMPONENT_NAME_KEY = '$jqName',
+        
         BIND_DATA_IDENTIFIER = 'data-events',
         BIND_SELECTOR = '[' + BIND_DATA_IDENTIFIER + ']',
         BIND_EVENT_COLLECTION_SPLITER = ',',
-        BIND_EVENT_SPLITER = '->',
-        BIND_ELEMENT_DATA_CTRL = '$ctrl';
+        BIND_EVENT_SPLITER = '=>';
 
     function _installControllers() {
         $(CONTROLLER_SELECTOR, $elm).each(function() {
@@ -27,7 +31,12 @@ $namespace(6, 'app', function(exports) {
                 options[opt] = el.context.dataset[opt];
             }
 
-            var ctrl = new ctor(el, options);
+            var ctrl = new ctor();//(el, options);
+
+            el.data(CONTROLLER_ELEMENT_DATA, ctrl);
+            
+            ctrl[CONTROLLER_VIEW_FIELD] = el;
+            ctrl[CONTROLLER_OPTIONS_FIELD] = options;
 
             _setupEvents(el, ctrl)
             _setupComponents(el, ctrl);
@@ -63,7 +72,7 @@ $namespace(6, 'app', function(exports) {
 
                 el.on(bEvent, bHandler);
 
-                el.data(BIND_ELEMENT_DATA_CTRL, ctrl);
+                el.data(CONTROLLER_ELEMENT_DATA, ctrl);
             }
         });
     }
