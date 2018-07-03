@@ -37,32 +37,32 @@ if (typeof __TOAD__ !== 'string') {
 
 window[__TOAD__] = window[__TOAD__] || {};
 
-(function ($, $elm, $app) { "use strict";
+(function ($, $elm, $toad) { "use strict";
 
 var _NAMESPACES_ = [];
 var _APP_NAMESPACE_KEY_ = '_app_namespace_';
 
 // Inicializa namespace exclusivo para aplicação do usuário
-var _APP_ = $app[_APP_NAMESPACE_KEY_] = {};
+var _APP_ = $toad[_APP_NAMESPACE_KEY_] = {};
 
 var $require = function (_) {
-    return $app[_] = $app[_] || {};
+    return $toad[_] = $toad[_] || {};
 };
 
 var $namespace = function (_, __, ___) {
     _NAMESPACES_.push({
         idx: _,
-        cb: function() {
-            ___(($app[__] = $app[__] || {}));
+        cb: function () {
+            ___(($toad[__] = $toad[__] || {}));
         }
     });
 };
 
-$app.$jq = $;
+$toad.$jq = $;
 
 /**
  * @code
-$app.namespace('utils', function(exports) {
+{__TOAD__}.namespace('utils', function(exports) {
     var myData = {}
     var myFunction = function(){}
 
@@ -70,25 +70,30 @@ $app.namespace('utils', function(exports) {
     exports.func = myFunction
 })
  */
-$app.namespace = function (_, __) {
+$toad.namespace = function (_, __) {
     __((_APP_[_] = _APP_[_] || {}));
 }
 
 /**
  * @code
-var utils = app.require('utils')
+var utils = {__TOAD__}.require('utils')
 
 utils.func(utils.data)
  */
-$app.require = function (_) {
+$toad.require = function (_) {
     var require = {};
 
+    var exportGlobals = [
+        '@',
+        'core',
+        'utils'
+    ];
+
     // Objetos globais exceto o namespace da aplicação
-    for (var k in $app[_]) {
-        // TODO: Ignorar $jq, namespace, require também
-        if (k === _APP_NAMESPACE_KEY_)
-            continue;
-        require[k] = $app[_][k];
+    if (exportGlobals.indexOf(_) > -1) {
+        for (var k in $toad[_]) {
+            require[k] = $toad[_][k];
+        }
     }
 
     // Objetos da aplicação
@@ -102,7 +107,7 @@ $app.require = function (_) {
 // ========================================================================
 // app.js
 // ========================================================================
-$namespace(7, 'app', function (exports) {
+$namespace(7, 'core', function (exports) {
     var utils = $require('utils'),
         internals = $require('@').__internals__;
 
@@ -114,7 +119,7 @@ $namespace(7, 'app', function (exports) {
         CONTROLLER_OPTIONS_FIELD = '$options',
 
         COMPONENT_SELECTOR_KEY = '$jqSelector',
-        COMPONENT_NAME_KEY = '$jqName',
+        COMPONENT_NAME_KEY = '$name',
 
         BIND_DATA_IDENTIFIER = 'data-events',
         BIND_SELECTOR = '[' + BIND_DATA_IDENTIFIER + ']',
@@ -243,7 +248,7 @@ $namespace(4, '@', function (exports) {
     var NAME_FIELD = 'name',
         COMPONENT_IDENTIFIER = 'gui',
         CONSTRUCTOR_FIELD = 'ctor',
-        EXPORT_NAME_FIELD = '$jqName',
+        EXPORT_NAME_FIELD = '$name',
         EXPORT_SELECTOR_FIELD = '$jqSelector';
 
     var components = [];
@@ -534,6 +539,6 @@ _NAMESPACES_
     /* $elm */
     document,
 
-    /* $app */
+    /* $toad */
     window[__TOAD__]
 );

@@ -1,4 +1,4 @@
-$namespace(7, 'app', function (exports) {
+$namespace(7, 'core', function (exports) {
     var utils = $require('utils'),
         internals = $require('@').__internals__;
 
@@ -10,7 +10,7 @@ $namespace(7, 'app', function (exports) {
         CONTROLLER_OPTIONS_FIELD = '$options',
 
         COMPONENT_SELECTOR_KEY = '$jqSelector',
-        COMPONENT_NAME_KEY = '$jqName',
+        COMPONENT_NAME_KEY = '$name',
 
         BIND_DATA_IDENTIFIER = 'data-events',
         BIND_SELECTOR = '[' + BIND_DATA_IDENTIFIER + ']',

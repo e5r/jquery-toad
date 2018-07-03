@@ -2,7 +2,6 @@ E5R.namespace('app/components', function (exports) {
     var $ = E5R.$jq,
         Component = E5R.require('@').Component,
 
-        DATA_TEXT = 'text',
         DATA_CHANGED = 'changed';
 
     function ToggleableComponent(ctrl, options) {

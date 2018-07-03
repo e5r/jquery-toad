@@ -2,7 +2,7 @@ $namespace(4, '@', function (exports) {
     var NAME_FIELD = 'name',
         COMPONENT_IDENTIFIER = 'gui',
         CONSTRUCTOR_FIELD = 'ctor',
-        EXPORT_NAME_FIELD = '$jqName',
+        EXPORT_NAME_FIELD = '$name',
         EXPORT_SELECTOR_FIELD = '$jqSelector';
 
     var components = [];

@@ -7,14 +7,3 @@ _NAMESPACES_
     .map(function (n) { 
         n.cb(); 
     });
-
-}) (
-    /* $ */
-    jQuery,
-
-    /* $elm */
-    document,
-
-    /* $app */
-    window[__TOAD__]
-);
