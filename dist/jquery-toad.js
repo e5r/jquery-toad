@@ -157,58 +157,53 @@ $namespace(1, 'utils', function (exports) {
 
 
 // ========================================================================
-// 2.core.js
+// 2.manage-config.js
 // ========================================================================
-$namespace(2, 'core', function (exports) {
-    var controllers = $require('controllers')
-    var components = $require('components')
-    var utils = $require('utils')
-    var config = $require('config')
+$namespace(2, '@', function (exports) {
+    var CONFIG = {},
+        utils = $require('utils');
 
-    function _getController(ctrlName) {
-        var private = $require('@').__internals__;
+    function _getConfig(key, defaultValue) {
+        if (!utils.isString(key))
+            return;
+
+        var value = CONFIG,
+            keys = key.split('.'),
+            k = 0;
+
+        while (value && k < keys.length) {
+            value = value[keys[k]];
+            k++;
+        }
+
+        return value || defaultValue;
     }
 
-    // function _getConfig(key, defaultValue) {
-    //     if (!utils.isString(key)) return
+    function _setConfig(key, newValue) {
+        if (!utils.isString(key))
+            return;
 
-    //     var value = config,
-    //         keys = key.split('.'),
-    //         k = 0
+        var value = CONFIG,
+            keys = key.split('.'),
+            k = 0;
 
-    //     while (value && k < keys.length) {
-    //         value = value[keys[k]];
-    //         k++
-    //     }
+        while (value && k < keys.length) {
+            if (typeof value[keys[k]] !== 'object')
+                value[keys[k]] = {};
 
-    //     return value || defaultValue
-    // }
+            if (k + 1 !== keys.length)
+                value = value[keys[k]];
 
-    // function _setConfig(key, newValue) {
-    //     if (!utils.isString(key)) return
+            k++;
+        }
 
-    //     var value = config,
-    //         keys = key.split('.'),
-    //         k = 0
+        return value[keys[--k]] = newValue;
+    }
 
-    //     while (value && k < keys.length) {
-    //         if (typeof value[keys[k]] !== 'object')
-    //             value[keys[k]] = {}
-
-    //         if (k + 1 !== keys.length)
-    //             value = value[keys[k]]
-
-    //         k++
-    //     }
-
-    //     return value[keys[--k]] = newValue
-    // }
-
-    // exports.controller = _registerAndGetController
-    // exports.component = _getComponent
-    // exports.listComponents = _listComponents
-    // exports.getConfig = _getConfig
-    // exports.setConfig = _setConfig
+    exports.Config = {
+        get: _getConfig,
+        set: _setConfig
+    };
 })
 
 
@@ -385,10 +380,10 @@ $namespace(4, '@', function(exports) {
 // ========================================================================
 // 5.controller-component.js
 // ========================================================================
-$namespace(5, 'core', function() {
+$namespace(5, 'core', function (exports) {
     var CONTROLLER_ELEMENT_DATA = '$ctrl';
 
-    $.fn['controller'] = function ControllerComponent() {
+    exports.ControllerComponent = $.fn['controller'] = function ControllerComponent() {
         return $(this).data(CONTROLLER_ELEMENT_DATA);
     }
 })
@@ -397,10 +392,10 @@ $namespace(5, 'core', function() {
 // ========================================================================
 // 6.bydataid-component.js
 // ========================================================================
-$namespace(6, 'core', function () {
+$namespace(6, 'core', function (exports) {
     var BIND_ELEMENT_DATA_CTRL = '$ctrl';
 
-    $.fn['byDataId'] = function ByDataIdComponent(dataId) {
+    exports.ByDataIdComponent = $.fn['byDataId'] = function ByDataIdComponent(dataId) {
         var selector = '[data-id="{id}"]';
 
         return $(selector.replace('{id}', dataId), $(this));

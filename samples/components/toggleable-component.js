@@ -1,28 +1,31 @@
-E5R.namespace('app/components', function(exports) {
+E5R.namespace('app/components', function (exports) {
     var $ = E5R.$jq,
-        Component = E5R.require('@').Component;
+        Component = E5R.require('@').Component,
 
-    var DATA_TEXT = 'text';
-    var DATA_CHANGED = 'changed';
+        DATA_TEXT = 'text',
+        DATA_CHANGED = 'changed';
 
     function ToggleableComponent(ctrl, options) {
-        var $this = $(this)
-        var text = options.text;
-        var handler = function() {
-            var $el = $(this);
-            var current = $el.text();
+        var $this = $(this),
+            text = options.text,
+            handler = function () {
+                var $el = $(this),
+                    current = $el.text();
 
-            $el.text(text);
-            text = current;
-            $this.data(DATA_CHANGED, !$this.data(DATA_CHANGED));
-        }
+                $el.text(text);
+                text = current;
+                $this.data(DATA_CHANGED, !$this.data(DATA_CHANGED));
+            };
+
         $this.css('cursor', 'pointer');
         $this.removeAttr('href');
         $this.on('click', handler)
     };
 
-    exports['toggleable'] = Component({
+    var component = Component({
         name: 'toggleable',
         ctor: ToggleableComponent
-    })
+    });
+
+    exports[component.$name] = component;
 });

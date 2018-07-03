@@ -3,10 +3,10 @@ E5R.namespace('app/utils', function (exports) {
      * Imprime informações da aplicação
      */
     exports.printAppInfo = function () {
-        var info = E5R.require('app').info;
+        var Config = E5R.require('@').Config;
 
-        console.log(info.name, 'v' + info.version);
-        console.log(info.copyright);
-        console.log('by', info.author);
+        console.log(Config.get('info.name'), 'v' + Config.get('info.version'));
+        console.log(Config.get('info.copyright'));
+        console.log('by', Config.get('info.author'));
     }
 })
