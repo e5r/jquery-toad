@@ -4,6 +4,11 @@ if (typeof jQuery !== 'function') {
     throw new Error('jQuery TOAD\'s requires jQuery!');
 }
 
+/* DOM - Document Object Model é pré-requisito */
+if (typeof window !== 'object' || typeof document !== 'object') {
+    throw new Error("jQuery TOAD\'s requires a DOM (Document Object Model)!");
+}
+
 (function ($) {
     'use strict';
     var versionAll = $.fn.jquery.split(' ')[0].split('.'),

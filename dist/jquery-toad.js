@@ -10,6 +10,11 @@ if (typeof jQuery !== 'function') {
     throw new Error('jQuery TOAD\'s requires jQuery!');
 }
 
+/* DOM - Document Object Model é pré-requisito */
+if (typeof window !== 'object' || typeof document !== 'object') {
+    throw new Error("jQuery TOAD\'s requires a DOM (Document Object Model)!");
+}
+
 (function ($) {
     'use strict';
     var versionAll = $.fn.jquery.split(' ')[0].split('.'),
@@ -95,316 +100,7 @@ $app.require = function (_) {
 }
 
 // ========================================================================
-// 1.utils.js
-// ========================================================================
-$namespace(1, 'utils', function (exports) {
-
-    /**
-     * Verifica se referencia uma string
-     *
-     * @param {any} value - Instância a verificar
-     */
-    exports.isString = function (value) {
-        return typeof value === 'string';
-    }
-
-    /**
-     * Verifica se referencia uma função
-     *
-     * @param {any} value - Instância a verificar
-     */
-    exports.isFunction = function (value) {
-        return typeof value === 'function';
-    }
-
-    /**
-     * Verifica se referencia uma indefinição
-     *
-     * @param {any} value - Instância a verificar
-     */
-    exports.isUndefined = function (value) {
-        return typeof value === 'undefined';
-    }
-
-    /**
-     * Verifica se referencia um objeto
-     *
-     * @param {any} value - Instância a verificar
-     */
-    exports.isObject = function (value) {
-        // http://jsperf.com/isobject4
-        return value !== null && typeof value === 'object';
-    }
-
-    /**
-     * Verifica se referencia um número
-     *
-     * @param {any} value - Instância a verificar
-     */
-    exports.isNumber = function (value) {
-        return typeof value === 'number';
-    }
-
-    /**
-     * Verifica se referencia um array
-     *
-     * @param {any} value - Instância a verificar
-     */
-    exports.isArray = function (value) {
-        return Array.isArray(value) || value instanceof Array;
-    }
-})
-
-
-// ========================================================================
-// 2.manage-config.js
-// ========================================================================
-$namespace(2, '@', function (exports) {
-    var CONFIG = {},
-        utils = $require('utils');
-
-    function _getConfig(key, defaultValue) {
-        if (!utils.isString(key))
-            return;
-
-        var value = CONFIG,
-            keys = key.split('.'),
-            k = 0;
-
-        while (value && k < keys.length) {
-            value = value[keys[k]];
-            k++;
-        }
-
-        return value || defaultValue;
-    }
-
-    function _setConfig(key, newValue) {
-        if (!utils.isString(key))
-            return;
-
-        var value = CONFIG,
-            keys = key.split('.'),
-            k = 0;
-
-        while (value && k < keys.length) {
-            if (typeof value[keys[k]] !== 'object')
-                value[keys[k]] = {};
-
-            if (k + 1 !== keys.length)
-                value = value[keys[k]];
-
-            k++;
-        }
-
-        return value[keys[--k]] = newValue;
-    }
-
-    exports.Config = {
-        get: _getConfig,
-        set: _setConfig
-    };
-})
-
-
-// ========================================================================
-// 3.create-controller.js
-// ========================================================================
-$namespace(3, '@', function (exports) {
-    var NAME_FIELD = 'name',
-        CONSTRUCTOR_FIELD = 'ctor',
-        EXPORT_NAME_FIELD = '$name';
-
-    var controllers = [];
-    var internals = exports.__internals__ = exports.__internals__ || {};
-
-    internals.getController = _getController;
-
-    /**
-     * Cria uma controller
-     *
-     * @param {object} options - Opções da controller
-     */
-    exports.Controller = function (options) {
-        options = ensureOptions(options);
-
-        var controllerName = options[NAME_FIELD];
-
-        if (controllers[controllerName]) {
-            throw 'Controller ' + controllerName + ' already registered!';
-        }
-
-        var fnCtrl = options[CONSTRUCTOR_FIELD];
-
-        fnCtrl[EXPORT_NAME_FIELD] = options[NAME_FIELD];
-
-        controllers[controllerName] = fnCtrl;
-
-        return fnCtrl;
-    }
-
-    function ensureOptions(options) {
-        options = options || {};
-
-        if (typeof options[NAME_FIELD] != 'string')
-            throw invalidOptionMessage(NAME_FIELD, 'string');
-
-        if (typeof options[CONSTRUCTOR_FIELD] != 'function')
-            throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
-
-        return options;
-    }
-
-    function invalidOptionMessage(fieldName, fieldType) {
-        return 'Invalid @controller option#{name}. Must be a {type}.'
-            .replace('{name}', fieldName)
-            .replace('{type}', fieldType);
-    }
-
-    function _getController(controllerName) {
-        if (typeof controllerName !== 'string' || controllerName == '') {
-            throw 'Parameter controllerName is required.';
-        }
-
-        if (!controllers[controllerName]) {
-            throw 'Controller ' + controllerName + ' not registered!';
-        }
-
-        return controllers[controllerName];
-    }
-})
-
-
-// ========================================================================
-// 4.create-component.js
-// ========================================================================
-$namespace(4, '@', function (exports) {
-    var NAME_FIELD = 'name',
-        COMPONENT_IDENTIFIER = 'gui',
-        CONSTRUCTOR_FIELD = 'ctor',
-        EXPORT_NAME_FIELD = '$jqName',
-        EXPORT_SELECTOR_FIELD = '$jqSelector';
-
-    var components = [];
-    var internals = exports.__internals__ = exports.__internals__ || {};
-
-    internals.getComponent = _getComponent;
-    internals.listComponents = _listComponents;
-
-    /**
-     * Cria um componente
-     *
-     * @param {object} options - Opções do componente
-     */
-    exports.Component = function (options) {
-        options = ensureOptions(options);
-
-        var componentName = options[NAME_FIELD],
-            componentJqName = 'gui-{name}'.replace('{name}', componentName);
-
-        if (components[componentName]) {
-            throw 'Component ' + componentName + ' already registered!';
-        }
-
-        var fnCmp = function (ctrl) {
-            return this.each(function (_, htmlEl) {
-                var dataOptions = {},
-                    el = $(htmlEl);
-
-                // Lê opções dos elementos [data-*] exceto [data-gui]
-                for (var opt in el.context.dataset) {
-                    if (opt === COMPONENT_IDENTIFIER)
-                        continue;
-                    dataOptions[opt] = el.context.dataset[opt];
-                }
-
-                return options[CONSTRUCTOR_FIELD].bind(this)(ctrl, dataOptions);
-            });
-        },
-            selector = '[data-gui="{name}"]'.replace('{name}', componentName);
-
-        fnCmp[EXPORT_NAME_FIELD] = componentJqName;
-        fnCmp[EXPORT_SELECTOR_FIELD] = selector;
-
-        components[componentName] = fnCmp;
-
-        $.fn[componentJqName] = fnCmp;
-
-        return fnCmp;
-    }
-
-    function ensureOptions(options) {
-        options = options || {};
-
-        if (typeof options[NAME_FIELD] != 'string')
-            throw invalidOptionMessage(NAME_FIELD, 'string');
-
-        if (typeof options[CONSTRUCTOR_FIELD] != 'function')
-            throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
-
-        return options;
-    }
-
-    function invalidOptionMessage(fieldName, fieldType) {
-        return 'Invalid @component option#{name}. Must be a {type}.'
-            .replace('{name}', fieldName)
-            .replace('{type}', fieldType);
-    }
-
-    function _getComponent(componentName) {
-        if (typeof componentName !== 'string' || componentName == '') {
-            throw 'Parameter componentName is required.';
-        }
-
-        if (!components[componentName]) {
-            throw 'Controller ' + componentName + ' not registered!';
-        }
-
-        return components[componentName];
-    }
-
-    function _listComponents() {
-        var list = []
-
-        for (var c in components)
-            list.push({
-                id: c,
-                component: components[c]
-            })
-
-        return list
-    }
-})
-
-
-// ========================================================================
-// 5.controller-component.js
-// ========================================================================
-$namespace(5, 'core', function (exports) {
-    var CONTROLLER_ELEMENT_DATA = '$ctrl';
-
-    exports.ControllerComponent = $.fn['controller'] = function ControllerComponent() {
-        return $(this).data(CONTROLLER_ELEMENT_DATA);
-    }
-})
-
-
-// ========================================================================
-// 6.bydataid-component.js
-// ========================================================================
-$namespace(6, 'core', function (exports) {
-    var BIND_ELEMENT_DATA_CTRL = '$ctrl';
-
-    exports.ByDataIdComponent = $.fn['byDataId'] = function ByDataIdComponent(dataId) {
-        var selector = '[data-id="{id}"]';
-
-        return $(selector.replace('{id}', dataId), $(this));
-    }
-})
-
-
-// ========================================================================
-// 7.app.js
+// app.js
 // ========================================================================
 $namespace(7, 'app', function (exports) {
     var utils = $require('utils'),
@@ -511,6 +207,315 @@ $namespace(7, 'app', function (exports) {
     }
 
     $($elm).ready(_installToad);
+})
+
+
+// ========================================================================
+// bydataid-component.js
+// ========================================================================
+$namespace(6, 'core', function (exports) {
+    var BIND_ELEMENT_DATA_CTRL = '$ctrl';
+
+    exports.ByDataIdComponent = $.fn['byDataId'] = function ByDataIdComponent(dataId) {
+        var selector = '[data-id="{id}"]';
+
+        return $(selector.replace('{id}', dataId), $(this));
+    }
+})
+
+
+// ========================================================================
+// controller-component.js
+// ========================================================================
+$namespace(5, 'core', function (exports) {
+    var CONTROLLER_ELEMENT_DATA = '$ctrl';
+
+    exports.ControllerComponent = $.fn['controller'] = function ControllerComponent() {
+        return $(this).data(CONTROLLER_ELEMENT_DATA);
+    }
+})
+
+
+// ========================================================================
+// create-component.js
+// ========================================================================
+$namespace(4, '@', function (exports) {
+    var NAME_FIELD = 'name',
+        COMPONENT_IDENTIFIER = 'gui',
+        CONSTRUCTOR_FIELD = 'ctor',
+        EXPORT_NAME_FIELD = '$jqName',
+        EXPORT_SELECTOR_FIELD = '$jqSelector';
+
+    var components = [];
+    var internals = exports.__internals__ = exports.__internals__ || {};
+
+    internals.getComponent = _getComponent;
+    internals.listComponents = _listComponents;
+
+    /**
+     * Cria um componente
+     *
+     * @param {object} options - Opções do componente
+     */
+    exports.Component = function (options) {
+        options = ensureOptions(options);
+
+        var componentName = options[NAME_FIELD],
+            componentJqName = 'gui-{name}'.replace('{name}', componentName);
+
+        if (components[componentName]) {
+            throw 'Component ' + componentName + ' already registered!';
+        }
+
+        var fnCmp = function (ctrl) {
+            return this.each(function (_, htmlEl) {
+                var dataOptions = {},
+                    el = $(htmlEl);
+
+                // Lê opções dos elementos [data-*] exceto [data-gui]
+                for (var opt in el.context.dataset) {
+                    if (opt === COMPONENT_IDENTIFIER)
+                        continue;
+                    dataOptions[opt] = el.context.dataset[opt];
+                }
+
+                return options[CONSTRUCTOR_FIELD].bind(this)(ctrl, dataOptions);
+            });
+        },
+            selector = '[data-gui="{name}"]'.replace('{name}', componentName);
+
+        fnCmp[EXPORT_NAME_FIELD] = componentJqName;
+        fnCmp[EXPORT_SELECTOR_FIELD] = selector;
+
+        components[componentName] = fnCmp;
+
+        $.fn[componentJqName] = fnCmp;
+
+        return fnCmp;
+    }
+
+    function ensureOptions(options) {
+        options = options || {};
+
+        if (typeof options[NAME_FIELD] != 'string')
+            throw invalidOptionMessage(NAME_FIELD, 'string');
+
+        if (typeof options[CONSTRUCTOR_FIELD] != 'function')
+            throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
+
+        return options;
+    }
+
+    function invalidOptionMessage(fieldName, fieldType) {
+        return 'Invalid @component option#{name}. Must be a {type}.'
+            .replace('{name}', fieldName)
+            .replace('{type}', fieldType);
+    }
+
+    function _getComponent(componentName) {
+        if (typeof componentName !== 'string' || componentName == '') {
+            throw 'Parameter componentName is required.';
+        }
+
+        if (!components[componentName]) {
+            throw 'Controller ' + componentName + ' not registered!';
+        }
+
+        return components[componentName];
+    }
+
+    function _listComponents() {
+        var list = []
+
+        for (var c in components)
+            list.push({
+                id: c,
+                component: components[c]
+            })
+
+        return list
+    }
+})
+
+
+// ========================================================================
+// create-controller.js
+// ========================================================================
+$namespace(3, '@', function (exports) {
+    var NAME_FIELD = 'name',
+        CONSTRUCTOR_FIELD = 'ctor',
+        EXPORT_NAME_FIELD = '$name';
+
+    var controllers = [];
+    var internals = exports.__internals__ = exports.__internals__ || {};
+
+    internals.getController = _getController;
+
+    /**
+     * Cria uma controller
+     *
+     * @param {object} options - Opções da controller
+     */
+    exports.Controller = function (options) {
+        options = ensureOptions(options);
+
+        var controllerName = options[NAME_FIELD];
+
+        if (controllers[controllerName]) {
+            throw 'Controller ' + controllerName + ' already registered!';
+        }
+
+        var fnCtrl = options[CONSTRUCTOR_FIELD];
+
+        fnCtrl[EXPORT_NAME_FIELD] = options[NAME_FIELD];
+
+        controllers[controllerName] = fnCtrl;
+
+        return fnCtrl;
+    }
+
+    function ensureOptions(options) {
+        options = options || {};
+
+        if (typeof options[NAME_FIELD] != 'string')
+            throw invalidOptionMessage(NAME_FIELD, 'string');
+
+        if (typeof options[CONSTRUCTOR_FIELD] != 'function')
+            throw invalidOptionMessage(CONSTRUCTOR_FIELD, 'function');
+
+        return options;
+    }
+
+    function invalidOptionMessage(fieldName, fieldType) {
+        return 'Invalid @controller option#{name}. Must be a {type}.'
+            .replace('{name}', fieldName)
+            .replace('{type}', fieldType);
+    }
+
+    function _getController(controllerName) {
+        if (typeof controllerName !== 'string' || controllerName == '') {
+            throw 'Parameter controllerName is required.';
+        }
+
+        if (!controllers[controllerName]) {
+            throw 'Controller ' + controllerName + ' not registered!';
+        }
+
+        return controllers[controllerName];
+    }
+})
+
+
+// ========================================================================
+// manage-config.js
+// ========================================================================
+$namespace(2, '@', function (exports) {
+    var CONFIG = {},
+        utils = $require('utils');
+
+    function _getConfig(key, defaultValue) {
+        if (!utils.isString(key))
+            return;
+
+        var value = CONFIG,
+            keys = key.split('.'),
+            k = 0;
+
+        while (value && k < keys.length) {
+            value = value[keys[k]];
+            k++;
+        }
+
+        return value || defaultValue;
+    }
+
+    function _setConfig(key, newValue) {
+        if (!utils.isString(key))
+            return;
+
+        var value = CONFIG,
+            keys = key.split('.'),
+            k = 0;
+
+        while (value && k < keys.length) {
+            if (typeof value[keys[k]] !== 'object')
+                value[keys[k]] = {};
+
+            if (k + 1 !== keys.length)
+                value = value[keys[k]];
+
+            k++;
+        }
+
+        return value[keys[--k]] = newValue;
+    }
+
+    exports.Config = {
+        get: _getConfig,
+        set: _setConfig
+    };
+})
+
+
+// ========================================================================
+// utils.js
+// ========================================================================
+$namespace(1, 'utils', function (exports) {
+
+    /**
+     * Verifica se referencia uma string
+     *
+     * @param {any} value - Instância a verificar
+     */
+    exports.isString = function (value) {
+        return typeof value === 'string';
+    }
+
+    /**
+     * Verifica se referencia uma função
+     *
+     * @param {any} value - Instância a verificar
+     */
+    exports.isFunction = function (value) {
+        return typeof value === 'function';
+    }
+
+    /**
+     * Verifica se referencia uma indefinição
+     *
+     * @param {any} value - Instância a verificar
+     */
+    exports.isUndefined = function (value) {
+        return typeof value === 'undefined';
+    }
+
+    /**
+     * Verifica se referencia um objeto
+     *
+     * @param {any} value - Instância a verificar
+     */
+    exports.isObject = function (value) {
+        // http://jsperf.com/isobject4
+        return value !== null && typeof value === 'object';
+    }
+
+    /**
+     * Verifica se referencia um número
+     *
+     * @param {any} value - Instância a verificar
+     */
+    exports.isNumber = function (value) {
+        return typeof value === 'number';
+    }
+
+    /**
+     * Verifica se referencia um array
+     *
+     * @param {any} value - Instância a verificar
+     */
+    exports.isArray = function (value) {
+        return Array.isArray(value) || value instanceof Array;
+    }
 })
 
 // Inicializa os namespaces na ordem especificada
