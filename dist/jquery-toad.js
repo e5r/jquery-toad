@@ -207,7 +207,6 @@ $namespace(7, 'core', function (exports) {
     }
 
     function _installToad() {
-        //setTitle() // TODO: Mover para algum utilitário
         _installControllers();
     }
 
@@ -520,6 +519,15 @@ $namespace(1, 'utils', function (exports) {
      */
     exports.isArray = function (value) {
         return Array.isArray(value) || value instanceof Array;
+    }
+
+    /**
+     * Altera o titulo do elemento principal (document)
+     * 
+     * @param {string} newTitle - Novo título
+     */
+    exports.setTitle = function (newTitle) {
+        $($elm).attr('title', newTitle);
     }
 })
 

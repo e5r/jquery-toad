@@ -54,4 +54,13 @@ $namespace(1, 'utils', function (exports) {
     exports.isArray = function (value) {
         return Array.isArray(value) || value instanceof Array;
     }
+
+    /**
+     * Altera o titulo do elemento principal (document)
+     * 
+     * @param {string} newTitle - Novo título
+     */
+    exports.setTitle = function (newTitle) {
+        $($elm).attr('title', newTitle);
+    }
 })

@@ -98,7 +98,6 @@ $namespace(7, 'core', function (exports) {
     }
 
     function _installToad() {
-        //setTitle() // TODO: Mover para algum utilitário
         _installControllers();
     }
 
