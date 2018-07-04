@@ -1,20 +1,18 @@
-MYAPP.namespace('myapp', function () {
-    var register = MYAPP.require('@').Controller;
+var register = MYAPP.require('@').Controller;
 
-    function MyController() {
-        var message = 'Olá mundo jQuery TOAD!';
+function MyController() {
+    var message = 'Olá mundo jQuery TOAD!';
 
-        this.onClickMessage = function () {
-            alert(message);
-        }
-
-        this.onClickH1 = function () {
-            $('h1').text(message);
-        }
+    this.onClickMessage = function () {
+        alert(message);
     }
-    
-    register({
-        name: 'my',
-        ctor: MyController
-    });
+
+    this.onClickH1 = function () {
+        $('h1[data-message]').text(message);
+    }
+}
+
+register({
+    name: 'my',
+    ctor: MyController
 });
