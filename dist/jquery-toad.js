@@ -45,7 +45,7 @@ var _APP_NAMESPACE_KEY_ = '_app_namespace_';
 // Inicializa namespace exclusivo para aplicação do usuário
 var _APP_ = $toad[_APP_NAMESPACE_KEY_] = {};
 
-var $require = function (_) {
+var $import = function (_) {
     return $toad[_] = $toad[_] || {};
 };
 
@@ -76,12 +76,12 @@ $toad.namespace = function (_, __) {
 
 /**
  * @code
-var utils = {__TOAD__}.require('utils')
+var utils = {__TOAD__}.import('utils')
 
 utils.func(utils.data)
  */
-$toad.require = function (_) {
-    var require = {};
+$toad.import = function (_) {
+    var imported = {};
 
     var exportGlobals = [
         '@',
@@ -92,24 +92,24 @@ $toad.require = function (_) {
     // Objetos globais exceto o namespace da aplicação
     if (exportGlobals.indexOf(_) > -1) {
         for (var k in $toad[_]) {
-            require[k] = $toad[_][k];
+            imported[k] = $toad[_][k];
         }
     }
 
     // Objetos da aplicação
     for (var k in _APP_[_]) {
-        require[k] = _APP_[_][k];
+        imported[k] = _APP_[_][k];
     }
 
-    return require;
+    return imported;
 }
 
 // ========================================================================
 // app.js
 // ========================================================================
 $namespace(7, 'core', function (exports) {
-    var utils = $require('utils'),
-        internals = $require('@').__internals__;
+    var utils = $import('utils'),
+        internals = $import('@').__internals__;
 
     var CONTROLLER_IDENTIFIER = 'controller',
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
@@ -415,7 +415,7 @@ $namespace(3, '@', function (exports) {
 // ========================================================================
 $namespace(2, '@', function (exports) {
     var CONFIG = {},
-        utils = $require('utils');
+        utils = $import('utils');
 
     function _getConfig(key, defaultValue) {
         if (!utils.isString(key))

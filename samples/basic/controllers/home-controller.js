@@ -1,6 +1,6 @@
 E5R.namespace('app/controllers', function (exports) {
     var $ = E5R.$jq,
-        Controller = E5R.require('@').Controller;
+        Controller = E5R.import('@').Controller;
 
     function HomeController() { };
 

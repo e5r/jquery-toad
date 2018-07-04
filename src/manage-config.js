@@ -1,6 +1,6 @@
 $namespace(2, '@', function (exports) {
     var CONFIG = {},
-        utils = $require('utils');
+        utils = $import('utils');
 
     function _getConfig(key, defaultValue) {
         if (!utils.isString(key))

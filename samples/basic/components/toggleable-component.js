@@ -1,6 +1,6 @@
 E5R.namespace('app/components', function (exports) {
     var $ = E5R.$jq,
-        Component = E5R.require('@').Component,
+        Component = E5R.import('@').Component,
 
         DATA_CHANGED = 'changed';
 
