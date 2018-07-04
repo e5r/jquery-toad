@@ -1,5 +1,5 @@
 /*!
- * jquery-toad v1.0.5
+ * jquery-toad v1.0.6
  * jQuery TOAD (The Old And Dear) - O velho e querido jQuery (https://github.com/e5r/jquery-toad#readme)
  * Copyright (c) E5R Development Team. All rights reserved.
  * Licensed under the Apache-2.0 License. More license information in LICENSE.
