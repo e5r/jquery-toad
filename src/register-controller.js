@@ -9,11 +9,11 @@ $namespace(3, '@', function (exports) {
     internals.getController = _getController;
 
     /**
-     * Cria uma controller
+     * Registra um controlador
      *
-     * @param {object} options - Opções da controller
+     * @param {object} options - Opções do controlador
      */
-    exports.Controller = function (options) {
+    exports.registerController = function (options) {
         options = ensureOptions(options);
 
         var controllerName = options[NAME_FIELD];

@@ -12,11 +12,11 @@ $namespace(4, '@', function (exports) {
     internals.listComponents = _listComponents;
 
     /**
-     * Cria um componente
+     * Registra um componente
      *
      * @param {object} options - Opções do componente
      */
-    exports.Component = function (options) {
+    exports.registerComponent = function (options) {
         options = ensureOptions(options);
 
         var componentName = options[NAME_FIELD],

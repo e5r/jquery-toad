@@ -39,7 +39,7 @@ $namespace(2, '@', function (exports) {
         return value[keys[--k]] = newValue;
     }
 
-    exports.Config = {
+    exports.config = {
         get: _getConfig,
         set: _setConfig
     };

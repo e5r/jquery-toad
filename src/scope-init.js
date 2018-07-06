@@ -31,6 +31,11 @@ $toad.$jq = $;
 })
  */
 $toad.namespace = function (_, __) {
+    if (typeof _ !== 'string') {
+        throw 'Invalid namespace.';
+    }
+
+    // TODO: Mudar para abordagem semelhante a  $namespace
     __((_APP_[_] = _APP_[_] || {}));
 }
 
@@ -41,13 +46,27 @@ var utils = {__TOAD__}.import('utils')
 utils.func(utils.data)
  */
 $toad.import = function (_) {
-    var imported = {};
+    if (typeof _ !== 'string' || $.trim(_).length < 1) {
+        throw 'Invalid namespace to import.';
+    }
 
-    var exportGlobals = [
-        '@',
-        'core',
-        'utils'
-    ];
+    var imported = {},
+        exportGlobals = [
+            'core',
+            'utils'
+        ],
+        atIgnore = [
+            '__internals__'
+        ];
+
+    if (_.charAt(0) === '@') {
+        var parts = _.split('@');
+
+        if (parts.length !== 2 || atIgnore.indexOf(parts[1]) >= 0)
+            return;
+
+        return $toad['@'][parts[1]];
+    }
 
     // Objetos globais exceto o namespace da aplicação
     if (exportGlobals.indexOf(_) > -1) {
@@ -56,7 +75,7 @@ $toad.import = function (_) {
         }
     }
 
-    // Objetos da aplicação
+    // Objetos da aplicação. Esses sobrescrevem os globais se existirem
     for (var k in _APP_[_]) {
         imported[k] = _APP_[_][k];
     }
