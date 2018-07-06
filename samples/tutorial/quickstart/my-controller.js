@@ -1,5 +1,5 @@
 MYAPP.namespace('controllers', function () {
-    var register = MYAPP.import('@');
+    var register = MYAPP.import('@registerController');
 
     function MyController() {
         var message = 'Olá mundo jQuery TOAD!';
@@ -13,7 +13,7 @@ MYAPP.namespace('controllers', function () {
         }
     }
 
-    register.Controller({
+    register({
         name: 'my',
         ctor: MyController
     });
