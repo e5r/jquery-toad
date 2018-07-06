@@ -1,8 +1,8 @@
 E5R.namespace('app/components', function (exports) {
     var $ = E5R.$jq,
-        Component = E5R.import('@').Component,
+        register = E5R.import('@registerComponent'),
 
-        DATA_CHANGED = 'changed';
+        DATA_CHANGED = E5R.const('TOGGLEABLE_COMPONENT_DATA_CHANGED', 'changed');
 
     function ToggleableComponent(ctrl, options) {
         var $this = $(this),
@@ -21,10 +21,8 @@ E5R.namespace('app/components', function (exports) {
         $this.on('click', handler)
     };
 
-    var component = Component({
+    exports[ToggleableComponent.name] = register({
         name: 'toggleable',
         ctor: ToggleableComponent
     });
-
-    exports[component.$name] = component;
 });

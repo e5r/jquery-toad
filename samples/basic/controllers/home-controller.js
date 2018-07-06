@@ -1,6 +1,6 @@
 E5R.namespace('app/controllers', function (exports) {
     var $ = E5R.$jq,
-        Controller = E5R.import('@').Controller;
+        register = E5R.import('@registerController');
 
     function HomeController() { };
 
@@ -10,10 +10,8 @@ E5R.namespace('app/controllers', function (exports) {
         ctrl.$view.byDataId('message').text(ctrl.$options.message);
     }
 
-    var ctrl = Controller({
+    exports[HomeController.name] = register({
         name: 'home',
         ctor: HomeController
     });
-
-    exports[ctrl.$name] = ctrl;
 });

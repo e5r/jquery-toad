@@ -1,4 +1,4 @@
-$namespace(7, 'core', function (exports) {
+$namespace(8, 'core', function (exports) {
     var utils = $import('utils'),
         internals = $import('@').__internals__;
 
@@ -92,9 +92,7 @@ $namespace(7, 'core', function (exports) {
     }
 
     function _setupModel(el, ctrl) {
-        console.group('_setupModel');
-        console.log('TODO: Implementar _setupModel');
-        console.groupEnd();
+        console.info('TODO: Implementar _setupModel', ctrl);
     }
 
     function _installToad() {

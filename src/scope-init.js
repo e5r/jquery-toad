@@ -5,15 +5,15 @@ var _APP_NAMESPACE_KEY_ = '_app_namespace_';
 // Inicializa namespace exclusivo para aplicação do usuário
 var _APP_ = $toad[_APP_NAMESPACE_KEY_] = {};
 
-var $import = function (_) {
-    return $toad[_] = $toad[_] || {};
+var $import = function (namespace) {
+    return $toad[namespace] = $toad[namespace] || {};
 };
 
-var $namespace = function (_, __, ___) {
+var $namespace = function (order, namespace, factory) {
     _NAMESPACES_.push({
-        idx: _,
+        idx: order,
         cb: function () {
-            ___(($toad[__] = $toad[__] || {}));
+            factory(($toad[namespace] = $toad[namespace] || {}));
         }
     });
 };
@@ -30,13 +30,13 @@ $toad.$jq = $;
     exports.func = myFunction
 })
  */
-$toad.namespace = function (_, __) {
-    if (typeof _ !== 'string') {
+$toad.namespace = function (namespace, factory) {
+    if (typeof namespace !== 'string') {
         throw 'Invalid namespace.';
     }
 
     // TODO: Mudar para abordagem semelhante a  $namespace
-    __((_APP_[_] = _APP_[_] || {}));
+    factory((_APP_[namespace] = _APP_[namespace] || {}));
 }
 
 /**
@@ -45,8 +45,8 @@ var utils = {__TOAD__}.import('utils')
 
 utils.func(utils.data)
  */
-$toad.import = function (_) {
-    if (typeof _ !== 'string' || $.trim(_).length < 1) {
+$toad.import = function (namespace) {
+    if (typeof namespace !== 'string' || $.trim(namespace).length < 1) {
         throw 'Invalid namespace to import.';
     }
 
@@ -59,8 +59,8 @@ $toad.import = function (_) {
             '__internals__'
         ];
 
-    if (_.charAt(0) === '@') {
-        var parts = _.split('@');
+    if (namespace.charAt(0) === '@') {
+        var parts = namespace.split('@');
 
         if (parts.length !== 2 || atIgnore.indexOf(parts[1]) >= 0)
             return;
@@ -69,16 +69,26 @@ $toad.import = function (_) {
     }
 
     // Objetos globais exceto o namespace da aplicação
-    if (exportGlobals.indexOf(_) > -1) {
-        for (var k in $toad[_]) {
-            imported[k] = $toad[_][k];
+    if (exportGlobals.indexOf(namespace) > -1) {
+        for (var k in $toad[namespace]) {
+            imported[k] = $toad[namespace][k];
         }
     }
 
     // Objetos da aplicação. Esses sobrescrevem os globais se existirem
-    for (var k in _APP_[_]) {
-        imported[k] = _APP_[_][k];
+    for (var k in _APP_[namespace]) {
+        imported[k] = _APP_[namespace][k];
     }
 
     return imported;
+}
+
+/**
+ * @code
+var MY_CONST = {__TOAD__}.const('MY_CONST', VALUE_FOR_MY_CONST)
+ */
+$toad.const = function (constName, constValue) {
+    var internals = $import('@').__internals__;
+
+    internals.setConstant(constName, constValue);
 }

@@ -1,6 +1,6 @@
 E5R.namespace('app', function (exports) {
     var utils = E5R.import('app/utils'),
-        Config = E5R.import('@').Config;
+        Config = E5R.import('@config');
 
     Config.set('info', {
         name: 'jQuery TOAD Sample Application',
