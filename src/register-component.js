@@ -1,4 +1,4 @@
-$namespace(4, '@', function (exports) {
+$namespace(3, '@', function (exports) {
     var NAME_FIELD = 'name',
         COMPONENT_IDENTIFIER = 'gui',
         CONSTRUCTOR_FIELD = 'ctor',

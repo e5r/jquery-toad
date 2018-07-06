@@ -1,4 +1,4 @@
-$namespace(2, '@', function (exports) {
+$namespace(1, '@', function (exports) {
     var CONFIG = {},
         utils = $import('utils');
 

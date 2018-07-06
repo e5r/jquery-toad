@@ -1,4 +1,4 @@
-$namespace(1, 'utils', function (exports) {
+$namespace(0, 'utils', function (exports) {
 
     /**
      * Verifica se referencia uma string

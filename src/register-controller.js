@@ -1,12 +1,17 @@
 $namespace(3, '@', function (exports) {
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',
-        EXPORT_NAME_FIELD = '$name';
+        EXPORT_NAME_FIELD = '$name',
+        CONTROLLER_VIEW_FIELD_PRIVATE = '__view__',
+        CONTROLLER_VIEW_FIELD = '$view';
 
     var controllers = [];
     var internals = exports.__internals__ = exports.__internals__ || {};
 
     internals.getController = _getController;
+
+    // Registra constantes públicas
+    internals.setConstant('VIEW_BY_ID', 1);
 
     /**
      * Registra um controlador
@@ -25,6 +30,7 @@ $namespace(3, '@', function (exports) {
         var fnCtrl = options[CONSTRUCTOR_FIELD];
 
         fnCtrl[EXPORT_NAME_FIELD] = options[NAME_FIELD];
+        fnCtrl.prototype[CONTROLLER_VIEW_FIELD] = _getViewElement;
 
         controllers[controllerName] = fnCtrl;
 
@@ -59,5 +65,30 @@ $namespace(3, '@', function (exports) {
         }
 
         return controllers[controllerName];
+    }
+
+    function _getViewElement(elType, selector) {
+        var view = this[CONTROLLER_VIEW_FIELD_PRIVATE],
+            VIEW_BY_ID = $import('@').consts.VIEW_BY_ID;
+
+        if (!(view instanceof $))
+            return;
+
+        if (typeof elType === 'string' && arguments.length === 1)
+            selector = elType;
+
+        else if (typeof selector !== 'string')
+            throw 'Invalid view selector.';
+
+        else switch (elType) {
+            case VIEW_BY_ID:
+                selector = '[data-id="{id}"]'.replace('{id}', selector);
+                break;
+
+            default:
+                throw 'Invalid view type "' + elType + '".';
+        }
+
+        return $(selector, view);
     }
 })

@@ -1,4 +1,4 @@
-$namespace(8, 'core', function (exports) {
+$namespace(9, 'core', function (exports) {
     var utils = $import('utils'),
         internals = $import('@').__internals__;
 
@@ -6,7 +6,7 @@ $namespace(8, 'core', function (exports) {
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,
         CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
         CONTROLLER_ELEMENT_DATA = '$ctrl',
-        CONTROLLER_VIEW_FIELD = '$view',
+        CONTROLLER_VIEW_FIELD = '__view__',
         CONTROLLER_OPTIONS_FIELD = '$options',
 
         COMPONENT_SELECTOR_KEY = '$jqSelector',
@@ -31,7 +31,7 @@ $namespace(8, 'core', function (exports) {
                 options[opt] = el.context.dataset[opt];
             }
 
-            var ctrl = new ctor();//(el, options);
+            var ctrl = new ctor(el, options);
 
             el.data(CONTROLLER_ELEMENT_DATA, ctrl);
 

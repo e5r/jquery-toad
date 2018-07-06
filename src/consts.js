@@ -1,4 +1,4 @@
-$namespace(7, '@', function (exports) {
+$namespace(1, '@', function (exports) {
     var consts = {},
         internals = exports.__internals__ = exports.__internals__ || {};
 

@@ -1,4 +1,4 @@
-$namespace(5, 'core', function (exports) {
+$namespace(2, 'core', function (exports) {
     var CONTROLLER_ELEMENT_DATA = '$ctrl';
 
     exports.ControllerComponent = $.fn['controller'] = function ControllerComponent() {
