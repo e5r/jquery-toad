@@ -56,11 +56,18 @@ $namespace(0, 'utils', function (exports) {
     }
 
     /**
+     * Recupera o titulo do elemento principal (document)
+     */
+    exports.getPageTitle = function (newTitle) {
+        return $($elm).attr('title');
+    }
+
+    /**
      * Altera o titulo do elemento principal (document)
      * 
      * @param {string} newTitle - Novo título
      */
-    exports.setTitle = function (newTitle) {
-        $($elm).attr('title', newTitle);
+    exports.setPageTitle = function (title) {
+        $($elm).attr('title', title);
     }
 })

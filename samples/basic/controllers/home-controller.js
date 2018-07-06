@@ -1,5 +1,6 @@
 E5R.namespace('app/controllers', function (exports) {
     var $ = E5R.$jq,
+        utils = E5R.import('utils'),
         register = E5R.import('@registerController'),
 
         BY_ID = E5R.import('@consts').VIEW_BY_ID;
@@ -14,6 +15,12 @@ E5R.namespace('app/controllers', function (exports) {
         var self = $(this).controller();
 
         self.$view(BY_ID, 'message').text(self.$options.message);
+    }
+
+    HomeController.prototype.setTitle = function () {
+        var self = $(this).controller();
+
+        utils.setPageTitle(self.$options.pageTitle || utils.getPageTitle);
     }
 
     exports[HomeController.name] = register({
