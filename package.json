@@ -1,11 +1,16 @@
 {
   "name": "jquery-toad",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "jQuery TOAD (The Old And Dear) - O velho e querido jQuery",
-  "main": "dist/jquery-toad.js",
+  "browser": "dist/jquery-toad.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/e5r/jquery-toad.git"
+  },
+  "directories": {
+    "doc": "./doc",
+    "samples": "./samples",
+    "lib": "./dist"
   },
   "keywords": [
     "e5r",
@@ -18,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/e5r/jquery-toad/issues"
   },
-  "homepage": "https://github.com/e5r/jquery-toad#readme",
+  "homepage": "https://github.com/e5r/jquery-toad/#readme",
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^3.9.1",
