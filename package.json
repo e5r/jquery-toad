@@ -24,5 +24,11 @@
     "gulp": "^3.9.1",
     "gulp-concat-util": "^0.5.5",
     "gulp-uglify": "^3.0.0"
+  },
+  "scripts": {
+    "build:win": "npm install && .\\node_modules\\.bin\\gulp",
+    "build": "npm install && ./node_modules/.bin/gulp",
+    "start:win": ".\\node_modules\\.bin\\gulp watch",
+    "start": "./node_modules/.bin/gulp watch"
   }
 }

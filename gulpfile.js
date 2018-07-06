@@ -46,4 +46,9 @@ gulp.task('js-min', ['js'], function () {
         .pipe(gulp.dest('dist'))
 });
 
-gulp.task('dist', ['js', 'js-min'])
+gulp.task('watch', function () {
+    return gulp.watch('src/**/*.js', ['dist']);
+});
+
+gulp.task('dist', ['js', 'js-min']);
+gulp.task('default', ['dist']);
