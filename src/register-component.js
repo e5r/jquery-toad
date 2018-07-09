@@ -20,7 +20,8 @@ $namespace(3, '@', function (exports) {
         options = ensureOptions(options);
 
         var componentName = options[NAME_FIELD],
-            componentJqName = 'gui-{name}'.replace('{name}', componentName);
+            componentJqName = 'gui-{name}'.replace('{name}', componentName),
+            selector = '[data-gui="{name}"]'.replace('{name}', componentName);
 
         if (components[componentName]) {
             throw 'Component ' + componentName + ' already registered!';
@@ -40,8 +41,7 @@ $namespace(3, '@', function (exports) {
 
                 return options[CONSTRUCTOR_FIELD].bind(this)(ctrl, dataOptions);
             });
-        },
-            selector = '[data-gui="{name}"]'.replace('{name}', componentName);
+        };
 
         fnCmp[EXPORT_NAME_FIELD] = componentJqName;
         fnCmp[EXPORT_SELECTOR_FIELD] = selector;

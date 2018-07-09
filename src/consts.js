@@ -35,7 +35,7 @@ $namespace(1, '@', function (exports) {
 
         var newConsts = Object.defineProperty(consts, constName, {
             // TODO: Mudar para [false], isso irá impedir o uso de [for(var c in consts)]
-            //       porém será necessário fornecer algum meio para listar a constantes
+            //       porém será necessário fornecer algum meio para listar as constantes
             enumerable: true,
 
             configurable: false,
