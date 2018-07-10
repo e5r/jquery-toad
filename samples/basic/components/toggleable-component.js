@@ -2,7 +2,7 @@ E5R.namespace('app/components', function (exports) {
     var $ = E5R.$jq,
         register = E5R.require('@registerComponent'),
 
-        DATA_CHANGED = E5R.const('TOGGLEABLE_COMPONENT_DATA_CHANGED', 'changed');
+        DATA_CHANGED = E5R.constant('TOGGLEABLE_COMPONENT_DATA_CHANGED', 'changed');
 
     function ToggleableComponent(ctrl, options) {
         var $this = $(this),

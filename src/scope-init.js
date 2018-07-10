@@ -85,9 +85,9 @@ $toad.require = function (namespace) {
 
 /**
  * @code
-var MY_CONST = {__TOAD__}.const('MY_CONST', VALUE_FOR_MY_CONST)
+var MY_CONST = {__TOAD__}.constant('MY_CONST', VALUE_FOR_MY_CONST)
  */
-$toad.const = function (constName, constValue) {
+$toad.constant = function (constName, constValue) {
     var internals = $require('@').__internals__;
 
     internals.setConstant(constName, constValue);

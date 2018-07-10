@@ -3,7 +3,7 @@ E5R.namespace('app/controllers', function (exports) {
         utils = E5R.require('utils'),
         register = E5R.require('@registerController'),
 
-        BY_ID = E5R.require('@consts').VIEW_BY_ID;
+        BY_ID = E5R.require('@constants').VIEW_BY_ID;
 
     function HomeController(el, options) {
         var optionsJson = JSON.stringify(options, null, 2);

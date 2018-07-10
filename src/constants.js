@@ -1,5 +1,5 @@
 $namespace(1, '@', function (exports) {
-    var consts = {},
+    var constants = {},
         internals = exports.__internals__ = exports.__internals__ || {};
 
     internals.setConstant = _setConstant;
@@ -7,7 +7,7 @@ $namespace(1, '@', function (exports) {
     /**
      * Constantes
      */
-    exports.consts = consts;
+    exports.constants = constants;
 
     /**
      * Define uma constante global no sistema
@@ -22,19 +22,19 @@ $namespace(1, '@', function (exports) {
         if (!constValue)
             throw 'constValue is required!';
 
-        if (typeof consts[constName] !== 'undefined')
+        if (typeof constants[constName] !== 'undefined')
             throw 'Constant "' + constName + '" already exists!';
 
         // Quando [Object.defineProperty] não está disponível (ex: IE8 <) simplesmente
         // guardamos um valor para uso, porém sem nenhuma proteção de imutabilidade
         if (typeof Object.defineProperty !== 'function') {
             console.warn('WARNING!', 'Object.defineProperty is not supported!');
-            consts[constName] = constValue;
+            constants[constName] = constValue;
             return;
         }
 
-        var newConsts = Object.defineProperty(consts, constName, {
-            // TODO: Mudar para [false], isso irá impedir o uso de [for(var c in consts)]
+        var newConsts = Object.defineProperty(constants, constName, {
+            // TODO: Mudar para [false], isso irá impedir o uso de [for(var c in constants)]
             //       porém será necessário fornecer algum meio para listar as constantes
             enumerable: true,
 
