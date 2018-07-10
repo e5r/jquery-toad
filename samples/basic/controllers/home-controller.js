@@ -23,7 +23,7 @@ E5R.namespace('app/controllers', function (exports) {
         utils.setPageTitle(self.$options.pageTitle || utils.getPageTitle);
     }
 
-    exports[HomeController.name] = register({
+    exports['HomeController'] = register({
         name: 'home',
         ctor: HomeController
     });

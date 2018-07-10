@@ -5,15 +5,15 @@ var _APP_NAMESPACE_KEY_ = '_app_namespace_';
 // Inicializa namespace exclusivo para aplicação do usuário
 var _APP_ = $toad[_APP_NAMESPACE_KEY_] = {};
 
-var $require = function (namespace) {
-    return $toad[namespace] = $toad[namespace] || {};
+var $require = function (name) {
+    return $toad[name] = $toad[name] || {};
 };
 
-var $namespace = function (order, namespace, factory) {
+var $namespace = function (order, name, factory) {
     _NAMESPACES_.push({
         idx: order,
         cb: function () {
-            factory(($toad[namespace] = $toad[namespace] || {}));
+            factory(($toad[name] = $toad[name] || {}));
         }
     });
 };
@@ -30,13 +30,13 @@ $toad.$jq = $;
     exports.func = myFunction
 })
  */
-$toad.namespace = function (namespace, factory) {
-    if (typeof namespace !== 'string') {
+$toad.namespace = function (name, factory) {
+    if (typeof name !== 'string') {
         throw 'Invalid namespace.';
     }
 
     // TODO: Mudar para abordagem semelhante a  $namespace
-    factory((_APP_[namespace] = _APP_[namespace] || {}));
+    factory((_APP_[name] = _APP_[name] || {}));
 }
 
 /**
@@ -45,8 +45,8 @@ var utils = {__TOAD__}.require('utils')
 
 utils.func(utils.data)
  */
-$toad.require = function (namespace) {
-    if (typeof namespace !== 'string' || $.trim(namespace).length < 1) {
+$toad.require = function (name) {
+    if (typeof name !== 'string' || $.trim(name).length < 1) {
         throw 'Invalid namespace to import.';
     }
 
@@ -59,25 +59,25 @@ $toad.require = function (namespace) {
             '__internals__'
         ];
 
-    if (namespace.charAt(0) === '@') {
-        var parts = namespace.split('@');
+    if (name.charAt(0) === '@') {
+        var parts = name.split('@');
 
-        if (parts.length !== 2 || atIgnore.indexOf(parts[1]) >= 0)
+        if (parts.length !== 2 || $.inArray(parts[1], atIgnore) >= 0)
             return;
 
         return $toad['@'][parts[1]];
     }
 
     // Objetos globais exceto o namespace da aplicação
-    if (exportGlobals.indexOf(namespace) > -1) {
-        for (var k in $toad[namespace]) {
-            required[k] = $toad[namespace][k];
+    if ($.inArray(name, exportGlobals) > -1) {
+        for (var k in $toad[name]) {
+            required[k] = $toad[name][k];
         }
     }
 
     // Objetos da aplicação. Esses sobrescrevem os globais se existirem
-    for (var k in _APP_[namespace]) {
-        required[k] = _APP_[namespace][k];
+    for (var k in _APP_[name]) {
+        required[k] = _APP_[name][k];
     }
 
     return required;

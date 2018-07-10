@@ -22,13 +22,14 @@ $namespace(9, 'core', function (exports) {
             var el = $(this),
                 name = el.attr(CONTROLLER_DATA_IDENTIFIER),
                 ctor = internals.getController(name),
-                options = {};
+                options = {},
+                dataset = el.data();
 
             // Lê opções dos elementos [data-*] exceto [data-controller]
-            for (var opt in el.context.dataset) {
+            for (var opt in dataset) {
                 if (opt === CONTROLLER_IDENTIFIER)
                     continue;
-                options[opt] = el.context.dataset[opt];
+                options[opt] = dataset[opt];
             }
 
             var ctrl = new ctor(el, options);
@@ -78,7 +79,11 @@ $namespace(9, 'core', function (exports) {
     }
 
     function _setupComponents(ctrlElm, ctrl) {
-        internals.listComponents().map(function (cmp) {
+        var cmpList = internals.listComponents();
+
+        for (var c in cmpList) {
+            var cmp = cmpList[c];
+
             if (!utils.isString(cmp.id)) return;
             if (!utils.isFunction(cmp.component)) return;
             if (!utils.isString(cmp.component[COMPONENT_SELECTOR_KEY])) return;
@@ -88,7 +93,7 @@ $namespace(9, 'core', function (exports) {
             var jqFn = cmp.component[COMPONENT_NAME_KEY];
 
             $(jqSelector, ctrlElm)[jqFn](ctrl);
-        });
+        };
     }
 
     function _setupModel(el, ctrl) {

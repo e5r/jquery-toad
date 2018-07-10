@@ -30,16 +30,18 @@ $namespace(3, '@', function (exports) {
         var fnCmp = function (ctrl) {
             return this.each(function (_, htmlEl) {
                 var dataOptions = {},
-                    el = $(htmlEl);
+                    el = $(htmlEl),
+                    dataset = el.data();
 
                 // Lê opções dos elementos [data-*] exceto [data-gui]
-                for (var opt in el.context.dataset) {
+                for (var opt in dataset) {
                     if (opt === COMPONENT_IDENTIFIER)
                         continue;
-                    dataOptions[opt] = el.context.dataset[opt];
+                    dataOptions[opt] = dataset[opt];
                 }
 
-                return options[CONSTRUCTOR_FIELD].bind(this)(ctrl, dataOptions);
+                // [apply] ao invés de [bind] por compatibilidade ao IE8
+                return options[CONSTRUCTOR_FIELD].apply(this, [ctrl, dataOptions])
             });
         };
 

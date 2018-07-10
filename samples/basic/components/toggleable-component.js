@@ -21,7 +21,7 @@ E5R.namespace('app/components', function (exports) {
         $this.on('click', handler)
     };
 
-    exports[ToggleableComponent.name] = register({
+    exports['ToggleableComponent'] = register({
         name: 'toggleable',
         ctor: ToggleableComponent
     });

@@ -27,7 +27,12 @@ $namespace(1, '@', function (exports) {
 
         // Quando [Object.defineProperty] não está disponível (ex: IE8 <) simplesmente
         // guardamos um valor para uso, porém sem nenhuma proteção de imutabilidade
-        if (typeof Object.defineProperty !== 'function') {
+        //
+        // OBS: Apesar de usarmos [Object.defineProperty] para definir a constante,
+        //      testamos [Object.defineProperties] porque o IE8 implementa [Object.defineProperty]
+        //      mas somente para objetos DOM. Com suporte completo no IE9 junto com a
+        //      implementação de [Object.defineProperties]
+        if (typeof Object.defineProperties !== 'function') {
             console.warn('WARNING!', 'Object.defineProperty is not supported!');
             constants[constName] = constValue;
             return;

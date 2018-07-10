@@ -52,7 +52,8 @@ $namespace(0, 'utils', function (exports) {
      * @param {any} value - Instância a verificar
      */
     exports.isArray = function (value) {
-        return Array.isArray(value) || value instanceof Array;
+        return value instanceof Array
+            || Object.prototype.toString.call(value) === "[object Array]";
     }
 
     /**
