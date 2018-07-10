@@ -1,6 +1,6 @@
 $namespace(9, 'core', function (exports) {
-    var utils = $import('utils'),
-        internals = $import('@').__internals__;
+    var utils = $require('utils'),
+        internals = $require('@').__internals__;
 
     var CONTROLLER_IDENTIFIER = 'controller',
         CONTROLLER_DATA_IDENTIFIER = 'data-' + CONTROLLER_IDENTIFIER,

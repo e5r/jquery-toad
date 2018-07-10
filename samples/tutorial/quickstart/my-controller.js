@@ -1,5 +1,5 @@
 MYAPP.namespace('controllers', function () {
-    var register = MYAPP.import('@registerController');
+    var register = MYAPP.require('@registerController');
 
     function MyController() {
         var message = 'Olá mundo jQuery TOAD!';

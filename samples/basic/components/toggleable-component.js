@@ -1,6 +1,6 @@
 E5R.namespace('app/components', function (exports) {
     var $ = E5R.$jq,
-        register = E5R.import('@registerComponent'),
+        register = E5R.require('@registerComponent'),
 
         DATA_CHANGED = E5R.const('TOGGLEABLE_COMPONENT_DATA_CHANGED', 'changed');
 

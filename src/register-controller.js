@@ -69,7 +69,7 @@ $namespace(3, '@', function (exports) {
 
     function _getViewElement(elType, selector) {
         var view = this[CONTROLLER_VIEW_FIELD_PRIVATE],
-            VIEW_BY_ID = $import('@').consts.VIEW_BY_ID;
+            VIEW_BY_ID = $require('@').consts.VIEW_BY_ID;
 
         if (!(view instanceof $))
             return;

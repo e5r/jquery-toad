@@ -1,9 +1,9 @@
 E5R.namespace('app/controllers', function (exports) {
     var $ = E5R.$jq,
-        utils = E5R.import('utils'),
-        register = E5R.import('@registerController'),
+        utils = E5R.require('utils'),
+        register = E5R.require('@registerController'),
 
-        BY_ID = E5R.import('@consts').VIEW_BY_ID;
+        BY_ID = E5R.require('@consts').VIEW_BY_ID;
 
     function HomeController(el, options) {
         var optionsJson = JSON.stringify(options, null, 2);
