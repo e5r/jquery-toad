@@ -31,9 +31,7 @@
     "gulp-uglify": "^3.0.0"
   },
   "scripts": {
-    "build:win": "npm install && .\\node_modules\\.bin\\gulp",
-    "build": "npm install && ./node_modules/.bin/gulp",
-    "start:win": ".\\node_modules\\.bin\\gulp watch",
-    "start": "./node_modules/.bin/gulp watch"
+    "build": "npm install && gulp",
+    "start": "gulp watch"
   }
 }
