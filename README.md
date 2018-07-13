@@ -5,30 +5,33 @@ __velho e querido jQuery__.
 
 Trata-se de uma biblioteca simples que ajuda você a organizar seu código de aplicação baseado em [jQuery][JQUERY].
 
-## Para o usuário final
 
-[A Wiki é nossa documentação.][WIKI]
 
-## Para o desenvolvedor
+## Construa à partir do código fonte
 
 Você vai precisar de:
 * [NodeJS][NODEJS]
 * [Git][GIT]
 
-Primeiro clone o projeto:
+Daí é tão simples como executar dois comandos no shell:
+
 ```
-$ git clone --recursive https://github.com/e5r/jquery-toad
+$ git clone https://github.com/e5r/jquery-toad
+$ npm run build
 ```
 
-Instale as dependências:
-```
-$npm i
+Pronto! Já existe uma pasta `dist` com a biblioteca `jquery-toad.js` além de uma versão minificada.
+
+## Ou simplesmente adicione a seu HTML
+
+```html
+<script src="https://unpkg.com/jquery/dist/jquery.js"></script>
+<script src="https://unpkg.com/jquery-toad/dist/jquery-toad.js"></script>
 ```
 
-Construa:
-```
-$ ./node_modules/.bin/gulp dist
-```
+## Documentação
+
+Aprenda mais em nossa [Wiki][WIKI].
 
 [JQUERY]: http://jquery.com/  "jQuery web site"
 [WIKI]: https://github.com/e5r/jquery-toad/wiki "Nossa Wiki"
