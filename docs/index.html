@@ -10,6 +10,7 @@
   <link rel="icon" href="assets/jquery-toad-icon.png">
   <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.1.2/dist/css/bootstrap.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+  <link rel="stylesheet" href="https://unpkg.com/highlightjs@9.10.0/styles/tomorrow.css">
   <link rel="stylesheet" href="css/toad.css">
 
   <script>
@@ -20,6 +21,7 @@
 <body data-controller="home">
   <div class="container">
     <div class="toad-main-box bg-light border-dark">
+
       <div class="toad-logo-box">
         <img class="img-fluid" src="assets/jquery-toad-logo.png" alt="Logo jQuery TOAD" />
       </div>
@@ -60,32 +62,17 @@
               </div>
             </li>
           </ul>
-          <div class="my-2 my-lg-0 text-center">
-            <a class="btn btn-outline-secondary" target="_blank" href="https://github.com/e5r/jquery-toad" role="button" title="@e5r/jquery-toad">
-              <i class="fab fa-github"></i>
-            </a>
-            <a class="btn btn-outline-info" target="_blank" href="https://erlimar.wordpress.com" title="erlimar.wordpress.com" role="button">
-              <i class="fab fa-wordpress-simple"></i>
-            </a>
-            <a class="btn btn-outline-primary" target="_blank" href="https://twitter.com/erlimar" title="@erlimar" role="button">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a class="btn btn-outline-danger" target="_blank" href="https://www.youtube.com/channel/UC6zPtVBfcAdkzq7-dpSlhdw" title="E5R Development Team"
-              role="button">
-              <i class="fab fa-youtube"></i>
-            </a>
-          </div>
         </div>
       </nav>
       <!--menu-->
 
       <!--content-->
-      <div class="toad-content-box">
-
+      <div class="toad-content-box col-md-10 offset-md-1">
         <h1 class="display-4 text-center">O velho e querido jQuery!</h1>
 
         <blockquote class="blockquote text-center">
-          <p class="lead mb-0"><strong>jQuery TOAD (The Old And Dear)</strong> é antes de mais nada, meu tributo ao velho e querido jQuery.</p>
+          <p class="lead mb-0">
+            <strong>jQuery TOAD (The Old And Dear)</strong> é antes de mais nada, meu tributo ao velho e querido jQuery.</p>
           <p class="lead">Trata-se de uma biblioteca simples que ajuda você a organizar seu código de aplicação baseado em jQuery.</p>
           <footer class="blockquote-footer">por
             <cite title="Erlimar Silva Campos" class="text-info">Erlimar Silva Campos</cite>
@@ -99,9 +86,35 @@
 
   </div>
 
+  <footer class="text-secondary  bg-light toad-footer-box">
+    <div class="container">
+      <p class="lead text-center" data-gui="copyright"></p>
+      <div class="my-2 my-lg-0 text-center">
+        <a class="btn btn-secondary" target="_blank" href="https://github.com/e5r/jquery-toad" role="button" title="@e5r/jquery-toad">
+          <i class="fab fa-github"></i>
+        </a>
+        <a class="btn btn-info" target="_blank" href="https://erlimar.wordpress.com" title="erlimar.wordpress.com" role="button">
+          <i class="fab fa-wordpress-simple"></i>
+        </a>
+        <a class="btn btn-primary" target="_blank" href="https://twitter.com/erlimar" title="@erlimar" role="button">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a class="btn btn-danger" target="_blank" href="https://www.youtube.com/channel/UC6zPtVBfcAdkzq7-dpSlhdw" title="E5R Development Team"
+          role="button">
+          <i class="fab fa-youtube"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
   <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.js"></script>
   <script src="https://unpkg.com/bootstrap@4.1.2/dist/js/bootstrap.js"></script>
+  <script src="https://unpkg.com/highlightjs@9.10.0/highlight.pack.js"></script>
   <script src="https://unpkg.com/jquery-toad/dist/jquery-toad.js"></script>
+
+  <!-- APP -->
+  <script src="app/components/code-block-component.js"></script>
+  <script src="app/components/copyright-component.js"></script>
   <script src="app/controllers/home-controller.js"></script>
 </body>
 
