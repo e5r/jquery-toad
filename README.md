@@ -1,12 +1,4 @@
-# jQuery TOAD
-
-```
-      _ ____                      __________  ___   ___ 
-     (_) __ \__ _____ ______ __  /_  __/ __ \/ _ | / _ \
-    / / /_/ / // / -_) __/ // /   / / / /_/ / __ |/ // /
- __/ /\___\_\_,_/\__/_/  \_, /   /_/  \____/_/ |_/____/ 
-|___/                   /___/                     v1.0
-```
+![jQuery TOAD](doc/art/jquery-toad-logo.png)
 
 [jQuery][JQUERY] TOAD (**T**he **O**ld **A**nd **D**ear) é, antes de mais nada, meu tributo ao
 __velho e querido jQuery__.
