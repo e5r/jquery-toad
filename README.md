@@ -1,4 +1,4 @@
-![jQuery TOAD](doc/art/jquery-toad-logo.png)
+![jQuery TOAD](docs/assets/jquery-toad-logo.png)
 
 [jQuery][JQUERY] TOAD (**T**he **O**ld **A**nd **D**ear) é, antes de mais nada, meu tributo ao
 __velho e querido jQuery__.
