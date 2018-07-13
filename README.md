@@ -13,10 +13,11 @@ Você vai precisar de:
 * [NodeJS][NODEJS]
 * [Git][GIT]
 
-Daí é tão simples como executar dois comandos no shell:
+Daí é tão simples como executar três comandos no shell:
 
 ```
 $ git clone https://github.com/e5r/jquery-toad
+$ cd jquery-toad
 $ npm run build
 ```
 
