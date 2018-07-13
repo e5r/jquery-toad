@@ -34,11 +34,10 @@ $namespace(1, '@', function (exports) {
         //      implementação de [Object.defineProperties]
         if (typeof Object.defineProperties !== 'function') {
             console.warn('WARNING!', 'Object.defineProperty is not supported!');
-            constants[constName] = constValue;
-            return;
+            return constants[constName] = constValue;
         }
 
-        var newConsts = Object.defineProperty(constants, constName, {
+        return Object.defineProperty(constants, constName, {
             // TODO: Mudar para [false], isso irá impedir o uso de [for(var c in constants)]
             //       porém será necessário fornecer algum meio para listar as constantes
             enumerable: true,
@@ -47,6 +46,6 @@ $namespace(1, '@', function (exports) {
             writable: false,
 
             value: constValue
-        });
+        })[constName];
     }
 })

@@ -90,5 +90,5 @@ var MY_CONST = {__TOAD__}.constant('MY_CONST', VALUE_FOR_MY_CONST)
 $toad.constant = function (constName, constValue) {
     var internals = $require('@').__internals__;
 
-    internals.setConstant(constName, constValue);
+    return internals.setConstant(constName, constValue);
 }
