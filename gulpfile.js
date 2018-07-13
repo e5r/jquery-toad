@@ -2,7 +2,8 @@ var fs = require('fs'),
     del = require('del'),
     gulp = require('gulp'),
     concat = require('gulp-concat-util'),
-    uglify = require("gulp-uglify"),
+    uglify = require('gulp-uglify'),
+    serve = require('gulp-serve'),
     pkg = require('./package.json');
 
 var globalInitJs = fs.readFileSync('./src/global-init.js'),
@@ -49,6 +50,8 @@ gulp.task('js-min', ['js'], function () {
 gulp.task('watch', function () {
     return gulp.watch('src/**/*.js', ['dist']);
 });
+
+gulp.task('serve', serve('docs/'));
 
 gulp.task('dist', ['js', 'js-min']);
 gulp.task('default', ['dist']);
