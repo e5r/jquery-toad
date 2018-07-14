@@ -19,7 +19,7 @@ html(lang="pt-br")
         script.
             var __TOAD__ = 'TOAD';
 
-    body(data-controller="home")
+    body(data-controller="main")
         //- Container
         div(class="container")
             div(class="toad-main-box bg-light border-dark")
@@ -28,7 +28,7 @@ html(lang="pt-br")
             
                 //- Menu
                 nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
-                    a(class="navbar-brand", href="#") Home
+                    a(class="navbar-brand", href="/") Home
                     
                     //- Botão do menu para mobile
                     button(class="navbar-toggler", type="button", data-toggle="collapse", data-target="#main-menu", aria-controls="main-menu", aria-expanded="false", aria-label="Alterna navegação")
@@ -38,7 +38,7 @@ html(lang="pt-br")
                     div(class="collapse navbar-collapse", id="main-menu")
                         ul(class="navbar-nav mr-auto")
                             li(class="nav-item active")
-                                a(class="nav-link" href="#") Qual a motivação?
+                                a(class="nav-link" href="motivacao.html") Qual a motivação?
                             li(class="nav-item dropdown")
                                 a(class="nav-link dropdown-toggle", href="#", id="submenu-documentacao", role="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false") Documentação
                                 
@@ -56,7 +56,7 @@ html(lang="pt-br")
 
                 //- Conteúdo
                 div(class="toad-content-box col-md-10 offset-md-1")
-                block content
+                    block content
 
         //- Rodapé
         footer(class="text-secondary bg-light toad-footer-box")
@@ -78,3 +78,4 @@ html(lang="pt-br")
         block scripts
             +component-js("code-block")
             +component-js("copyright")
+            +controller-js("main")

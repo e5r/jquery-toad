@@ -20,7 +20,7 @@ TOAD.namespace('app/controllers', function (exports) {
      * @constructor
      * @param {DOM} el - Elemento DOM da controller
      */
-    function HomeController(el) {
+    function MainController(el) {
 
         changeBgColor(el)
         setInterval(changeBgColor, CHANGE_COLOR_INTERVAL, el)
@@ -46,8 +46,8 @@ TOAD.namespace('app/controllers', function (exports) {
         $el.addClass(twbsClass);
     }
 
-    exports.HomeController = register({
-        name: 'home',
-        ctor: HomeController
+    exports.MainController = register({
+        name: 'main',
+        ctor: MainController
     })
 })
