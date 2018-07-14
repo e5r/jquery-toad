@@ -28,12 +28,12 @@
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-concat-util": "^0.5.5",
+    "gulp-pug": "^4.0.1",
     "gulp-serve": "^1.4.0",
     "gulp-uglify": "^3.0.0"
   },
   "scripts": {
     "build": "npm install && gulp",
-    "start": "gulp watch",
-    "serve": "gulp serve"
+    "start": "gulp serve"
   }
 }
