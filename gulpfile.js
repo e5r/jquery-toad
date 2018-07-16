@@ -30,7 +30,7 @@ var ENV_URL_BASE = 'TOAD_WEBSITE_URL_BASE',
 
 if (!WEBSITE_URL_BASE) {
     /* https://e5r.github.io/jquery-toad */
-    WEBSITE_URL_BASE = 'https://e5r.github.io/jquery-toad';
+    WEBSITE_URL_BASE = '/jquery-toad';
 }
 
 gulp.task('clean', function () {
