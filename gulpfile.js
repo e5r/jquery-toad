@@ -1,3 +1,5 @@
+var ENV_URL_BASE = 'TOAD_WEBSITE_URL_BASE';
+
 var fs = require('fs'),
     del = require('del'),
     gulp = require('gulp'),
@@ -23,6 +25,15 @@ var libs = [
 
     "src/**/*.js"
 ];
+
+console.log('******', process.env[ENV_URL_BASE], '******');
+
+var WEBSITE_URL_BASE = process.env[ENV_URL_BASE];
+
+if (!WEBSITE_URL_BASE) {
+    /* https://e5r.github.io/jquery-toad */
+    WEBSITE_URL_BASE = '/jquery-toad';
+}
 
 gulp.task('clean', function () {
     return del([
@@ -97,7 +108,8 @@ gulp.task('build:website', [
             pretty: true,
             data: {
                 pkg: pkg,
-                title: 'jQuery TOAD'
+                title: 'jQuery TOAD',
+                urlBase: WEBSITE_URL_BASE
             }
         }))
         .pipe(gulp.dest('docs'))
