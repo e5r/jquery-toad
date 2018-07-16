@@ -1,6 +1,6 @@
-var ENV_URL_BASE = 'TOAD_WEBSITE_URL_BASE';
+var ENV_URL_BASE = 'TOAD_WEBSITE_URL_BASE',
 
-var fs = require('fs'),
+    fs = require('fs'),
     del = require('del'),
     gulp = require('gulp'),
     concat = require('gulp-concat-util'),
@@ -8,31 +8,29 @@ var fs = require('fs'),
     uglify = require('gulp-uglify'),
     pug = require('gulp-pug'),
     serve = require('gulp-serve'),
-    pkg = require('./package.json');
+    pkg = require('./package.json'),
 
-var globalInitJs = fs.readFileSync('./src/global-init.js'),
+    globalInitJs = fs.readFileSync('./src/global-init.js'),
     scopeInitJs = fs.readFileSync('./src/scope-init.js'),
     scopeFinishJs = fs.readFileSync('./src/scope-finish.js'),
     headerTxt = fs.readFileSync('./header.txt'),
     scopeHeaderTxt = fs.readFileSync('./scope_header.txt'),
     scopeFooterTxt = fs.readFileSync('./scope_footer.txt'),
-    bannerTxt = fs.readFileSync('./banner.txt');
+    bannerTxt = fs.readFileSync('./banner.txt'),
 
-var libs = [
-    "!src/global-init.js",
-    "!src/scope-init.js",
-    "!src/scope-finish.js",
+    libs = [
+        "!src/global-init.js",
+        "!src/scope-init.js",
+        "!src/scope-finish.js",
 
-    "src/**/*.js"
-];
+        "src/**/*.js"
+    ],
 
-console.log('******', process.env[ENV_URL_BASE], '******');
-
-var WEBSITE_URL_BASE = process.env[ENV_URL_BASE];
+    WEBSITE_URL_BASE = process.env[ENV_URL_BASE];
 
 if (!WEBSITE_URL_BASE) {
     /* https://e5r.github.io/jquery-toad */
-    WEBSITE_URL_BASE = '/jquery-toad';
+    WEBSITE_URL_BASE = 'https://e5r.github.io/jquery-toad';
 }
 
 gulp.task('clean', function () {
