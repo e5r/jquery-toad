@@ -5,10 +5,10 @@ mixin unpkg-css(pkg, path)
     link(rel="stylesheet", href="https://unpkg.com/" + pkg + "/" + path)
 
 mixin controller-js(name)
-    script(src="/app/controllers/" + name + "-controller.js")
+    script(src="app/controllers/" + name + "-controller.js")
 
 mixin component-js(name)
-    script(src="/app/components/" + name + "-component.js")
+    script(src="app/components/" + name + "-component.js")
 
 mixin fa-icon(btn, fa, href, alt)
     a(class="btn btn-" + btn, target="_blank", href=href, role="button", title=alt)

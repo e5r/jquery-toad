@@ -7,14 +7,13 @@ html(lang="pt-br")
         meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
 
-        base(href=urlBase)
         title #{title}
 
         link(rel="icon", href="images/jquery-toad-icon.png")
         +unpkg-css("bootstrap@4.1.2", "dist/css/bootstrap.css")
         link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.1.0/css/all.css")
         +unpkg-css("highlightjs@9.10.0", "styles/tomorrow.css")
-        link(rel="stylesheet", href="/style/toad.css")
+        link(rel="stylesheet", href="style/toad.css")
 
         //- Script de inicialização TOAD
         script.
@@ -25,11 +24,11 @@ html(lang="pt-br")
             div(class="container")
                 div(class="toad-main-box bg-light border-dark")
                     div(class="toad-logo-box")
-                        img(class="img-fluid" src="/images/jquery-toad-logo.png" alt="Logo jQuery TOAD")
+                        img(class="img-fluid" src="images/jquery-toad-logo.png" alt="Logo jQuery TOAD")
                 
                     //- Menu
                     nav(class="navbar navbar-expand-lg navbar-dark bg-dark")
-                        a(class="navbar-brand" href="/") Home
+                        a(class="navbar-brand" href="index.html") Home
                         
                         //- Botão do menu para mobile
                         button(class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Alterna navegação")
@@ -39,7 +38,7 @@ html(lang="pt-br")
                         div(class="collapse navbar-collapse" id="main-menu")
                             ul(class="navbar-nav mr-auto")
                                 li(class="nav-item active")
-                                    a(class="nav-link" href="/motivacao.html") Qual a motivação?
+                                    a(class="nav-link" href="motivacao.html") Qual a motivação?
                                 li(class="nav-item dropdown")
                                     a(class="nav-link dropdown-toggle" href="#" id="submenu-documentacao" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false") Documentação
                                     
