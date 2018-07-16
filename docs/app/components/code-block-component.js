@@ -34,10 +34,7 @@ TOAD.namespace('app/components', function (exports) {
         }
     }
 
-    exports.CodeBlockComponent = register({
-        name: 'code-block',
-        ctor: CodeBlockComponent
-    })
+    exports.CodeBlockComponent = register('code-block', CodeBlockComponent)
 
     function _loadInit(el) {
         el.addClass('alert')
@@ -126,6 +123,4 @@ TOAD.namespace('app/components', function (exports) {
             return value
         }
     }
-
-
 })

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+    var __TOAD__ = 'MYAPP'
+  </script>
+</head>
+
+<body data-controller="my">
+  <button data-events="click=>onClickMessage">Diga olá por alerta!</button>
+  <button data-events="click=>onClickH1">Diga olá no H1!</button>
+  <h1>A mensagem virá aqui em baixo:</h1>
+  <h1 data-id="message"></h1>
+  <script src="https://unpkg.com/jquery@1.12.4/dist/jquery.js"></script>
+  <script src="https://unpkg.com/jquery-toad/dist/jquery-toad.js"></script>
+  <script src="my-controller.js"></script>
+</body>
+
+</html>
