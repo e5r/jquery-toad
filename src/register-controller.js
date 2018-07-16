@@ -16,10 +16,11 @@ $namespace(3, '@', function (exports) {
     /**
      * Registra um controlador
      *
-     * @param {object} options - Opções do controlador
+     * @param {string} name - Nome do controlador
+     * @param {function} ctor - Função construtora do controlador
      */
-    exports.registerController = function (options) {
-        options = ensureOptions(options);
+    exports.registerController = function (name, ctor) {
+        var options = ensureOptions({ name: name, ctor: ctor });
 
         var controllerName = options[NAME_FIELD];
 
@@ -50,7 +51,7 @@ $namespace(3, '@', function (exports) {
     }
 
     function invalidOptionMessage(fieldName, fieldType) {
-        return 'Invalid @controller option#{name}. Must be a {type}.'
+        return 'Invalid @controller.{name}. Must be a {type}.'
             .replace('{name}', fieldName)
             .replace('{type}', fieldType);
     }

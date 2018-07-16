@@ -1,4 +1,6 @@
 E5R.namespace('app/components', function (exports) {
+    "use strict";
+
     var $ = E5R.$jq,
         register = E5R.require('@registerComponent'),
 
@@ -21,8 +23,5 @@ E5R.namespace('app/components', function (exports) {
         $this.on('click', handler)
     };
 
-    exports['ToggleableComponent'] = register({
-        name: 'toggleable',
-        ctor: ToggleableComponent
-    });
+    exports['ToggleableComponent'] = register('toggleable', ToggleableComponent);
 });

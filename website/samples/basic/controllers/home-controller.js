@@ -1,4 +1,6 @@
 E5R.namespace('app/controllers', function (exports) {
+    "use strict";
+
     var $ = E5R.$jq,
         utils = E5R.require('utils'),
         register = E5R.require('@registerController'),
@@ -23,8 +25,5 @@ E5R.namespace('app/controllers', function (exports) {
         utils.setPageTitle(self.$options.pageTitle || utils.getPageTitle);
     }
 
-    exports['HomeController'] = register({
-        name: 'home',
-        ctor: HomeController
-    });
+    exports['HomeController'] = register('home', HomeController);
 });

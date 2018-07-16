@@ -14,10 +14,11 @@ $namespace(3, '@', function (exports) {
     /**
      * Registra um componente
      *
-     * @param {object} options - Opções do componente
+     * @param {string} name - Nome do componente
+     * @param {function} ctor - Função construtora do componente
      */
-    exports.registerComponent = function (options) {
-        options = ensureOptions(options);
+    exports.registerComponent = function (name, ctor) {
+        var options = ensureOptions({ name: name, ctor: ctor });
 
         var componentName = options[NAME_FIELD],
             componentJqName = 'gui-{name}'.replace('{name}', componentName),
@@ -68,7 +69,7 @@ $namespace(3, '@', function (exports) {
     }
 
     function invalidOptionMessage(fieldName, fieldType) {
-        return 'Invalid @component option#{name}. Must be a {type}.'
+        return 'Invalid @component.{name}. Must be a {type}.'
             .replace('{name}', fieldName)
             .replace('{type}', fieldType);
     }

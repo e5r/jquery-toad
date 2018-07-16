@@ -1,4 +1,6 @@
 MYAPP.namespace('controllers', function () {
+    "use strict";
+
     var register = MYAPP.require('@registerController');
 
     function MyController() {
@@ -13,8 +15,5 @@ MYAPP.namespace('controllers', function () {
         }
     }
 
-    register({
-        name: 'my',
-        ctor: MyController
-    });
+    register('my', MyController);
 })
