@@ -2,6 +2,7 @@ var fs = require('fs'),
     del = require('del'),
     gulp = require('gulp'),
     concat = require('gulp-concat-util'),
+    rename = require('gulp-rename'),
     uglify = require('gulp-uglify'),
     pug = require('gulp-pug'),
     serve = require('gulp-serve'),
@@ -43,6 +44,12 @@ gulp.task('build:js', function () {
         .pipe(gulp.dest('dist'));
 });
 
+gulp.task('build:js-version', ['build:js'], function () {
+    return gulp.src('dist/jquery-toad.js')
+        .pipe(rename('jquery-toad-' + pkg.version + '.js'))
+        .pipe(gulp.dest('dist'))
+})
+
 gulp.task('build:js-min', ['build:js'], function () {
     return gulp.src('dist/jquery-toad.js')
         .pipe(concat('jquery-toad.min.js'))
@@ -50,6 +57,12 @@ gulp.task('build:js-min', ['build:js'], function () {
         .pipe(concat.header(headerTxt, { pkg: pkg }))
         .pipe(gulp.dest('dist'))
 });
+
+gulp.task('build:js-min-version', ['build:js-min'], function () {
+    return gulp.src('dist/jquery-toad.min.js')
+        .pipe(rename('jquery-toad-' + pkg.version + '.min.js'))
+        .pipe(gulp.dest('dist'))
+})
 
 gulp.task('build:website-assets', function () {
     return gulp.src('website/assets/**/*')
@@ -61,7 +74,22 @@ gulp.task('build:website-app', function () {
         .pipe(gulp.dest('docs/app'))
 })
 
-gulp.task('build:website', ['build:website-assets', 'build:website-app'], function () {
+gulp.task('build:website-samples', function () {
+    return gulp.src('website/samples/**/*')
+        .pipe(gulp.dest('docs/samples'))
+})
+
+gulp.task('build:website-dist', ['build:js-version', 'build:js-min-version'], function () {
+    return gulp.src('dist/**/*')
+        .pipe(gulp.dest('docs/lib'))
+})
+
+gulp.task('build:website', [
+    'build:website-assets',
+    'build:website-app',
+    'build:website-samples',
+    'build:website-dist'
+], function () {
     return gulp.src([
         'website/**/*.pug',
         '!website/**/_*.pug'])
@@ -76,6 +104,5 @@ gulp.task('build:website', ['build:website-assets', 'build:website-app'], functi
 })
 
 gulp.task('serve', ['build:website'], serve('docs/'));
-
-gulp.task('dist', ['build:js', 'build:js-min', 'build:website']);
+gulp.task('dist', ['build:js-version', 'build:js-min-version', 'build:website']);
 gulp.task('default', ['dist']);
