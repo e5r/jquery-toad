@@ -1,4 +1,6 @@
 E5R.namespace('app', function (exports) {
+    "use strict";
+
     var utils = E5R.require('app/utils'),
         Config = E5R.require('@config');
 

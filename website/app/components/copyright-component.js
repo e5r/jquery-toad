@@ -14,8 +14,5 @@ TOAD.namespace('app/components', function (exports) {
         $this.text(TEMPLATE.replace('{year}', new Date().getFullYear()))
     }
 
-    exports.CopyrightComponent = register({
-        name: 'copyright',
-        ctor: CopyrightComponent
-    })
+    exports.CopyrightComponent = register('copyright', CopyrightComponent)
 })
