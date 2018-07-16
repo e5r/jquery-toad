@@ -5,7 +5,7 @@ if (typeof jQuery !== 'function') {
 }
 
 /* DOM - Document Object Model é pré-requisito */
-if (typeof window !== 'object' || typeof document !== 'object') {
+if (typeof window !== 'object' || typeof window.document !== 'object') {
     throw new Error("jQuery TOAD\'s requires a DOM (Document Object Model)!");
 }
 

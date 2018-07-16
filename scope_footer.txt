@@ -4,7 +4,7 @@
     jQuery,
 
     /* $elm */
-    document,
+    window.document,
 
     /* $toad */
     window[__TOAD__]
