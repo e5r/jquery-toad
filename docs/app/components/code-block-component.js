@@ -106,7 +106,7 @@ TOAD.namespace('app/components', function (exports) {
             }
         }
 
-        pre.addClass('card')
+        pre.addClass(['card', 'shadow'])
         pre.text(contentArrayFiltered.join('\n'))
         hljs.highlightBlock(pre[0])
         el.append(pre)

@@ -8,7 +8,7 @@
     <link rel="icon" href="images/jquery-toad-icon.png">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap@4.1.2/dist/css/bootstrap.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
-    <link rel="stylesheet" href="https://unpkg.com/highlightjs@9.10.0/styles/atom-one-dark.css">
+    <link rel="stylesheet" href="https://unpkg.com/highlightjs@9.10.0/styles/github-gist.css">
     <link rel="stylesheet" href="style/toad.css">
     <script>
       var __TOAD__ = 'TOAD';
@@ -55,9 +55,9 @@
             </p>
             <h2>Criando o código inicial</h2>
             <p class="lead">Crie um arquivo <code>index.html</code> com o seguinte conteúdo:</p>
-            <div data-gui="code-block" data-file-path="samples/tutorial/quickstart/index.html"></div>
+            <div data-gui="code-block" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html"></div>
             <p class="lead">Crie também um arquivo <code>my-controller.js</code> com o seguinte conteúdo:</p>
-            <div data-gui="code-block" data-file-path="samples/tutorial/quickstart/my-controller.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/tutorial/quickstart/my-controller.js"></div>
             <p class="lead">
               Isso é tudo o que precisamos.
               Abra o arquivo <code>index.html</code> em seu navegador preferido e você verá dois botões:
@@ -67,7 +67,7 @@
               Clicando no segundo a mesma mensagem será atribuída a um título <code>h1</code> logo abaixo dos botões na própria página.
             </p>
             <blockquote class="blockquote">Na verdade a mensagem será apresentada em um segundo <code>h1</code>, porque já existirá um contendo o texto <i>"A mensagem virá aqui em baixo:"</i>.</blockquote>
-            <div data-gui="demo" data-file-path="samples/tutorial/quickstart/index.html"></div>
+            <div data-gui="demo" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html"></div>
             <h2>Entendendo os conceitos básicos</h2>
             <p class="lead">
               Após você experimentar a aplicação funcionando em seu navegador, e ver com os próprios olhos 
@@ -82,9 +82,9 @@
               Com exceção das linhas de <code>6 a 8</code> no aquivo <code>index.html</code> (iremos falar sobre isso logo abaixo)
               não temos código JavaScript misturado com HTML (isso também se aplica pra código CSS).
             </p>
-            <div data-gui="code-block" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="6" data-line-end="8"></div>
+            <div data-gui="code-block" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="6" data-line-end="8"></div>
             <p class="lead">Isso também é percebido nas linhas <code>12 e 13</code> também do arquivo <code>index.html</code>:</p>
-            <div data-gui="code-block" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="12" data-line-end="13"></div>
+            <div data-gui="code-block" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="12" data-line-end="13"></div>
             <p class="lead">
               Aqui ao invés de usar a propriedade HTML <code>onclick</code> <i>(que é específica para o fim)</i>
               nós usamos uma sintaxe um pouco diferente que é fornecida pela biblioteca jQuery TOAD.
@@ -98,7 +98,7 @@
               Todo o código JavaScript em sí é carregado de arquivos específicos.
               Veja isso nas linhas de <code>16 a 18</code> no arquivo <code>index.html</code>.
             </p>
-            <div data-gui="code-block" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="16" data-line-end="18"></div>
+            <div data-gui="code-block" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="16" data-line-end="18"></div>
             <p class="lead">
               O resultado disso é que seus arquivos ficam muito mais legíveis.
               É muito mais fácil você trabalhar nesse arquivo sabendo que o que está contido nele é puramente código HTML.
@@ -119,7 +119,7 @@
               A biblioteca jQuery TOAD te ajuda a fazer isso.
             </p>
             <p class="lead">Veja que na linha <code>11</code> do <code>arquivo index.html</code> anotamos algo na tag <code>body,</code>:</p>
-            <div data-gui="code-block"><!--[CDATA[<body data-controller="my">]]--></div>
+            <div data-gui="code-block" data-lang="html"><!--[CDATA[<body data-controller="my">]]--></div>
             <p class="lead">
               Com isso jQuery TOAD já sabe ligar esse elemento HTML <code>body</code> a um objeto JavaScript correspondente,
               neste caso identificado por <code>my</code>.
@@ -174,7 +174,7 @@
               Esse deve ser o único objeto global que sua aplicação "pendura" na <code>window</code>.
             </p>
             <p class="lead">Lembra quando falei no item 1: ... <i>"Com exceção das linhas de 6 a 8 no aquivo index.html..."</i></p>
-            <div data-gui="code-block" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="6" data-line-end="8"></div>
+            <div data-gui="code-block" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html" data-line-begin="6" data-line-end="8"></div>
             <p class="lead">
               Pois bem, o único motivo de existir esse trecho de código em sua página HTML é pra definir qual será o nome do
               objeto global que conterá a aplicação <strong>TOAD</strong>.
