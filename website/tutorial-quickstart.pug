@@ -94,4 +94,210 @@ block content
         | O resultado disso é que seus arquivos ficam muito mais legíveis.
         | É muito mais fácil você trabalhar nesse arquivo sabendo que o que está contido nele é puramente código HTML.
 
+    h4 2. Controle sua visão
+
+    p.lead
+        | Quando apresentamos a primeira regra, <strong>1 - Não misture HTML com JavaScript</strong>,
+        | o que queremos dizer é muito mais amplo, queremos dizer: <strong><i>"Não misture, mas separe as coisas"</i></strong>.
+
+    p.lead
+        | Separe o que é código de apresentação (a visão do usuário), ou seja, o próprio HTML, do código que
+        | controla a sua aplicação, isso é o seu código JavaScript.
+
+    p.lead
+        | Esse é o princípio do <i>MVC (Model, View e Controller - Modelo, Visão e Controlador)</i>
+        | (<a href="conceito-mvc.html">saiba mais sobre MVC nesse artigo</a>), e nós propomos o uso desse
+        | conceito para desenvolver suas aplicações jQuery.
+        | A biblioteca jQuery TOAD te ajuda a fazer isso.
+
+    p.lead
+        | Veja que na linha <code>11</code> do <code>arquivo index.html</code> anotamos algo na tag <code>body,</code>:
+
+    div(data-gui="code-block")
+        <!--[CDATA[<body data-controller="my">]]-->
+
+    p.lead
+        | Com isso jQuery TOAD já sabe ligar esse elemento HTML <code>body</code> a um objeto JavaScript correspondente,
+        | neste caso identificado por <code>my</code>.
+
+    h4 3. Seja semântico
+
+    p.lead
+        | Ser semântico é dar e observar a <i>"significação"</i> das coisas.
+        | É o que chamo de: <strong><i>"uma coisa é uma coisa, outra coisa é outra coisa"</i></strong>.
+
+    p.lead
+        | No arquivo <code>index.html</code>, na linha <code>15</code>, nós identificamos o elemento <code>h1</code>
+        | com um dado personalizado <code>data-id="message"</code>, isso é uma marca que estamos fazendo para encontrar
+        | este item mais tarde por nossa controller, no caso para saber onde apresentar o texto da mensagem.
+
+    div(data-gui="code-block" data-lang="html")
+        <!--[CDATA[<h1 data-id="message"></h1>]]-->
+
+    P.lead
+        | Muitos de nós já estamos acostumados a fazer isso usando a propriedade <code>id</code>, o que ficaria assim:
+    
+    div(data-gui="code-block" data-lang="html")
+        <!--[CDATA[<h1 id="message"></h1>]]-->
+    
+    p.lead
+        | Outros ainda usam uma classe, o que ficaria assim:
+    
+    div(data-gui="code-block" data-lang="html")
+        <!--[CDATA[<h1 class="message"></h1>]]-->
+
+    blockquote.blockquote
+        | Na verdade, já que estamos falando de semântica, o ideal aqui seria usar a propriedade <code>id</code> para tal,
+        | ao invés de <code>data-id</code>.
+        | Mais tarde em outro tutorial estaremos vendo porque usar <code>id</code> não é o ideal, por agora só peço que entenda
+        | que <code>data-id="message"</code> é a nossa forma de marcar um elemento para identificá-lo mais tarde.
+
+    p.lead
+        | O não tão ideal seria usar a propriedade <code>class</code>, que apesar de servir para identificação, ou seja para 
+        | classificar elementos, nós a usamos muito mais para identificar elementos para uso em estilos CSS, então deixamos assim:
+
+    ul
+        li Quando temos um <code>class="message"</code> podemos inferir que isso identifica um elemento para fins de apresentação;
+        li Quando temos um <code>data-id="message"</code> podemos inferir que isso identifica um elemento para fins de controle de aplicação;
+
+    p.lead
+        | Com isso deixamos claro que <i>"uma coisa é uma coisa"</i> e <i>"outra coisa é outra coisa"</i>.
+        | E o mais importante é que isso não infringe as regras de semântica do HTML, porque o atributo <code>data-*</code> está aí
+        | justamente para acoplar dados personalizados a nossos elementos, só o que estamos fazendo é usando-os para o que são feitos.
+
+    h4 4. Modularize
+
+    p.lead
+        | Seja para o reaproveitamento de código, para a segurança de código (um código não interferir no funcionamento de oturo), para a
+        | organização (cada coisa no seu lugar), ou simplesmente para a simplicidade (é muito mais fácil ler o código pequeno de uma controller,
+        | do que achar o trecho responsável pela controller num arquivo gigante de aplicação).
+
+    p.lead
+        | Qualquer que seja o seu propósito, modularizar é o princípio de tudo, e logo na linha <code>1</code> do arquivo <code>my-controller.js</code>
+        | nós temos a jQuery TOAD nos ajudando com isso:
+
+    div(data-gui="code-block" data-lang="js")
+        <!--[CDATA[MYAPP.namespace('controllers', function () {]]-->
+
+    p.lead
+        | Primeiramente nós temos esse objeto global <code>MYAPP</code>.
+        | Esse deve ser o único objeto global que sua aplicação "pendura" na <code>window</code>.
+
+    p.lead
+        | Lembra quando falei no item 1: ... <i>"Com exceção das linhas de 6 a 8 no aquivo index.html..."</i>
+
+    div(data-gui="code-block"
+        data-file-path="samples/tutorial/quickstart/index.html"
+        data-line-begin="6"
+        data-line-end="8")
+
+    p.lead
+        | Pois bem, o único motivo de existir esse trecho de código em sua página HTML é pra definir qual será o nome do
+        | objeto global que conterá a aplicação <strong>TOAD</strong>.
+        | Como definimos para <code>MYAPP</code>, tudo partirá de <code>MYAPP</code>..., se você der outro nome, já sabe o que fazer.
+
+    blockquote.blockquote
+        | Na verdade sempre teremos dois objetos globais, um será a variável <code>__TOAD__</code> que contém o nome do objeto global
+        | da aplicação, e outro será o próprio objeto global da aplicação em si.
+        | Mas didaticamente isto não é importante (rsss).
+
+    p.lead
+        | Poderíamos pré-definir um nome como <code>App</code>, ou mesmo <code>$ClientApp</code> ou algo desse tipo (pensei nisso a princípio),
+        | e com isso não precisaríamos do trecho de código JavaScript contido no HTML acima.
+        | Mas entendemos que o nome da aplicação diz muito nos scripts que escrevemos.
+        | Por exemplo, imagine que sua aplicação se chama <string>SIGF</strong> (Sistema Integrado de Gestão de Frameworks),
+        | então um trecho de código como esse:
+
+    div(data-gui="code-block" data-lang="js")
+        <!--[CDATA[SIGF.namespace(/*...*/)]]-->
+
+    p.lead É muito sugestivo, não!?
+
+    p.lead
+        | Entenda que <code>MYAPP</code> é o seu módulo principal de aplicação, e dentro deste módulo estarão vários outros módulos (submódulos)
+        | que você construirá de acordo com sua necessidade, para abrigar suas várias peças de software, e para isso você usará espaços de nomes
+        | para manter tudo catalogado e organizado.
+
+    p.lead
+        | No nosso exemplo, criamos um espaço de nomes chamado <code>controllers</code> e nele abrigamos o controllador de nossa página.
+        | Com isso já garantimos que nada irá vazar para a <code>window</code> ou outro escopo exterior.
+
+    p.lead
+        | O controlador em si é uma função JavaScript construtora padrão, e dentro dela nós criamos uma variável privada chamada message que contém
+        | a mensagem que desejamos exibir.
+        | Também definimos dois métodos públicos, <code>this.onClickMessage</code> e <code>this.onClickH1</code> que por sua vez são referenciados
+        | na nossa visão, lembra:
+
+    div(data-gui="code-block" data-lang="html")
+        <!--[CDATA[<button data-events="click=>onClickMessage">Diga olá por alerta!</button>]]-->
+
+    p.lead Com isso sabemos que o clicar de cada botão, chamará um método específico do controlador.
+
+    p.lead
+        | Aqui o importante é saber que o método precisa ser público para que <i>jQuery TOAD</i> possa vinculá-lo corretamente, ou seja,
+        | o método precisa estar "pendurado" no <code>this</code> do controlador.
+
+    p.lead O código de cada método em nossa controller é JavaScript puro ou jQuery puro e não precisa de maiores explicações.
+
+    p.lead
+        | O que temos de diferente ainda são somente a linha <code>2</code> do arquivo <code>my-controller.js</code>, que usa o recurso
+        | require do <i>jQuery TOAD</i> para acessar os módulos de nossa aplicação.
+
+    p.lead
+        | Aqui no caso estamos acessando um objeto especial chamado <code>@registerController</code>, que é um recursos da jQuery TOAD,
+        | nós o utilizamos mais abaixo na linha <code>18</code> pra registrar nossa controller, chamada de <code>my</code> e 
+        | vinculada ao objeto <code>MyController</code>:
+
+    div(data-gui="code-block" data-lang="js")
+        <!--[CDATA[register('my', MyController);]]-->
+
+    p.lead
+        | Você seguirá a mesma lógica sempre que precisar acessar objetos entre os vários espaços de nomes.
+        | Já que nós criamos um espaço de nomes chamado <code>controllers</code>, imagine também que você criou outro espaço de nomes 
+        | chamado utils.
+        | Então de dentro de <code>controllers</code>, caso precise acessar objetos de <code>utils</code> você usaria algo como:
+
+    div(data-gui="code-block" data-lang="js")
+        <!--[CDATA[var utils = MYAPP.require('utils');]]-->
+
+    p.lead
+        | Daí é só você utilizar o conteúdo de utils.
+        | É claro que ainda falta falar sobre <strong>require/exports</strong>, mas trataremos disso em outro tutorial.
+    
+    h2 Concluindo
+
+    p.lead
+        | Mesmo sendo um exemplo de código tão pequeno, serviu para explanarmos sobre nossa proposta de como podemos desenvolver
+        | aplicações jQuery de uma forma padronizada, e aplicando boas práticas que nos fazem tanto bem.
+        | Se você investir um pouco de tempo estudando essa nossa proposta, verá que pode aplicá-la imediatamente em seus
+        | projetos que usam pura e exclusivamente jQuery e JavaScript.
+
+    p.lead
+        | Também me arrisco a dizer, que com esse investimento de tempo pra ler essa documentação por inteiro talvez te convença
+        | a ponderar melhor sobre a necessidade de ter que usar alguma abordagem <i>SPA</i> em todos os seus projetos.
+        | Talvez o <i>"velho e querido jQuery"</i> já seja mais do que suficiente.
+
+    p.lead
+        | Em suma o que queremos propor com <i>jQuery TOAD</i> é um padrão para desenvolver aplicações puramente JavaScript e
+        | jQuery seguindo essas simples regras:
+
+    ol.font-weight-bold
+        li Não misture HTML com JavaScript
+        li Controle sua visão
+        li Seja semântico
+        li Modularize
+    
+    p.lead
+        | Este tutorial pode não ser conclusivo para você entender o uso de jQuery TOAD, mas com certeza fala dos princípios
+        | que nortearam o seu desenvolvimento.
+
+    p.lead
+        | Convido você a ler todos os outros tutoriais e descobrir como essa biblioteca junto a essa documentação pode te ajudar
+        | a desenvolver aplicações jQuery mais sustentáveis.
+
+    p.lead
+        | Sua opinião também é muito bem vinda, seja para comentar sobre os vários erros contidos na documentação, quanto para
+        | tirar dúvidas e/ou propor melhorias.
+        | Fique à vontade, o código e a documentação estão aí pra isso.
+
 //- block append scripts
