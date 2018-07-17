@@ -1,0 +1,104 @@
+extends _layout.pug
+
+block content
+    h1(class="display-4 text-center")
+        | Guia de início rápido
+    
+    p.lead
+        | Neste tutorial rápido, nós iremos construir uma aplicação
+        | jQuery com o auxílio da biblioteca jQuery TOAD.
+
+    blockquote.blockquote
+        | Trata-se de uma página que contém um botão para exibir uma mensagem pré-definida como alerta, e outro botão
+        | que exibe a mesma mensagem, porém como o texto de um elemento <code>h1</code>.
+
+    p.lead
+        | É bem simples, mas servirá para exemplificar nossa proposta.
+        | Em outros tutoriais nós iremos evoluir pra algo melhor, de acordo com que formos introduzindo novos conceitos.
+
+    p.lead
+        | Lembrando que, o que chamamos aqui de <i>jQuery TOAD</i> é o conjunto da biblioteca JavaScript mais essa documentação.
+        | Porque não se trata apenas de código, mas de conceitos para desenvolvimento de aplicações usando jQuery.
+
+    h2 Criando o código inicial
+
+    p.lead Crie um arquivo <code>index.html</code> com o seguinte conteúdo:
+
+    div(data-gui="code-block" data-file-path="samples/tutorial/quickstart/index.html")
+
+    p.lead Crie também um arquivo <code>my-controller.js</code> com o seguinte conteúdo:
+
+    div(data-gui="code-block" data-file-path="samples/tutorial/quickstart/my-controller.js")
+
+    p.lead
+        | Isso é tudo o que precisamos.
+        | Abra o arquivo <code>index.html</code> em seu navegador preferido e você verá dois botões:
+    
+    p.lead
+        | Clicando no primeiro um alerta exibirá a mensagem <i>"Olá mundo jQuery TOAD!"</i>.
+        | Clicando no segundo a mesma mensagem será atribuída a um título <code>h1</code> logo abaixo dos botões na própria página.
+    
+    blockquote.blockquote
+        | Na verdade a mensagem será apresentada em um segundo <code>h1</code>, porque já existirá um contendo o texto <i>"A mensagem virá aqui em baixo:"</i>.
+
+    div(class="card mb-3")
+        div.card-header
+            i(class="fas fa-link text-muted") &nbsp;
+            span.text-muted samples/tutorial/quickstart/index.html
+            a(class="float-right" href="samples/tutorial/quickstart/index.html" target="_blank" title="Abrir em página separada")
+                i(class="fas fa-external-link-alt")
+        div(class="card-body embed-responsive embed-responsive-21by9")
+            iframe(class="embed-responsive-item" src="samples/tutorial/quickstart/index.html")
+
+    h2 Entendendo os conceitos básicos
+
+    p.lead
+        | Após você experimentar a aplicação funcionando em seu navegador, e ver com os próprios olhos 
+        | a jQuery TOAD em ação, vamos agora entender algums conceitos básicos.
+
+    p.lead
+        | O que construímos em termos de aplicação não é tão útil assim, porém é mínimo o suficiente pra
+        | falarmos dos conceitos que queremos propor com o uso dessa biblioteca ao desenvolver aplicações jQuery.
+
+    h4 1. Não misture HTML com JavaScript
+
+    p.lead
+        | Com exceção das linhas de <code>6 a 8</code> no aquivo <code>index.html</code> (iremos falar sobre isso logo abaixo)
+        | não temos código JavaScript misturado com HTML (isso também se aplica pra código CSS).
+
+    div(data-gui="code-block"
+        data-file-path="samples/tutorial/quickstart/index.html"
+        data-line-begin="6"
+        data-line-end="8")
+
+    p.lead
+        | Isso também é percebido nas linhas <code>12 e 13</code> também do arquivo <code>index.html</code>:
+
+    div(data-gui="code-block"
+        data-file-path="samples/tutorial/quickstart/index.html"
+        data-line-begin="12"
+        data-line-end="13")
+
+    p.lead
+        | Aqui ao invés de usar a propriedade HTML <code>onclick</code> <i>(que é específica para o fim)</i>
+        | nós usamos uma sintaxe um pouco diferente que é fornecida pela biblioteca jQuery TOAD.
+        | A vantagem dessa sobre a <code>onclick</code>, é que na <code>onclick</code> nós precisamos incluir
+        | código JavaScript, e nessa segunda abordagem na verdade o que estamos fazendo é informando que um
+        | evento chamado <code>onClickMessage</code> deve ser acionado ao ocorrer o evento <code>onclick</code> nativo do elemento HTML em si.
+        | Mas não informamos um código, porque o mesmo é definido por quem controla essa visão,
+        | no caso estamos falando do arquivo <code>my-controller.js</code>.
+
+    p.lead
+        | Todo o código JavaScript em sí é carregado de arquivos específicos.
+        | Veja isso nas linhas de <code>16 a 18</code> no arquivo <code>index.html</code>.
+    
+    div(data-gui="code-block"
+        data-file-path="samples/tutorial/quickstart/index.html"
+        data-line-begin="16"
+        data-line-end="18")
+
+    p.lead
+        | O resultado disso é que seus arquivos ficam muito mais legíveis.
+        | É muito mais fácil você trabalhar nesse arquivo sabendo que o que está contido nele é puramente código HTML.
+
+//- block append scripts
