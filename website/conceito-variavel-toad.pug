@@ -4,7 +4,70 @@ block content
     h1(class="display-4 text-center")
         | A variável <code>__TOAD__</code>
 
+    p.lead
+        | Uma das nossas regras é <i>"Não misture HTML com JavaScript"</i>, e com isso queremos dizer que você não
+        | deve incluir nenhum código JavaScript nas páginas HTML.
+        | Porém tudo deve ser dosado, e por isso abrimos uma exceção.
+
+    p.lead
+        | Toda aplicação <i>jQuery TOAD</i> requer que antes de chamar a biblioteca <code>jquery-toad.js</code> em si,
+        | precisa-se definir qual será o nome do módulo principal, onde estarão aninhados todos os outros módulos, e isso
+        | é feito definindo uma variável global chamada <code>__TOAD__</code>.
+
+    div(data-gui="code-block" data-lang="html" data-file-path="samples/snippets/var-toad-file1.html")
+
+    p.lead
+        | O nome que for definido aqui ditará como serão construídos os demais scripts, pois tudo será acessado à partir
+        | dessa variável global.
+        | Isso também corrobora com nosso outro objetivo, <i>"Modularize"</i>, visto que se trata de um módulo principal.
+
+    p.lead Ex:
+
+    div(data-gui="code-block" data-lang="js")
+        <!--[CDATA[MYAPP.namespace(/*...*/)]]-->
+
+    p.lead
+        | Tanto os objetos da própria biblioteca <i>jQuery TOAD</i> quanto os objetos da aplicação que está sendo
+        | desenvolvida serão acessados à partir desse módulo inicial.
+
+    p.lead
+        | Durante um tempo consideramos disponibilizar uma variável global, tipo <code>$toad</code>, assim como a própria
+        | jQuery faz com o uso de <code>$</code>, <a href="https://angularjs.org" target="_blank">AngularJS</a> faz com
+        | <code>angular</code>, ou <a href="https://vuejs.org" target="_blank">VueJS<a> faz com <code>Vue</code>.
+
     blockquote.blockquote
-        | Em construção!
+        | PS: Aqui não estamos falando de <a href="https://github.com/umdjs/umd" target="_blank">UMD</a>,
+        | <a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank">AMD</a>, 
+        | <a href="http://www.commonjs.org/" target="_blank">CommonJS</a> & Cia. Depois falamos disso.
+
+    p.lead
+        | Pensamos até em usar algo como App ou <code>$App</code> ou <code>ClientApp</code>, porque consideramos que se por
+        | um lado teríamos o módulo da própria <i>jQuery TOAD</i> a aplicação em si também poderia ter o seu próprio espaço de nomes.
+
+    p.lead
+        | Por fim, entendemos que o nome da aplicação tem muito significado quando estamos lendo o código, e como a nossa
+        | proposta é de simplesmente auxiliar no desenvolvimento da sua aplicação, preferimos ficar como coadjuvante.
+        | Então deixamos você dizer que nome prefere para sua aplicação, e então preparamos o mínimo necessário de utilitários
+        | que você precisará e o resto é contigo.
+
+    p.lead
+        | Como resultado, nós temos uma forma bem simples pra desenvolver nossa aplicação, visto que o ponto central já está definido.
+
+    p.lead
+        | <strong>Um exemplo:</strong>
+        | Caso você queira acessar um utilitário que a própria <i>jQuery TOAD</i> disponibiliza como a função setPageTitle 
+        | (que define o título da página) ou um outro utilitário que você mesmo definiu, você fará isso da mesma forma:
+
+    div(data-gui="code-block" data-lang="js" data-file-path="samples/snippets/var-toad-file2.js")
+
+    p.lead
+        | Isso é bom porque o foco é sua aplicação, então deixamos tudo em volta dela.
+        | Você só precisa saber que sem definir essa variável a <i>jQuery TOAD</i> se recusará a continuar.
+
+    p.lead
+        | Você pode definir qualquer string válida para o nome de sua aplicação, mas recomendamos um nome curto e significativo,
+        | como o nome de sua aplicação ou sigla dela, e apesar de não fazer diferença, sugerimos usar tudo em maiúsculo
+        | (só pra esse nome).
+        | É só uma sugestão porque achamos bonito, mas você é quem manda.
 
 //- block append scripts
