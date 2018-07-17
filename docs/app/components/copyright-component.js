@@ -9,7 +9,7 @@ TOAD.namespace('app/components', function (exports) {
             'Copyright (c) {year} E5R Development Team - Todos os direitos reservados')
 
     function CopyrightComponent(ctrl, options) {
-        var $this = $(this);
+        var $this = $(this)
 
         $this.text(TEMPLATE.replace('{year}', new Date().getFullYear()))
     }

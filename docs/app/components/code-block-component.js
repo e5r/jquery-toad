@@ -3,7 +3,7 @@ TOAD.namespace('app/components', function (exports) {
 
     /* https://highlightjs.org - highlight.js é pré-requisito */
     if (typeof hljs !== 'object' || typeof hljs.highlight !== 'function') {
-        throw new Error("Library highlight.js is required!");
+        throw new Error("Library highlight.js is required!")
     }
 
     var $ = TOAD.$jq,
@@ -15,7 +15,7 @@ TOAD.namespace('app/components', function (exports) {
         CDATA_END_LENGTH = CDATA_END.length
 
     function CodeBlockComponent(ctrl, options) {
-        var $this = $(this);
+        var $this = $(this)
 
         // Se [data-file-path] for informado, carregamos o conteúdo
         // do arquivo informado
@@ -88,7 +88,7 @@ TOAD.namespace('app/components', function (exports) {
         }
 
         for (var l = 0; l < contentArray.length; l++) {
-            var lineNumber = l + 1;
+            var lineNumber = l + 1
 
             if (lineNumber >= lineBegin && lineNumber <= lineEnd) {
                 contentArrayFiltered.push(contentArray[l])
@@ -119,7 +119,7 @@ TOAD.namespace('app/components', function (exports) {
     }
 
     function _getCDataContent(jqEl) {
-        var cdataNode;
+        var cdataNode
 
         jqEl.contents().each(function (idx, el) {
             if (!cdataNode && el.nodeType === 8)
