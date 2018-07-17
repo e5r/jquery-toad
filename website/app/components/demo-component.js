@@ -21,7 +21,7 @@ TOAD.namespace('app/components', function (exports) {
     exports.DemoComponent = register('demo', DemoComponent)
 
     function _prepareNode(el) {
-        el.addClass(['card', 'mb-3'])
+        el.addClass(['card', 'shadow', 'mb-3'])
     }
 
     function _addHeader(el, options) {

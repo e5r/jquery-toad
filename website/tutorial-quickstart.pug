@@ -24,11 +24,11 @@ block content
 
     p.lead Crie um arquivo <code>index.html</code> com o seguinte conteúdo:
 
-    div(data-gui="code-block" data-file-path="samples/tutorial/quickstart/index.html")
+    div(data-gui="code-block" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html")
 
     p.lead Crie também um arquivo <code>my-controller.js</code> com o seguinte conteúdo:
 
-    div(data-gui="code-block" data-file-path="samples/tutorial/quickstart/my-controller.js")
+    div(data-gui="code-block" data-lang="js" data-file-path="samples/tutorial/quickstart/my-controller.js")
 
     p.lead
         | Isso é tudo o que precisamos.
@@ -41,7 +41,7 @@ block content
     blockquote.blockquote
         | Na verdade a mensagem será apresentada em um segundo <code>h1</code>, porque já existirá um contendo o texto <i>"A mensagem virá aqui em baixo:"</i>.
 
-    div(data-gui="demo" data-file-path="samples/tutorial/quickstart/index.html")
+    div(data-gui="demo" data-lang="html" data-file-path="samples/tutorial/quickstart/index.html")
 
     h2 Entendendo os conceitos básicos
 
@@ -60,6 +60,7 @@ block content
         | não temos código JavaScript misturado com HTML (isso também se aplica pra código CSS).
 
     div(data-gui="code-block"
+        data-lang="html"
         data-file-path="samples/tutorial/quickstart/index.html"
         data-line-begin="6"
         data-line-end="8")
@@ -68,6 +69,7 @@ block content
         | Isso também é percebido nas linhas <code>12 e 13</code> também do arquivo <code>index.html</code>:
 
     div(data-gui="code-block"
+        data-lang="html"
         data-file-path="samples/tutorial/quickstart/index.html"
         data-line-begin="12"
         data-line-end="13")
@@ -86,6 +88,7 @@ block content
         | Veja isso nas linhas de <code>16 a 18</code> no arquivo <code>index.html</code>.
     
     div(data-gui="code-block"
+        data-lang="html"
         data-file-path="samples/tutorial/quickstart/index.html"
         data-line-begin="16"
         data-line-end="18")
@@ -113,7 +116,7 @@ block content
     p.lead
         | Veja que na linha <code>11</code> do <code>arquivo index.html</code> anotamos algo na tag <code>body,</code>:
 
-    div(data-gui="code-block")
+    div(data-gui="code-block" data-lang="html")
         <!--[CDATA[<body data-controller="my">]]-->
 
     p.lead
@@ -187,6 +190,7 @@ block content
         | Lembra quando falei no item 1: ... <i>"Com exceção das linhas de 6 a 8 no aquivo index.html..."</i>
 
     div(data-gui="code-block"
+        data-lang="html"
         data-file-path="samples/tutorial/quickstart/index.html"
         data-line-begin="6"
         data-line-end="8")
