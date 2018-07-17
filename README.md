@@ -1,4 +1,4 @@
-![jQuery TOAD](docs/assets/jquery-toad-logo.png)
+![jQuery TOAD](website/assets/images/jquery-toad-logo.png)
 
 [jQuery][JQUERY] TOAD (**T**he **O**ld **A**nd **D**ear) é, antes de mais nada, meu tributo ao
 __velho e querido jQuery__.
@@ -15,26 +15,51 @@ Você vai precisar de:
 
 Daí é tão simples como executar três comandos no shell:
 
-```
-$ git clone https://github.com/e5r/jquery-toad
+```shell
+$ git clone 'https://github.com/e5r/jquery-toad'
 $ cd jquery-toad
-$ npm run build
+$ npm run dist
 ```
 
-Pronto! Já existe uma pasta `dist` com a biblioteca `jquery-toad.js` além de uma versão minificada.
+Pronto! Já existe uma pasta `dist` com os aquivos de distribuição da biblioteca e você pode usar como desejar.
 
-## Ou simplesmente adicione a seu HTML
+```shell
+$ cp dist/* ../my-app/lib
+```
+
+```html
+<script src="lib/jquery.js"></script>
+<script src="lib/jquery-toad.js"></script>
+```
+
+## Use o CDN UNPKG
 
 ```html
 <script src="https://unpkg.com/jquery/dist/jquery.js"></script>
 <script src="https://unpkg.com/jquery-toad/dist/jquery-toad.js"></script>
 ```
 
+## Use o NPM
+
+```shell
+$ mkdir my-app
+$ cd my-app
+$ npm init -y
+$ npm install --save jquery-toad
+```
+
+```html
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/jquery-toad/dist/jquery-toad.js"></script>
+```
+
+> **PS:** Durante a instalação com o **NPM** você será alertado quanto a uma vulnerabilidade crítica. Isso ocorre porque dependemos da jQuery 1.12.4, e é a própria jQuery que tem essa vulnerabilidade. Mas nós mantemos essa dependência legada somente por questões de compatibilidade com navegadores antigos (_leia-se "IE8"_). Nós recomendamos o uso de uma versão mais recente da jQuery que corrija essa vulnerabilidade (>= 3.0) à não ser que você precise suportar navegadores antigos.
+
 ## Documentação
 
-Aprenda mais em nossa [Wiki][WIKI].
+A [documentação oficial][WEBSITE] é o nosso site.
 
 [JQUERY]: http://jquery.com/  "jQuery web site"
-[WIKI]: https://github.com/e5r/jquery-toad/wiki "Nossa Wiki"
+[WEBSITE]: https://e5r.github.io/jquery-toad "Documentação Oficial"
 [NODEJS]: https://nodejs.org
 [GIT]: https://git-scm.com
