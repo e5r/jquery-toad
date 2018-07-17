@@ -72,13 +72,31 @@ TOAD.namespace('app/components', function (exports) {
     }
 
     function _setCodeBlock(el, options, content) {
+
         var langDef = typeof options.lang === 'string'
             ? 'class="lang-' + options.lang + '"'
             : '',
             pre = $('<pre ' + langDef + '>')
 
+        var contentArray = (typeof content === 'string' ? content : '').split('\n'),
+            lineBegin = (typeof options.lineBegin === 'number' ? options.lineBegin : 1),
+            lineEnd = (typeof options.lineEnd === 'number' ? options.lineEnd : contentArray.length),
+            contentArrayFiltered = []
+
+        if (lineEnd < lineBegin) {
+            lineEnd = lineBegin
+        }
+
+        for (var l = 0; l < contentArray.length; l++) {
+            var lineNumber = l + 1;
+
+            if (lineNumber >= lineBegin && lineNumber <= lineEnd) {
+                contentArrayFiltered.push(contentArray[l])
+            }
+        }
+
         pre.addClass('card')
-        pre.text(content)
+        pre.text(contentArrayFiltered.join('\n'))
         hljs.highlightBlock(pre[0])
         el.append(pre)
     }
