@@ -34,8 +34,8 @@
     "gulp-uglify": "^3.0.0"
   },
   "scripts": {
-    "build": "npm install && gulp",
-    "start": "gulp serve"
+    "build": "npm i && gulp",
+    "start": "npm i && gulp serve"
   },
   "dependencies": {
     "jquery": "^1.12.4"
