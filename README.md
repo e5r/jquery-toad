@@ -57,7 +57,7 @@ $ npm install --save jquery-toad
 
 ## Documentação
 
-A [documentação oficial][WEBSITE] é o nosso site.
+A documentação oficial está em [nosso site][WEBSITE].
 
 [JQUERY]: http://jquery.com/  "jQuery web site"
 [WEBSITE]: https://e5r.github.io/jquery-toad "Documentação Oficial"
