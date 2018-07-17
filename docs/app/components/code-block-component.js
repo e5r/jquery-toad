@@ -12,7 +12,9 @@ TOAD.namespace('app/components', function (exports) {
         CDATA_BEGIN = '[CDATA[',
         CDATA_BEGIN_LENGTH = CDATA_BEGIN.length,
         CDATA_END = ']]',
-        CDATA_END_LENGTH = CDATA_END.length
+        CDATA_END_LENGTH = CDATA_END.length,
+
+        _CACHE_ = []
 
     function CodeBlockComponent(ctrl, options) {
         var $this = $(this)
@@ -51,11 +53,20 @@ TOAD.namespace('app/components', function (exports) {
     }
 
     function _loadFilePath(el, options) {
+        var cachedContent = _getCache(options.filePath);
+
+        if (cachedContent) {
+            _loadSuccess(el, options, cachedContent)
+
+            return;
+        }
+
         $.ajax({
             method: 'GET',
             dataType: 'text',
             url: options.filePath
         }).done(function (data) {
+            _addToCache(options.filePath, data);
             _loadSuccess(el, options, data)
         }).fail(function (jqXHR) {
             var message = 'HTTP {code} - {text}'
@@ -141,4 +152,34 @@ TOAD.namespace('app/components', function (exports) {
             return value
         }
     }
+
+    function _addToCache(filePath, fileContent) {
+        var found = _getCache(filePath),
+            record = {
+                path: filePath,
+                content: fileContent
+            }
+
+        if (found) {
+            var idx = _CACHE_.indexOf(found)
+            _CACHE_[idx] = record
+
+            return;
+        }
+
+        _CACHE_.push(record)
+    }
+
+    function _getCache(filePath) {
+        var found;
+
+        $.each(_CACHE_, function (idx, obj) {
+            if (obj.path === filePath) {
+                found = obj
+            }
+        })
+
+        return found;
+    }
+
 })
