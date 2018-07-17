@@ -37,7 +37,210 @@
           </nav>
           <div class="toad-content-box col-md-10 offset-md-1">
             <h1 class="display-4 text-center">Modularização</h1>
-            <blockquote class="blockquote">Em construção!</blockquote>
+            <p class="lead">
+              Para organizar as peças de sua aplicação sugerimos modularizá-la, ou seja, crie módulos.
+              Construa pedaços úteis e relevantes isoladamente, depois conecte tudo para fazer sentido ao seu negócio.
+            </p>
+            <p class="lead">
+              Você pode saber mais sobre o padrão <a href="https://en.wikipedia.org/wiki/Module_pattern" target="_blank">Module Pattern aqui</a>,
+              ou ainda nesse <a href="https://nandovieira.com.br/design-patterns-no-javascript-module" target="_blank">artigo aqui</a>.
+            </p>
+            <p class="lead">Quando optamos por modularizar estamos pensando nos seguintes objetivos:</p>
+            <ol class="lead">
+              <li class="font-weight-bold">Reaproveitamento</li>
+              <p>
+                 Ao invés de copiar e colar código por aí, escreva uma única vez, e quando precisar novamente simplesmente reutilize-o.</p>
+              <li class="font-weight-bold">Segurança</li>
+              <p>
+                Você não quer que o código de uma peça interfira em outra. Se em um módulo você tem uma variável <code>x</code>, de modo
+                algum ela deve interferir na variável <code>x</code> de outro módulo.
+                Quando nós garantimos essa premissa, estamos escrevendo código seguro.
+              </p>
+              <li class="font-weight-bold">Organização</li>
+              <p>
+                É muito mais fácil você encontrar as coisas quando elas estão catalogadas, ou seja, a chance de você encontrar
+                uma agulha espalhada em um palheiro é muito remota, por outro lado, se você tem uma caixa de agulhas as coisas
+                já se tornam mais fáceis.
+              </p>
+              <li class="font-weight-bold">Simplificação</li>
+              <p>
+                Se sua aplicação total tem 20.000 <i>(vinte mil)</i> linhas de código, e tudo está em um arquivo, quando você
+                precisar encontrar e mudar alguma coisa, você precisará ter muito cuidado.
+              </p>
+              <p>
+                Porém, se essas mesmas 20.000 <i>(vinte mil)</i> linhas de código estão bem organizadas em módulos maiores, e submódulos
+                menores, no final você terá cada funcionalidade em arquivos isolados bem menores <i>(tipo umas 200 linhas de código)</i>.
+                É muito mais fácil dar manutenção em um aquivo de 200 <i>(duzentas)</i> linhas de código do que em um de 20.000
+                <i>(vinte mil)</i>, fica bem mais simples.
+              </p>
+              <p>Construa sua aplicação em módulos e você alcançará todos esses objetivos.</p>
+            </ol>
+            <h2>Ferramentas para modularizar</h2>
+            <p class="lead">
+              Pra te ajudar nessa tarefa de modularizar sua aplicação, a biblioteca <i>jQuery TOAD</i> lhe dá algumas ferramentas que
+              você vai conhecer agora.
+            </p>
+            <blockquote class="blockquote">
+              Por questões didáticas, em todos os próximos exemplos vamos considerar que estamos trabalhando em uma aplicação chamada
+              <code>E5R</code> (<a href="https://erlimar.wordpress.com/category/e5r-development-team/" target="_blank">esse é meu jabá</a>)
+              e definimos nossa variável <code>__TOAD__</code> com esse nome para que seja nosso módulo principal.
+            </blockquote>
+            <h3 class="text-monospace">namespace</h3>
+            <p class="lead">
+              A primeira ferramenta é o utilitário <code>namespace</code>.
+              Com essa ferramenta você cria um espaço de nomes, e assim pode colocar o que quiser lá dentro, e depois poderá encontrá-lo
+              para reutilização simplesmente importando esse nome de onde precisar.
+            </p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-1.js"></div>
+            <p class="lead">Exemplo:</p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-2.js"></div>
+            <p class="lead">
+              Quando você garante que todo o seu código de aplicação está envolvido dentro de um namespace, você consegue garantir
+              primeiramente a segurança de seu código, ou seja, todas as variáveis definidas aqui não irão vazar para fora do escopo.
+            </p>
+            <p class="lead">
+              Mas isso só é totalmente verdade se você estiver no <a href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Strict_mode" target="_blank">modo estrito</a>,
+              por isso vamos acordar aqui que você sempre definirá um namespace assim:
+            </p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-3.js"></div>
+            <h4>Porque isso é importante?</h4>
+            <p class="lead">Esperimente executar o seguinte código:</p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-4.js"></div>
+            <p class="lead">
+               Se você inspecionar no navegador seu objeto window verá que existe lá a propriedade <code>MINHA_VARIAVEL</code>,
+              ou seja, essa variável vazou.
+            </p>
+            <p class="lead">Agora se você executar esse código:</p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-5.js"></div>
+            <p class="lead">
+              Perceberá que o navegador levantará uma exceção parecida com <i>"Variável não definida no modo strict"</i>.
+              O seu código falhará ao invés de tentar inferir o que você queria fazer.
+            </p>
+            <p class="lead">
+              Isso ocorreu porque o que queríamos era <strong>DEFINIR</strong> uma variável chamada <code>MINHA_VARIAVEL</code>
+              e ao mesmo tempo <strong>ATRIBUIR</strong> o valor <code>"Meu valor"</code> a ela.
+            </p>
+            <p class="lead">Só que o código de <strong>DEFINIÇÃO</strong> requer um var antes do nome da variável.</p>
+            <div data-gui="code-block" data-lang="js"><!--[CDATA[var MINHA_VARIAVEL = "Meu valor";]]--></div>
+            <blockquote class="blockquote">
+              <strong>PS:</strong> Aqui nós estaremos sempre tratando de ECMAScript5 e não o novo padrão ECMAScript6.
+              Por isso não iremos falar de <code>let</code> ou <code>const</code>.
+            </blockquote>
+            <p class="lead">Já um código de <strong>ATRIBUIÇÃO</strong> não requer o var, só requer uma variável já <strong>DEFINIDA</strong>.</p>
+            <p class="lead">
+              Porém quando não estamos no modo estrito, podemos simplesmente <strong>ATRIBUIR</strong> uma variável, se ela ainda
+              não foi <strong>DEFINIDA</strong> isso será feito automaticamente.
+              Já com o modo estrito abrimos mão dessa <i>"facilidade"</i> para não cair em <i>"armadilhas"</i>.
+            </p>
+            <p class="lead">Voltando ao exemplo.</p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-3.js"></div>
+            <p class="lead">
+              Agora sim, com essa assinatura estamos escrevendo código seguro.
+              Mas isso também poderia ser conseguido de outra forma que você talvez já conheça:
+            </p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-6.js"></div>
+            <p class="lead">A vantagem de usar <code>E5R.namespace</code> é que além do isolamento de escopo também criamos um espaço de nomes.</p>
+            <h3 class="text-monospace">exports</h3>
+            <p class="lead">
+              Criar um espaço de nomes não adianta muita coisa se você não puder colocar coisas nesse espaço, e também pegar coisas
+              desse espaço quando precisar.
+            </p>
+            <p class="lead">
+              O simples fato de colocar seu código envolto a um <strong>E5R.namespace</strong> não é suficiente.
+              Você precisará dizer o que quer colocar dentro do namespace, e isso é feito exportando objetos.
+            </p>
+            <p class="lead">
+              Para exportar um objeto basta <i>"pendurá-lo"</i> no único parâmetro da nossa função factory.
+              Você não deve saber do que estamos falando porque omitimos o parâmetro no exemplo anterior.
+              Então vamos finalizar aqui nossa assinatura de namespace de uma vez por todas:
+            </p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-7.js"></div>
+            <p class="lead">
+              Observe que agora nossa função factory tem um único parâmetro chamado exports.
+              Na verdade esse nome pode ser o que você preferir, o nome exports só é bem sugestivo.
+            </p>
+            <p class="lead">Então agora sempre que você precisar deixar algo no namespace, basta exportá-lo assim:</p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-8.js"></div>
+            <p class="lead">
+              Agora você já tem um módulo de utilitários da aplicação no espaço de nomes app/utils, e ele
+              conta com uma variável <code>DEFAULT_MESSAGE</code> e também um método <code>showAlert</code>
+              que exibe uma mensagem com o <code>alert</code> padrão do navegador.
+            </p>
+            <h3 class="text-monospace">require</h3>
+            <p class="lead">
+              Agora que já conseguimos criar nossos módulos em espaços de nomes distintos, só precisamos aprender a
+              reutilizar esses objetos que exportamos em outros lugares.
+            </p>
+            <p class="lead">
+              E é aí que entra a segunda ferramenta, o utilitário require.
+              Com essa ferramenta você carrega os objetos de um espaço de nomes para então poder usá-los.
+            </p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-9.js"></div>
+            <p class="lead">Exemplo:</p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-10.js"></div>
+            <p class="lead">
+              Ao executar esse código você verá a mensagem <code>"Hello world!"</code> sendo exibida em seu navegador.
+              E isso graças a reutilização de código e comunicação entre os seus dois módulos do sistema, <code>app/utils</code> e <code>app/ui</code>.
+            </p>
+            <p class="lead">
+              É importante ressaltar que o <code>namespace</code> é a nossa forma de organizar as peças de nosso software.
+              Ainda que você tenha código espalhado em vários arquivos, o que importa no fim é o <code>namespace</code>.
+            </p>
+            <p class="lead">
+              Vamos supor que o nosso primeiro exemplo estava em um arquivo chamado <code>show-message-util.js</code> e você
+              também tem um outro arquivo que faz a mesma coisa só que ao invés de um <code>alert</code> exibe a mensagem no
+              <code>console</code>, esse poderia ser o arquivo <code>show-console-util.js</code>:
+            </p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-11.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-12.js"></div>
+            <p class="lead">
+              Agora você tem 2 <i>(dois)</i> arquivos definindo cada um o seu próprio utilitário.
+              Você não precisa saber da existência dos dois arquivos quando estiver lá no módulo <code>app/ui</code>,
+              bastará saber que tudo está no namespace <code>app/utils</code> e isso será o suficiente para tirar proveito
+              dos dois códigos:
+            </p>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-13.js"></div>
+            <p class="lead">
+              Observe que agora você terá a mensagem sendo exibida tanto no <code>alert</code> do navegador, quanto no
+              <code>console</code> do mesmo, e isso ficou transparente para o uso no módulo <code>app/ui</code>, porque
+              no final o que requirea é o <code>namespace</code>.
+            </p>
+            <h2>Concluindo</h2>
+            <p class="lead">
+              A biblioteca <i>jQuery TOAD</i> te ajuda com reaproveitamento, segurança, organização e simplificação do
+              código com as ferramentas de modularização, a saber:
+            </p>
+            <ul class="lead">
+              <li>namespace</li>
+              <li>exports</li>
+              <li>require</li>
+            </ul>
+            <p class="lead">
+              E como nossa proposta não é somente o código da biblioteca em si, mas também essa documentação, aproveitamos
+              para recomendar mais duas coisas nessa seção de modularização:
+            </p>
+            <ol class="lead">
+              <li>Use sempre o modo estrito.</li>
+              <li>Nomeie seus espaços de nomes <i>(namespace)</i> como se fossem diretórios lógicos.</li>
+            </ol>
+            <p class="lead">Ex:</p>
+            <p class="lead">
+              Imagine que você tem uma visão lógica da sua aplicação com módulos utilitários, financeiro e comercial.
+              Se fosse dividir em um diretório seria algo como:
+            </p>
+            <ul class="lead">
+              <li>app/</li>
+              <ul>
+                <li>utilitarios/</li>
+                <li>financeiro/</li>
+                <li>comercial/</li>
+              </ul>
+            </ul>
+            <p class="lead">
+              Os seus módulos por sua vez poderiam ser:
+              <code>"app/utilitarios"</code>, <code>"app/financeiro"</code> e <code>"app/comercial"</code>.
+            </p>
+            <p class="lead">Nada impede você de usar outra notação porque os nomes são livres, mas fica a nossa recomendação.</p>
           </div>
         </div>
       </div>
