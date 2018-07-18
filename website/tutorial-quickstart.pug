@@ -227,7 +227,7 @@ block content
         | Com isso já garantimos que nada irá vazar para a <code>window</code> ou outro escopo exterior.
 
     p.lead
-        | O controlador em si é uma função JavaScript construtora padrão, e dentro dela nós criamos uma variável privada chamada message que contém
+        | O controlador em si é uma função JavaScript construtora padrão, e dentro dela nós criamos uma variável privada chamada <code>message</code> que contém
         | a mensagem que desejamos exibir.
         | Também definimos dois métodos públicos, <code>this.onClickMessage</code> e <code>this.onClickH1</code> que por sua vez são referenciados
         | na nossa visão, lembra:
@@ -245,7 +245,7 @@ block content
 
     p.lead
         | O que temos de diferente ainda são somente a linha <code>2</code> do arquivo <code>my-controller.js</code>, que usa o recurso
-        | require do <i>jQuery TOAD</i> para acessar os módulos de nossa aplicação.
+        | <code>require</code> do <i>jQuery TOAD</i> para acessar os módulos de nossa aplicação.
 
     p.lead
         | Aqui no caso estamos acessando um objeto especial chamado <code>@registerController</code>, que é um recursos da jQuery TOAD,
@@ -258,7 +258,7 @@ block content
     p.lead
         | Você seguirá a mesma lógica sempre que precisar acessar objetos entre os vários espaços de nomes.
         | Já que nós criamos um espaço de nomes chamado <code>controllers</code>, imagine também que você criou outro espaço de nomes 
-        | chamado utils.
+        | chamado <code>utils</code>.
         | Então de dentro de <code>controllers</code>, caso precise acessar objetos de <code>utils</code> você usaria algo como:
 
     div(data-gui="code-block" data-lang="js")

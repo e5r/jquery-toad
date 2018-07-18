@@ -1,7 +1,7 @@
 extends _layout.pug
 
 block content
-    h1(class="display-4 text-center")
+    h1(class="display-4 text-center d-inline-block text-truncate")
         | Modularização
 
     p.lead
@@ -41,8 +41,7 @@ block content
             | É muito mais fácil dar manutenção em um aquivo de 200 <i>(duzentas)</i> linhas de código do que em um de 20.000
             | <i>(vinte mil)</i>, fica bem mais simples.
 
-        p
-            | Construa sua aplicação em módulos e você alcançará todos esses objetivos.
+    p Construa sua aplicação em módulos e você alcançará todos esses objetivos.
 
     h2 Ferramentas para modularizar
 
@@ -93,7 +92,7 @@ block content
         data-file-path="samples/snippets/module-snippet-4.js")
 
     p.lead 
-        | Se você inspecionar no navegador seu objeto window verá que existe lá a propriedade <code>MINHA_VARIAVEL</code>,
+        | Se você inspecionar no navegador seu objeto <code>window</code> verá que existe lá a propriedade <code>MINHA_VARIAVEL</code>,
         | ou seja, essa variável vazou.
 
     p.lead Agora se você executar esse código:
@@ -119,7 +118,7 @@ block content
         | <strong>PS:</strong> Aqui nós estaremos sempre tratando de ECMAScript5 e não o novo padrão ECMAScript6.
         | Por isso não iremos falar de <code>let</code> ou <code>const</code>.
 
-    p.lead Já um código de <strong>ATRIBUIÇÃO</strong> não requer o var, só requer uma variável já <strong>DEFINIDA</strong>.
+    p.lead Já um código de <strong>ATRIBUIÇÃO</strong> não requer o <code>var</code>, só requer uma variável já <strong>DEFINIDA</strong>.
 
     p.lead
         | Porém quando não estamos no modo estrito, podemos simplesmente <strong>ATRIBUIR</strong> uma variável, se ela ainda
@@ -150,7 +149,7 @@ block content
         | desse espaço quando precisar.
 
     p.lead
-        | O simples fato de colocar seu código envolto a um <strong>E5R.namespace</strong> não é suficiente.
+        | O simples fato de colocar seu código envolto a um <code>E5R.namespace</code> não é suficiente.
         | Você precisará dizer o que quer colocar dentro do namespace, e isso é feito exportando objetos.
 
     p.lead
@@ -173,7 +172,7 @@ block content
         data-file-path="samples/snippets/module-snippet-8.js")
 
     p.lead
-        | Agora você já tem um módulo de utilitários da aplicação no espaço de nomes app/utils, e ele
+        | Agora você já tem um módulo de utilitários da aplicação no espaço de nomes <code>app/utils</code>, e ele
         | conta com uma variável <code>DEFAULT_MESSAGE</code> e também um método <code>showAlert</code>
         | que exibe uma mensagem com o <code>alert</code> padrão do navegador.
 
@@ -184,7 +183,7 @@ block content
         | reutilizar esses objetos que exportamos em outros lugares.
 
     p.lead
-        | E é aí que entra a segunda ferramenta, o utilitário require.
+        | E é aí que entra a segunda ferramenta, o utilitário <code>require</code>.
         | Com essa ferramenta você carrega os objetos de um espaço de nomes para então poder usá-los.
 
     div(data-gui="code-block"
@@ -231,7 +230,7 @@ block content
     p.lead
         | Observe que agora você terá a mensagem sendo exibida tanto no <code>alert</code> do navegador, quanto no
         | <code>console</code> do mesmo, e isso ficou transparente para o uso no módulo <code>app/ui</code>, porque
-        | no final o que requirea é o <code>namespace</code>.
+        | no final o que importa é o <code>namespace</code>.
 
     h2 Concluindo
 
