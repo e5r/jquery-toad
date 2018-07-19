@@ -1,5 +1,5 @@
 /*!
- * jquery-toad v1.0.28
+ * jquery-toad v1.0.31
  * jQuery TOAD - O velho e querido jQuery (https://e5r.github.io/jquery-toad)
  * Copyright (c) Erlimar Silva Campos. All rights reserved.
  * Licensed under the Apache-2.0 License. More license information in LICENSE.

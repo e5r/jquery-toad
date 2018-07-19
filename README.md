@@ -39,6 +39,17 @@ $ cp dist/* ../my-app/lib
 <script src="https://unpkg.com/jquery-toad/dist/jquery-toad.js"></script>
 ```
 
+## Use o NUGET
+
+```powershell
+PM> Install-Package jquery-toad
+```
+
+```html
+<script src="https://unpkg.com/jquery/dist/jquery.js"></script>
+<script src="https://unpkg.com/jquery-toad/dist/jquery-toad.js"></script>
+```
+
 ## Use o NPM
 
 ```shell

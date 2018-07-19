@@ -1,6 +1,6 @@
 {
   "name": "jquery-toad",
-  "version": "1.0.28",
+  "version": "1.0.31",
   "description": "jQuery TOAD - O velho e querido jQuery",
   "browser": "dist/jquery-toad.js",
   "repository": {

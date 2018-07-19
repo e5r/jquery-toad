@@ -1,0 +1,3 @@
+* Adicionar geração de pacote NuGet no build
+  - Sincronizar informações de package.json em Package.nuspec
+  - ou gerar Package.nuspec automaticamente no build
