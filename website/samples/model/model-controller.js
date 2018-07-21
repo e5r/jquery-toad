@@ -45,7 +45,7 @@ E5R.namespace('app/controllers', function (exports) {
         // not update model
     }
 
-    function _onUpdateModel(modelPath, oldState, newState) {
+    function _onUpdateModel(oldState, newState, modelPath, controller) {
         /* After [this.$model(...)] on constructor
 
         modelPath = null
@@ -62,36 +62,9 @@ E5R.namespace('app/controllers', function (exports) {
                 ]
             }
         } */
-
-        /* After [self.$model(...)] on onAddOrgSaveClick
-
-        modelPath = 'github.orgs'
-
-        oldState = {
-            name: 'Erlimar Silva Campos',
-            github: {
-                nick: 'erlimar',
-                home: 'https://github.com/erlimar',
-                orgs: [
-                    'https://github.com/e5r'
-                ]
-            }
-        } 
-        
-        newState = {
-            name: 'Erlimar Silva Campos',
-            github: {
-                nick: 'erlimar',
-                home: 'https://github.com/erlimar',
-                orgs: [
-                    'https://github.com/e5r',
-                    '{new.org.url}',
-                ]
-            }
-        } */
     }
 
-    function _onUpdateOrgs(modelPath, oldState, newState) {
+    function _onUpdateOrgs(oldState, newState, modelPath, controller) {
         /* After [this.$model(...)] on constructor
 
         modelPath = 'github.orgs'
