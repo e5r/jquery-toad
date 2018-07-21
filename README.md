@@ -18,7 +18,7 @@ Daí é tão simples como executar três comandos no shell:
 ```shell
 $ git clone 'https://github.com/e5r/jquery-toad'
 $ cd jquery-toad
-$ npm run dist
+$ npm run build
 ```
 
 Pronto! Já existe uma pasta `dist` com os aquivos de distribuição da biblioteca e você pode usar como desejar.
