@@ -46,8 +46,8 @@ PM> Install-Package jquery-toad
 ```
 
 ```html
-<script src="https://unpkg.com/jquery/dist/jquery.js"></script>
-<script src="https://unpkg.com/jquery-toad/dist/jquery-toad.js"></script>
+<script src="~/Scripts/jquery-{version}.js"></script>
+<script src="~/Scripts/jquery-toad-{version}.js"></script>
 ```
 
 ## Use o NPM
