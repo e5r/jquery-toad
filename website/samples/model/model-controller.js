@@ -3,13 +3,10 @@ E5R.namespace('app/controllers', function (exports) {
 
     var $ = E5R.$jq,
         register = E5R.require('@registerController'),
-        _CONST_ = E5R.require('@constants'),
 
-        BY_ID = _CONST_.VIEW_BY_ID,
-        ON_UPDATE_MODEL = _CONST_.CTRL_ON_UPDATE_MODEL_METHOD;
+        BY_ID = E5R.require('@constants').VIEW_BY_ID;
 
     function ModelController(el, options) {
-        // init $model
         this.$model({
             name: 'Erlimar Silva Campos',
             github: {
@@ -21,11 +18,14 @@ E5R.namespace('app/controllers', function (exports) {
             }
         })
 
+        this.$onUpdateModel(_onUpdateModel);
+        this.$onUpdateModel('github.orgs', _onUpdateOrgs);
+
         /*
         this.$model();                      // get full model
-        this.$model({ object });            // replace full model
+        this.$model({ object });            // set full model
         this.$model('string');              // get path of model
-        this.$model('string', { object });  // replace path of model
+        this.$model('string', { object });  // set path of model
         */
     };
 
@@ -45,8 +45,10 @@ E5R.namespace('app/controllers', function (exports) {
         // not update model
     }
 
-    ModelController.prototype[ON_UPDATE_MODEL] = function (oldState, newState) {
+    function _onUpdateModel(modelPath, oldState, newState) {
         /* After [this.$model(...)] on constructor
+
+        modelPath = null
 
         oldState = null 
 
@@ -62,6 +64,8 @@ E5R.namespace('app/controllers', function (exports) {
         } */
 
         /* After [self.$model(...)] on onAddOrgSaveClick
+
+        modelPath = 'github.orgs'
 
         oldState = {
             name: 'Erlimar Silva Campos',
@@ -85,6 +89,31 @@ E5R.namespace('app/controllers', function (exports) {
                 ]
             }
         } */
+    }
+
+    function _onUpdateOrgs(modelPath, oldState, newState) {
+        /* After [this.$model(...)] on constructor
+
+        modelPath = 'github.orgs'
+
+        oldState = null 
+
+        newState =  [
+            'https://github.com/e5r'
+        ] */
+
+        /* After [self.$model(...)] on onAddOrgSaveClick
+
+        modelPath = 'github.orgs'
+
+        oldState =  [
+            'https://github.com/e5r'
+        ]
+        
+        newState = [
+            'https://github.com/e5r',
+            '{new.org.url}',
+        ] */
     }
 
     exports.ModelController = register('model-controller', ModelController);
