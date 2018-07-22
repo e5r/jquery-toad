@@ -1,13 +1,14 @@
 $namespace(1, '@', function (exports) {
     var CONFIG = {},
-        utils = $require('utils');
+        utils = $require('utils'),
+        internals = exports.__internals__ = exports.__internals__ || {};
 
-    function _getConfig(key, defaultValue) {
-        if (!utils.isString(key))
-            return;
+    internals.getObjectItemByPath = _getObjectItemByPath;
+    internals.setObjectItemByPath = _setObjectItemByPath;
 
-        var value = CONFIG,
-            keys = key.split('.'),
+    function _getObjectItemByPath(obj, path) {
+        var value = obj,
+            keys = path.split('.'),
             k = 0;
 
         while (value && k < keys.length) {
@@ -15,15 +16,12 @@ $namespace(1, '@', function (exports) {
             k++;
         }
 
-        return value || defaultValue;
+        return value;
     }
 
-    function _setConfig(key, newValue) {
-        if (!utils.isString(key))
-            return;
-
-        var value = CONFIG,
-            keys = key.split('.'),
+    function _setObjectItemByPath(obj, path, newValue) {
+        var value = obj,
+            keys = path.split('.'),
             k = 0;
 
         while (value && k < keys.length) {
@@ -37,6 +35,20 @@ $namespace(1, '@', function (exports) {
         }
 
         return value[keys[--k]] = newValue;
+    }
+
+    function _getConfig(key, defaultValue) {
+        if (!utils.isString(key))
+            return;
+
+        return internals.getObjectItemByPath(CONFIG, key) || defaultValue;
+    }
+
+    function _setConfig(key, newValue) {
+        if (!utils.isString(key))
+            return;
+
+        return internals.setObjectItemByPath(CONFIG, key, newValue);
     }
 
     exports.config = {

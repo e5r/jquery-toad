@@ -1,5 +1,5 @@
 /*!
- * jquery-toad v1.0.31
+ * jquery-toad v1.0.28
  * jQuery TOAD - O velho e querido jQuery (https://e5r.github.io/jquery-toad)
  * Copyright (c) Erlimar Silva Campos. All rights reserved.
  * Licensed under the Apache-2.0 License. More license information in LICENSE.
@@ -145,8 +145,6 @@ $namespace(9, 'core', function (exports) {
         CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
         CONTROLLER_ELEMENT_DATA = '$ctrl',
         CONTROLLER_VIEW_FIELD = '__view__',
-        CONTROLLER_MODEL_FIELD = '__model__',
-        CONTROLLER_ONUPDATEMODEL_FIELD = '__triggers__',
         CONTROLLER_OPTIONS_FIELD = '$options',
 
         COMPONENT_SELECTOR_KEY = '$jqSelector',
@@ -177,12 +175,11 @@ $namespace(9, 'core', function (exports) {
             el.data(CONTROLLER_ELEMENT_DATA, ctrl);
 
             ctrl[CONTROLLER_VIEW_FIELD] = el;
-            ctrl[CONTROLLER_MODEL_FIELD] = null;
-            ctrl[CONTROLLER_ONUPDATEMODEL_FIELD] = [];
             ctrl[CONTROLLER_OPTIONS_FIELD] = options;
 
             _setupEvents(el, ctrl)
             _setupComponents(el, ctrl);
+            _setupModel(el, ctrl);
         });
     }
 
@@ -237,6 +234,10 @@ $namespace(9, 'core', function (exports) {
         };
     }
 
+    function _setupModel(el, ctrl) {
+        console.info('TODO: Implementar _setupModel', ctrl);
+    }
+
     function _installToad() {
         _installControllers();
     }
@@ -250,15 +251,14 @@ $namespace(9, 'core', function (exports) {
 // ========================================================================
 $namespace(1, '@', function (exports) {
     var CONFIG = {},
-        utils = $require('utils'),
-        internals = exports.__internals__ = exports.__internals__ || {};
+        utils = $require('utils');
 
-    internals.getObjectItemByPath = _getObjectItemByPath;
-    internals.setObjectItemByPath = _setObjectItemByPath;
+    function _getConfig(key, defaultValue) {
+        if (!utils.isString(key))
+            return;
 
-    function _getObjectItemByPath(obj, path) {
-        var value = obj,
-            keys = path.split('.'),
+        var value = CONFIG,
+            keys = key.split('.'),
             k = 0;
 
         while (value && k < keys.length) {
@@ -266,12 +266,15 @@ $namespace(1, '@', function (exports) {
             k++;
         }
 
-        return value;
+        return value || defaultValue;
     }
 
-    function _setObjectItemByPath(obj, path, newValue) {
-        var value = obj,
-            keys = path.split('.'),
+    function _setConfig(key, newValue) {
+        if (!utils.isString(key))
+            return;
+
+        var value = CONFIG,
+            keys = key.split('.'),
             k = 0;
 
         while (value && k < keys.length) {
@@ -285,20 +288,6 @@ $namespace(1, '@', function (exports) {
         }
 
         return value[keys[--k]] = newValue;
-    }
-
-    function _getConfig(key, defaultValue) {
-        if (!utils.isString(key))
-            return;
-
-        return internals.getObjectItemByPath(CONFIG, key) || defaultValue;
-    }
-
-    function _setConfig(key, newValue) {
-        if (!utils.isString(key))
-            return;
-
-        return internals.setObjectItemByPath(CONFIG, key, newValue);
     }
 
     exports.config = {
@@ -485,17 +474,11 @@ $namespace(3, '@', function (exports) {
 // register-controller.js
 // ========================================================================
 $namespace(3, '@', function (exports) {
-    var utils = $require('utils');
-
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',
         EXPORT_NAME_FIELD = '$name',
         CONTROLLER_VIEW_FIELD_PRIVATE = '__view__',
-        CONTROLLER_VIEW_FIELD = '$view',
-        CONTROLLER_MODEL_FIELD_PRIVATE = '__model__',
-        CONTROLLER_MODEL_FIELD = '$model',
-        CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE = '__triggers__',
-        CONTROLLER_ONUPDATEMODEL_FIELD = '$onUpdateModel';
+        CONTROLLER_VIEW_FIELD = '$view';
 
     var controllers = [];
     var internals = exports.__internals__ = exports.__internals__ || {};
@@ -523,11 +506,9 @@ $namespace(3, '@', function (exports) {
         var fnCtrl = options[CONSTRUCTOR_FIELD];
 
         fnCtrl[EXPORT_NAME_FIELD] = options[NAME_FIELD];
-        controllers[controllerName] = fnCtrl;
-
         fnCtrl.prototype[CONTROLLER_VIEW_FIELD] = _getViewElement;
-        fnCtrl.prototype[CONTROLLER_MODEL_FIELD] = _manageModel;
-        fnCtrl.prototype[CONTROLLER_ONUPDATEMODEL_FIELD] = _onUpdateModel;
+
+        controllers[controllerName] = fnCtrl;
 
         return fnCtrl;
     }
@@ -562,12 +543,6 @@ $namespace(3, '@', function (exports) {
         return controllers[controllerName];
     }
 
-    /**
-     * Retorna uma coleção de elementos dentro do escopo da controller
-     * 
-     * @param {DOM} elType - Elemento DOM
-     * @param {string} selector - jQuery selector
-     */
     function _getViewElement(elType, selector) {
         var view = this[CONTROLLER_VIEW_FIELD_PRIVATE],
             VIEW_BY_ID = $require('@').constants.VIEW_BY_ID;
@@ -591,39 +566,6 @@ $namespace(3, '@', function (exports) {
         }
 
         return $(selector, view);
-    }
-
-    /**
-     * Gerencia o modelo
-     */
-    function _manageModel() {
-        var model = this[CONTROLLER_MODEL_FIELD_PRIVATE];
-
-        // this.$model();
-        // get full model
-        if (!arguments.length) {
-            return $.extend({}, model);
-        }
-
-        // this.$model({ object });
-        // set full model
-        if (arguments.length === 1 && utils.isObject(arguments[0])) {
-            var modelOld = $.extend({}, this[CONTROLLER_MODEL_FIELD_PRIVATE]),
-                modelNew = arguments[0];
-
-            // TODO: Call $onUpdateModel
-
-            this[CONTROLLER_MODEL_FIELD_PRIVATE] = $.extend({}, arguments[0]);
-        }
-        
-        /*
-        this.$model('string');              // get path of model
-        this.$model('string', { object });  // set path of model
-        */
-    }
-
-    function _onUpdateModel() {
-        var onUpdateList = this[CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE];
     }
 })
 

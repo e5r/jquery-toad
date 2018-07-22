@@ -1,9 +1,15 @@
 $namespace(3, '@', function (exports) {
+    var utils = $require('utils');
+
     var NAME_FIELD = 'name',
         CONSTRUCTOR_FIELD = 'ctor',
         EXPORT_NAME_FIELD = '$name',
         CONTROLLER_VIEW_FIELD_PRIVATE = '__view__',
-        CONTROLLER_VIEW_FIELD = '$view';
+        CONTROLLER_VIEW_FIELD = '$view',
+        CONTROLLER_MODEL_FIELD_PRIVATE = '__model__',
+        CONTROLLER_MODEL_FIELD = '$model',
+        CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE = '__triggers__',
+        CONTROLLER_ONUPDATEMODEL_FIELD = '$onUpdateModel';
 
     var controllers = [];
     var internals = exports.__internals__ = exports.__internals__ || {};
@@ -31,9 +37,11 @@ $namespace(3, '@', function (exports) {
         var fnCtrl = options[CONSTRUCTOR_FIELD];
 
         fnCtrl[EXPORT_NAME_FIELD] = options[NAME_FIELD];
-        fnCtrl.prototype[CONTROLLER_VIEW_FIELD] = _getViewElement;
-
         controllers[controllerName] = fnCtrl;
+
+        fnCtrl.prototype[CONTROLLER_VIEW_FIELD] = _getViewElement;
+        fnCtrl.prototype[CONTROLLER_MODEL_FIELD] = _manageModel;
+        fnCtrl.prototype[CONTROLLER_ONUPDATEMODEL_FIELD] = _onUpdateModel;
 
         return fnCtrl;
     }
@@ -68,6 +76,12 @@ $namespace(3, '@', function (exports) {
         return controllers[controllerName];
     }
 
+    /**
+     * Retorna uma coleção de elementos dentro do escopo da controller
+     * 
+     * @param {DOM} elType - Elemento DOM
+     * @param {string} selector - jQuery selector
+     */
     function _getViewElement(elType, selector) {
         var view = this[CONTROLLER_VIEW_FIELD_PRIVATE],
             VIEW_BY_ID = $require('@').constants.VIEW_BY_ID;
@@ -91,5 +105,38 @@ $namespace(3, '@', function (exports) {
         }
 
         return $(selector, view);
+    }
+
+    /**
+     * Gerencia o modelo
+     */
+    function _manageModel() {
+        var model = this[CONTROLLER_MODEL_FIELD_PRIVATE];
+
+        // this.$model();
+        // get full model
+        if (!arguments.length) {
+            return $.extend({}, model);
+        }
+
+        // this.$model({ object });
+        // set full model
+        if (arguments.length === 1 && utils.isObject(arguments[0])) {
+            var modelOld = $.extend({}, this[CONTROLLER_MODEL_FIELD_PRIVATE]),
+                modelNew = arguments[0];
+
+            // TODO: Call $onUpdateModel
+
+            this[CONTROLLER_MODEL_FIELD_PRIVATE] = $.extend({}, arguments[0]);
+        }
+        
+        /*
+        this.$model('string');              // get path of model
+        this.$model('string', { object });  // set path of model
+        */
+    }
+
+    function _onUpdateModel() {
+        var onUpdateList = this[CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE];
     }
 })
