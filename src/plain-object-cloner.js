@@ -61,6 +61,10 @@ $namespace(1, '@', function (exports) {
     PlainObjectCloner.prototype.cloneObject = function () {
         var target = arguments[0] || this.target;
 
+        if (utils.isArray(target)) {
+            return this.cloneArray(target);
+        }
+
         if (!utils.isObject(target))
             return;
 
