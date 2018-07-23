@@ -72,7 +72,7 @@ $toad.$jq = $;
  */
 $toad.namespace = function (name, factory) {
     if (typeof name !== 'string') {
-        throw 'Invalid namespace.';
+        throw new Error('Invalid namespace.');
     }
 
     // TODO: Mudar para abordagem semelhante a  $namespace
@@ -87,7 +87,7 @@ utils.func(utils.data)
  */
 $toad.require = function (name) {
     if (typeof name !== 'string' || $.trim(name).length < 1) {
-        throw 'Invalid namespace to import.';
+        throw new Error('Invalid namespace to import.');
     }
 
     var required = {},
@@ -145,8 +145,6 @@ $namespace(9, 'core', function (exports) {
         CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
         CONTROLLER_ELEMENT_DATA = '$ctrl',
         CONTROLLER_VIEW_FIELD = '__view__',
-        CONTROLLER_MODEL_FIELD = '__model__',
-        CONTROLLER_ONUPDATEMODEL_FIELD = '__triggers__',
         CONTROLLER_OPTIONS_FIELD = '$options',
 
         COMPONENT_SELECTOR_KEY = '$jqSelector',
@@ -177,8 +175,6 @@ $namespace(9, 'core', function (exports) {
             el.data(CONTROLLER_ELEMENT_DATA, ctrl);
 
             ctrl[CONTROLLER_VIEW_FIELD] = el;
-            ctrl[CONTROLLER_MODEL_FIELD] = null;
-            ctrl[CONTROLLER_ONUPDATEMODEL_FIELD] = [];
             ctrl[CONTROLLER_OPTIONS_FIELD] = options;
 
             _setupEvents(el, ctrl)
@@ -330,13 +326,13 @@ $namespace(1, '@', function (exports) {
      */
     function _setConstant(constName, constValue) {
         if (typeof constName !== 'string')
-            throw 'Invalid constName "' + constName + '"';
+            throw new Error('Invalid constName "' + constName + '"');
 
         if (!constValue)
-            throw 'constValue is required!';
+            throw new Error('constValue is required!');
 
         if (typeof constants[constName] !== 'undefined')
-            throw 'Constant "' + constName + '" already exists!';
+            throw new Error('Constant "' + constName + '" already exists!');
 
         // Quando [Object.defineProperty] não está disponível (ex: IE8 <) simplesmente
         // guardamos um valor para uso, porém sem nenhuma proteção de imutabilidade
@@ -377,6 +373,111 @@ $namespace(2, 'core', function (exports) {
 
 
 // ========================================================================
+// plain-object-cloner.js
+// ========================================================================
+$namespace(1, '@', function (exports) {
+    var utils = $require('utils'),
+        internals = exports.__internals__ = exports.__internals__ || {};
+
+    internals.PlainObjectCloner = PlainObjectCloner;
+
+    /**
+     * Clonador de objetos
+     * 
+     * @param {object} target - Object to clone
+     */
+    function PlainObjectCloner(target) {
+        this.target = target;
+        this.cloning = [];
+        this.validTypes = [
+            (typeof true),
+            (typeof 0),
+            (typeof ''),
+            (typeof {})
+        ];
+    }
+
+    PlainObjectCloner.prototype.isValidProp = function (prop) {
+        return this.validTypes.indexOf(typeof prop) >= 0;
+    }
+
+    PlainObjectCloner.prototype.cloneArray = function (target) {
+        if (!utils.isArray(target))
+            return;
+
+        var arr = [];
+
+        for (var p in target) {
+            var prop = target[p];
+
+            if (!this.isValidProp(prop))
+                continue;
+
+            if (this.cloning.indexOf(prop) >= 0)
+                throw new Error('Circular reference detected!');
+
+            this.cloning.push(prop);
+
+            if (utils.isArray(prop)) {
+                arr.push(this.cloneArray(prop));
+            }
+            else if (utils.isObject(prop)) {
+                arr.push(this.cloneObject(prop));
+            } else {
+                arr.push(prop);
+            }
+
+            var cloningIdx = this.cloning.indexOf(prop);
+
+            this.cloning.splice(cloningIdx, 1);
+        }
+
+        return arr;
+    }
+
+    PlainObjectCloner.prototype.cloneObject = function () {
+        var target = arguments[0] || this.target;
+
+        if (utils.isArray(target)) {
+            return this.cloneArray(target);
+        }
+
+        if (!utils.isObject(target))
+            return;
+
+        var clone = {};
+
+        for (var p in target) {
+            var prop = target[p];
+
+            if (!this.isValidProp(prop))
+                continue;
+
+            if (this.cloning.indexOf(prop) >= 0)
+                throw new Error('Circular reference detected!');
+
+            this.cloning.push(prop);
+
+            if (utils.isArray(prop)) {
+                clone[p] = this.cloneArray(prop);
+            }
+            else if (utils.isObject(prop)) {
+                clone[p] = this.cloneObject(prop);
+            } else {
+                clone[p] = prop;
+            }
+
+            var cloningIdx = this.cloning.indexOf(prop);
+
+            this.cloning.splice(cloningIdx, 1);
+        }
+
+        return clone;
+    }
+})
+
+
+// ========================================================================
 // register-component.js
 // ========================================================================
 $namespace(3, '@', function (exports) {
@@ -406,7 +507,7 @@ $namespace(3, '@', function (exports) {
             selector = '[data-gui="{name}"]'.replace('{name}', componentName);
 
         if (components[componentName]) {
-            throw 'Component ' + componentName + ' already registered!';
+            throw new Error('Component ' + componentName + ' already registered!');
         }
 
         var fnCmp = function (ctrl) {
@@ -457,11 +558,11 @@ $namespace(3, '@', function (exports) {
 
     function _getComponent(componentName) {
         if (typeof componentName !== 'string' || componentName == '') {
-            throw 'Parameter componentName is required.';
+            throw new Error('Parameter componentName is required.');
         }
 
         if (!components[componentName]) {
-            throw 'Controller ' + componentName + ' not registered!';
+            throw new Error('Controller ' + componentName + ' not registered!');
         }
 
         return components[componentName];
@@ -494,8 +595,8 @@ $namespace(3, '@', function (exports) {
         CONTROLLER_VIEW_FIELD = '$view',
         CONTROLLER_MODEL_FIELD_PRIVATE = '__model__',
         CONTROLLER_MODEL_FIELD = '$model',
-        CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE = '__triggers__',
-        CONTROLLER_ONUPDATEMODEL_FIELD = '$onUpdateModel';
+        CONTROLLER_TRIGGER_FIELD_PRIVATE = '__triggers__',
+        CONTROLLER_TRIGGER_FIELD = '$onUpdateModel';
 
     var controllers = [];
     var internals = exports.__internals__ = exports.__internals__ || {};
@@ -517,7 +618,7 @@ $namespace(3, '@', function (exports) {
         var controllerName = options[NAME_FIELD];
 
         if (controllers[controllerName]) {
-            throw 'Controller ' + controllerName + ' already registered!';
+            throw new Error('Controller ' + controllerName + ' already registered!');
         }
 
         var fnCtrl = options[CONSTRUCTOR_FIELD];
@@ -527,7 +628,7 @@ $namespace(3, '@', function (exports) {
 
         fnCtrl.prototype[CONTROLLER_VIEW_FIELD] = _getViewElement;
         fnCtrl.prototype[CONTROLLER_MODEL_FIELD] = _manageModel;
-        fnCtrl.prototype[CONTROLLER_ONUPDATEMODEL_FIELD] = _onUpdateModel;
+        fnCtrl.prototype[CONTROLLER_TRIGGER_FIELD] = _manageTriggers;
 
         return fnCtrl;
     }
@@ -552,11 +653,11 @@ $namespace(3, '@', function (exports) {
 
     function _getController(controllerName) {
         if (typeof controllerName !== 'string' || controllerName == '') {
-            throw 'Parameter controllerName is required.';
+            throw new Error('Parameter controllerName is required.');
         }
 
         if (!controllers[controllerName]) {
-            throw 'Controller ' + controllerName + ' not registered!';
+            throw new Error('Controller ' + controllerName + ' not registered!');
         }
 
         return controllers[controllerName];
@@ -579,7 +680,7 @@ $namespace(3, '@', function (exports) {
             selector = elType;
 
         else if (typeof selector !== 'string')
-            throw 'Invalid view selector.';
+            throw new Error('Invalid view selector.');
 
         else switch (elType) {
             case VIEW_BY_ID:
@@ -587,7 +688,7 @@ $namespace(3, '@', function (exports) {
                 break;
 
             default:
-                throw 'Invalid view type "' + elType + '".';
+                throw new Error('Invalid view type "' + elType + '".');
         }
 
         return $(selector, view);
@@ -597,33 +698,139 @@ $namespace(3, '@', function (exports) {
      * Gerencia o modelo
      */
     function _manageModel() {
-        var model = this[CONTROLLER_MODEL_FIELD_PRIVATE];
+        var clonerCurrent = new internals.PlainObjectCloner(this[CONTROLLER_MODEL_FIELD_PRIVATE]);
 
-        // this.$model();
-        // get full model
+        // this.$model(): Get a full model
         if (!arguments.length) {
-            return $.extend({}, model);
+            return clonerCurrent.cloneObject();
         }
 
-        // this.$model({ object });
-        // set full model
-        if (arguments.length === 1 && utils.isObject(arguments[0])) {
-            var modelOld = $.extend({}, this[CONTROLLER_MODEL_FIELD_PRIVATE]),
-                modelNew = arguments[0];
+        // this.$model({ object }): Set a full model
+        if (arguments.length === 1
+            && utils.isObject(arguments[0])) {
 
-            // TODO: Call $onUpdateModel
+            var clonerNew = new internals.PlainObjectCloner(arguments[0]),
+                newState = clonerNew.cloneObject();
 
-            this[CONTROLLER_MODEL_FIELD_PRIVATE] = $.extend({}, arguments[0]);
+            this[CONTROLLER_MODEL_FIELD_PRIVATE] = newState;
+
+            _callTriggers(clonerCurrent.cloneObject(), newState, null, this);
+
+            return;
         }
-        
-        /*
-        this.$model('string');              // get path of model
-        this.$model('string', { object });  // set path of model
-        */
+
+        // this.$model('string'): Get path of model
+        if (arguments.length === 1
+            && utils.isString(arguments[0])) {
+
+            var path = $.trim(arguments[0]),
+                stateFull = clonerCurrent.cloneObject();
+
+            if (path.length === 0)
+                return stateFull;
+
+            return internals.getObjectItemByPath(stateFull, path)
+        }
+
+        // this.$model('string', { object }): Get path of model
+        if (arguments.length === 2
+            && utils.isString(arguments[0])
+            && utils.isObject(arguments[1])) {
+
+            var path = arguments[0],
+                stateFull = clonerCurrent.cloneObject(),
+                clonerNew = new internals.PlainObjectCloner(arguments[1]),
+                newState = clonerNew.cloneObject();
+
+            internals.setObjectItemByPath(stateFull, path, newState);
+
+            this[CONTROLLER_MODEL_FIELD_PRIVATE] = stateFull;
+
+            _callTriggers(clonerCurrent.cloneObject(), stateFull, path, this);
+
+            return;
+        }
+
+        throw new Error('Call with invalid parameters for ' + CONTROLLER_MODEL_FIELD + '!');
     }
 
-    function _onUpdateModel() {
-        var onUpdateList = this[CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE];
+    function _attachTrigger(ctrl, path, trigger) {
+        if (!utils.isArray(ctrl[CONTROLLER_TRIGGER_FIELD_PRIVATE]))
+            ctrl[CONTROLLER_TRIGGER_FIELD_PRIVATE] = [];
+
+        var triggers = ctrl[CONTROLLER_TRIGGER_FIELD_PRIVATE];
+
+        for (var t in triggers) {
+            var trg = triggers[t];
+
+            if (trg.path === path && trg.trigger === trigger)
+                return;
+        }
+
+        triggers.push({ path: path, trigger: trigger });
+    }
+
+    function _manageTriggers() {
+        if (arguments.length === 1
+            && utils.isFunction(arguments[0])) {
+
+            return _attachTrigger(this, null, arguments[0]);
+        }
+
+        if (arguments.length === 2
+            && utils.isString(arguments[0])
+            && utils.isFunction(arguments[1])) {
+
+            return _attachTrigger(this, arguments[0], arguments[1]);
+        }
+
+        throw new Error('Call with invalid parameters for ' + CONTROLLER_TRIGGER_FIELD + '!');
+    }
+
+    function _callTriggers(oldState, newState, modelPath, controller) {
+        var eligibleTriggers = [],
+            path = (modelPath || ''),
+            pathParts = path === '' ? [] : path.split('.');
+
+        for (var idx = pathParts.length - 1; idx >= 0; idx--) {
+            var pathPartsBegin = pathParts.splice(0, idx + 1);
+            pathParts = pathPartsBegin.concat(pathParts);
+
+            eligibleTriggers.push(pathPartsBegin.join('.'));
+        }
+
+        eligibleTriggers.push('');
+
+        var triggers = controller[CONTROLLER_TRIGGER_FIELD_PRIVATE] || [],
+            triggerFilter = function (prefix) {
+                return $.grep(triggers, function (item) {
+                    return (item.path || '') === prefix;
+                });
+            };
+
+
+        $.each(eligibleTriggers, function (_, itemPath) {
+            $.each(triggerFilter(itemPath), function (_, tgr) {
+                if (!utils.isFunction(tgr.trigger))
+                    return;
+
+                var _oldState = oldState,
+                    _newState = newState;
+
+                if (tgr.path) {
+                    _oldState = internals.getObjectItemByPath(_oldState, tgr.path);
+                    _newState = internals.getObjectItemByPath(_newState, tgr.path);
+                }
+
+                // function(oldState, newState, modelPath, controller) { }
+                tgr.trigger.call(
+                    null, /* this -> null */
+                    _oldState,
+                    _newState,
+                    tgr.path,
+                    controller);
+            });
+        });
     }
 })
 
