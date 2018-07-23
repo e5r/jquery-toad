@@ -159,9 +159,7 @@ $namespace(3, '@', function (exports) {
 
             this[CONTROLLER_MODEL_FIELD_PRIVATE] = stateFull;
 
-            _callTriggers(
-                internals.getObjectItemByPath(clonerCurrent.cloneObject(), path),
-                newState, path, this);
+            _callTriggers(clonerCurrent.cloneObject(), stateFull, path, this);
 
             return;
         }
@@ -169,11 +167,82 @@ $namespace(3, '@', function (exports) {
         throw new Error('Call with invalid parameters for ' + CONTROLLER_MODEL_FIELD + '!');
     }
 
+    function _attachTrigger(ctrl, path, trigger) {
+        if (!utils.isArray(ctrl[CONTROLLER_TRIGGER_FIELD_PRIVATE]))
+            ctrl[CONTROLLER_TRIGGER_FIELD_PRIVATE] = [];
+
+        var triggers = ctrl[CONTROLLER_TRIGGER_FIELD_PRIVATE];
+
+        for (var t in triggers) {
+            var trg = triggers[t];
+
+            if (trg.path === path && trg.trigger === trigger)
+                return;
+        }
+
+        triggers.push({ path: path, trigger: trigger });
+    }
+
     function _manageTriggers() {
-        console.log('_manageTriggers:', arguments);
+        if (arguments.length === 1
+            && utils.isFunction(arguments[0])) {
+
+            return _attachTrigger(this, null, arguments[0]);
+        }
+
+        if (arguments.length === 2
+            && utils.isString(arguments[0])
+            && utils.isFunction(arguments[1])) {
+
+            return _attachTrigger(this, arguments[0], arguments[1]);
+        }
+
+        throw new Error('Call with invalid parameters for ' + CONTROLLER_TRIGGER_FIELD + '!');
     }
 
     function _callTriggers(oldState, newState, modelPath, controller) {
-        console.log('_callTriggers:', arguments);
+        var eligibleTriggers = [],
+            path = (modelPath || ''),
+            pathParts = path === '' ? [] : path.split('.');
+
+        for (var idx = pathParts.length - 1; idx >= 0; idx--) {
+            var pathPartsBegin = pathParts.splice(0, idx + 1);
+            pathParts = pathPartsBegin.concat(pathParts);
+
+            eligibleTriggers.push(pathPartsBegin.join('.'));
+        }
+
+        eligibleTriggers.push('');
+
+        var triggers = controller[CONTROLLER_TRIGGER_FIELD_PRIVATE] || [],
+            triggerFilter = function (prefix) {
+                return $.grep(triggers, function (item) {
+                    return (item.path || '') === prefix;
+                });
+            };
+
+
+        $.each(eligibleTriggers, function (_, itemPath) {
+            $.each(triggerFilter(itemPath), function (_, tgr) {
+                if (!utils.isFunction(tgr.trigger))
+                    return;
+
+                var _oldState = oldState,
+                    _newState = newState;
+
+                if (tgr.path) {
+                    _oldState = internals.getObjectItemByPath(_oldState, tgr.path);
+                    _newState = internals.getObjectItemByPath(_newState, tgr.path);
+                }
+
+                // function(oldState, newState, modelPath, controller) { }
+                tgr.trigger.call(
+                    null, /* this -> null */
+                    _oldState,
+                    _newState,
+                    tgr.path,
+                    controller);
+            });
+        });
     }
 })
