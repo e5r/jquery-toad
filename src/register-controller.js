@@ -16,8 +16,6 @@ $namespace(3, '@', function (exports) {
 
     internals.getController = _getController;
 
-    console.log('internals:', JSON.stringify(internals));
-
     // Registra constantes públicas
     internals.setConstant('VIEW_BY_ID', 1);
 
@@ -33,7 +31,7 @@ $namespace(3, '@', function (exports) {
         var controllerName = options[NAME_FIELD];
 
         if (controllers[controllerName]) {
-            throw 'Controller ' + controllerName + ' already registered!';
+            throw new Error('Controller ' + controllerName + ' already registered!');
         }
 
         var fnCtrl = options[CONSTRUCTOR_FIELD];
@@ -68,11 +66,11 @@ $namespace(3, '@', function (exports) {
 
     function _getController(controllerName) {
         if (typeof controllerName !== 'string' || controllerName == '') {
-            throw 'Parameter controllerName is required.';
+            throw new Error('Parameter controllerName is required.');
         }
 
         if (!controllers[controllerName]) {
-            throw 'Controller ' + controllerName + ' not registered!';
+            throw new Error('Controller ' + controllerName + ' not registered!');
         }
 
         return controllers[controllerName];
@@ -95,7 +93,7 @@ $namespace(3, '@', function (exports) {
             selector = elType;
 
         else if (typeof selector !== 'string')
-            throw 'Invalid view selector.';
+            throw new Error('Invalid view selector.');
 
         else switch (elType) {
             case VIEW_BY_ID:
@@ -103,7 +101,7 @@ $namespace(3, '@', function (exports) {
                 break;
 
             default:
-                throw 'Invalid view type "' + elType + '".';
+                throw new Error('Invalid view type "' + elType + '".');
         }
 
         return $(selector, view);
@@ -121,19 +119,54 @@ $namespace(3, '@', function (exports) {
         }
 
         // this.$model({ object }): Set a full model
-        if (arguments.length === 1 && utils.isObject(arguments[0])) {
+        if (arguments.length === 1
+            && utils.isObject(arguments[0])) {
+
             var clonerNew = new internals.PlainObjectCloner(arguments[0]),
                 newState = clonerNew.cloneObject();
 
             this[CONTROLLER_MODEL_FIELD_PRIVATE] = newState;
 
             _callTriggers(clonerCurrent.cloneObject(), newState, null, this);
+
+            return;
         }
 
-        /*
-        this.$model('string');              // get path of model
-        this.$model('string', { object });  // set path of model
-        */
+        // this.$model('string'): Get path of model
+        if (arguments.length === 1
+            && utils.isString(arguments[0])) {
+
+            var path = $.trim(arguments[0]),
+                stateFull = clonerCurrent.cloneObject();
+
+            if (path.length === 0)
+                return stateFull;
+
+            return internals.getObjectItemByPath(stateFull, path)
+        }
+
+        // this.$model('string', { object }): Get path of model
+        if (arguments.length === 2
+            && utils.isString(arguments[0])
+            && utils.isObject(arguments[1])) {
+
+            var path = arguments[0],
+                stateFull = clonerCurrent.cloneObject(),
+                clonerNew = new internals.PlainObjectCloner(arguments[1]),
+                newState = clonerNew.cloneObject();
+
+            internals.setObjectItemByPath(stateFull, path, newState);
+
+            this[CONTROLLER_MODEL_FIELD_PRIVATE] = stateFull;
+
+            _callTriggers(
+                internals.getObjectItemByPath(clonerCurrent.cloneObject(), path),
+                newState, path, this);
+
+            return;
+        }
+
+        throw new Error('Call with invalid parameters for ' + CONTROLLER_MODEL_FIELD + '!');
     }
 
     function _manageTriggers() {

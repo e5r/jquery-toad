@@ -17,8 +17,7 @@
     <div class="row justify-content-center">
       <div class="col-12 col-md-8 align-self-center">
         <div class="card">
-          <img class="card-img-top img-fluid" src=""
-            alt="Card image cap">
+          <img class="card-img-top img-fluid" src="" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title"></h5>
             <p class="card-text"></p>
@@ -27,15 +26,28 @@
             <li class="list-group-item">#Item</li>
           </ul>
           <div class="card-body">
-            <p>...</p>
-          </div>
-          <div class="card-body">
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" data-id="button-show-form" data-events="click=>onAddItemClick">
               <i class="fas fa-plus"></i> Add
             </button>
             <button class="btn btn-secondary" data-events="click=>onDiscardClick">
               <i class="fas fa-ban"></i> Descarta
             </button>
+          </div>
+          <div class="card-body d-none" data-id="form">
+            <form class="form-inline">
+              <div class="form-group mx-sm-3 mb-2">
+                <input type="text" class="form-control" placeholder="Item">
+                <span class="invalid-feedback"></span>
+              </div>
+              <div class="btn-group mb-2 ml-3">
+                <button class="btn btn-success" data-events="click=>onAddItemSaveClick">
+                  <i class="fas fa-plus-square"></i>
+                </button>
+                <button class="btn btn-secondary" data-events="click=>onAddItemCancelClick">
+                  <i class="fas fa-ban"></i>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
