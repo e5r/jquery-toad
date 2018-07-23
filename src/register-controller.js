@@ -8,13 +8,15 @@ $namespace(3, '@', function (exports) {
         CONTROLLER_VIEW_FIELD = '$view',
         CONTROLLER_MODEL_FIELD_PRIVATE = '__model__',
         CONTROLLER_MODEL_FIELD = '$model',
-        CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE = '__triggers__',
-        CONTROLLER_ONUPDATEMODEL_FIELD = '$onUpdateModel';
+        CONTROLLER_TRIGGER_FIELD_PRIVATE = '__triggers__',
+        CONTROLLER_TRIGGER_FIELD = '$onUpdateModel';
 
     var controllers = [];
     var internals = exports.__internals__ = exports.__internals__ || {};
 
     internals.getController = _getController;
+
+    console.log('internals:', JSON.stringify(internals));
 
     // Registra constantes públicas
     internals.setConstant('VIEW_BY_ID', 1);
@@ -41,7 +43,7 @@ $namespace(3, '@', function (exports) {
 
         fnCtrl.prototype[CONTROLLER_VIEW_FIELD] = _getViewElement;
         fnCtrl.prototype[CONTROLLER_MODEL_FIELD] = _manageModel;
-        fnCtrl.prototype[CONTROLLER_ONUPDATEMODEL_FIELD] = _onUpdateModel;
+        fnCtrl.prototype[CONTROLLER_TRIGGER_FIELD] = _manageTriggers;
 
         return fnCtrl;
     }
@@ -111,32 +113,34 @@ $namespace(3, '@', function (exports) {
      * Gerencia o modelo
      */
     function _manageModel() {
-        var model = this[CONTROLLER_MODEL_FIELD_PRIVATE];
+        var clonerCurrent = new internals.PlainObjectCloner(this[CONTROLLER_MODEL_FIELD_PRIVATE]);
 
-        // this.$model();
-        // get full model
+        // this.$model(): Get a full model
         if (!arguments.length) {
-            return $.extend({}, model);
+            return clonerCurrent.cloneObject();
         }
 
-        // this.$model({ object });
-        // set full model
+        // this.$model({ object }): Set a full model
         if (arguments.length === 1 && utils.isObject(arguments[0])) {
-            var modelOld = $.extend({}, this[CONTROLLER_MODEL_FIELD_PRIVATE]),
-                modelNew = arguments[0];
+            var clonerNew = new internals.PlainObjectCloner(arguments[0]),
+                newState = clonerNew.cloneObject();
 
-            // TODO: Call $onUpdateModel
+            this[CONTROLLER_MODEL_FIELD_PRIVATE] = newState;
 
-            this[CONTROLLER_MODEL_FIELD_PRIVATE] = $.extend({}, arguments[0]);
+            _callTriggers(clonerCurrent.cloneObject(), newState, null, this);
         }
-        
+
         /*
         this.$model('string');              // get path of model
         this.$model('string', { object });  // set path of model
         */
     }
 
-    function _onUpdateModel() {
-        var onUpdateList = this[CONTROLLER_ONUPDATEMODEL_FIELD_PRIVATE];
+    function _manageTriggers() {
+        console.log('_manageTriggers:', arguments);
+    }
+
+    function _callTriggers(oldState, newState, modelPath, controller) {
+        console.log('_callTriggers:', arguments);
     }
 })

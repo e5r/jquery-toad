@@ -7,8 +7,6 @@ $namespace(9, 'core', function (exports) {
         CONTROLLER_SELECTOR = '[' + CONTROLLER_DATA_IDENTIFIER + ']',
         CONTROLLER_ELEMENT_DATA = '$ctrl',
         CONTROLLER_VIEW_FIELD = '__view__',
-        CONTROLLER_MODEL_FIELD = '__model__',
-        CONTROLLER_ONUPDATEMODEL_FIELD = '__triggers__',
         CONTROLLER_OPTIONS_FIELD = '$options',
 
         COMPONENT_SELECTOR_KEY = '$jqSelector',
@@ -39,8 +37,6 @@ $namespace(9, 'core', function (exports) {
             el.data(CONTROLLER_ELEMENT_DATA, ctrl);
 
             ctrl[CONTROLLER_VIEW_FIELD] = el;
-            ctrl[CONTROLLER_MODEL_FIELD] = null;
-            ctrl[CONTROLLER_ONUPDATEMODEL_FIELD] = [];
             ctrl[CONTROLLER_OPTIONS_FIELD] = options;
 
             _setupEvents(el, ctrl)

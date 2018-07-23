@@ -14,8 +14,9 @@ E5R.namespace('app/controllers', function (exports) {
             description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
             f: function () { /* functions are discarded */ },
             imageUrl: 'https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg',
+            nativeList: [],
             list: {
-                itens: [
+                items: [
                     'https://github.com/e5r'
                 ],
                 f: function () { /* functions are discarded */ }
@@ -23,18 +24,14 @@ E5R.namespace('app/controllers', function (exports) {
         };
 
         this.$model(model);
-
-        model.description = '!modified!';
-        console.log('model:', model);
-
         this.$onUpdateModel(_onUpdateModel);
-        this.$onUpdateModel('list.items', _onUpdateOrgs);
+        this.$onUpdateModel('list.items', _onUpdateItems);
 
         console.log('model.after:', this.$model());
         console.log(this);
     };
 
-    HomeController.prototype.onAddOrgSaveClick = function (event) {
+    HomeController.prototype.onAddItemSaveClick = function (event) {
         var self = $(this).controller(),
             orgs = self.$model('list.items'),
             addOrgUrl = self.$view(BY_ID, 'add-org-url').val();
@@ -46,7 +43,12 @@ E5R.namespace('app/controllers', function (exports) {
         var self = $(this).controller(),
             model = self.$model();
 
-        model.github.orgs = [];
+        console.log('onDiscardClick->model.before:', model);
+
+        model.list.items = [];
+
+        console.log('onDiscardClick->model.middle:', model);
+        console.log('onDiscardClick->model.after:', self.$model());
         // not update model
     }
 
@@ -69,7 +71,7 @@ E5R.namespace('app/controllers', function (exports) {
         } */
     }
 
-    function _onUpdateOrgs(oldState, newState, modelPath, controller) {
+    function _onUpdateItems(oldState, newState, modelPath, controller) {
         /* After [this.$model(...)] on constructor
 
         modelPath = 'list.items'
