@@ -2,31 +2,30 @@ E5R.namespace('app/controllers', function (exports) {
     "use strict";
 
     var $ = E5R.$jq,
+        utils = E5R.require('utils'),
         register = E5R.require('@registerController'),
 
         BY_ID = E5R.require('@constants').VIEW_BY_ID;
 
     function HomeController(el, options) {
         var model = {
-            title: 'Card title',
-            description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-            f: function () { /* functions are discarded */ },
+            title: 'E5R Development Team',
+            description: 'O E5R Development Team, é um projeto de construção de um time de desenvolvimento de softwares',
+            f1: function () { /* functions are discarded */ },
             imageUrl: 'https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg',
             nativeList: [],
-            test: {
-                list: {
-                    items: [
-                        'https://github.com/e5r'
-                    ],
-                    f: function () { /* functions are discarded */ }
-                }
-            }
+            websites: [
+                'https://github.com/e5r',
+                'https://erlimar.wordpress.com/category/e5r-development-team/',
+                'https://www.youtube.com/channel/UC6zPtVBfcAdkzq7-dpSlhdw'
+            ],
+            f2: function () { /* functions are discarded */ }
         };
 
         this.$onUpdateModel(_onUpdateModel);
-        this.$onUpdateModel('test.list.items', _onUpdateItems);
-        
-        this.$model(model);
+        this.$onUpdateModel('websites', _onUpdateItems);
+
+        this.$model(el, model);
     };
 
     HomeController.prototype.onAddItemClick = function (event) {
@@ -52,7 +51,7 @@ E5R.namespace('app/controllers', function (exports) {
         event.preventDefault();
 
         var self = $(this).controller(),
-            items = self.$model('test.list.items'),
+            items = self.$model('websites'),
             addItemText = self.$view('form input[type="text"]').val();
 
         if (items.indexOf(addItemText) >= 0) {
@@ -65,7 +64,7 @@ E5R.namespace('app/controllers', function (exports) {
             return;
         }
 
-        self.$model('test.list.items', items.concat([addItemText]))
+        self.$model('websites', items.concat([addItemText]))
 
         self.$view(BY_ID, 'button-show-form').removeClass('d-none');
         self.$view(BY_ID, 'form').addClass('d-none');
@@ -86,7 +85,7 @@ E5R.namespace('app/controllers', function (exports) {
 
         console.log('onDiscardClick->model.before:', model);
 
-        model.test.list.items = [];
+        model.websites = [];
 
         console.log('onDiscardClick->model.middle:', model);
         console.log('onDiscardClick->model.after:', self.$model());
@@ -94,49 +93,45 @@ E5R.namespace('app/controllers', function (exports) {
     }
 
     function _onUpdateModel(oldState, newState, modelPath, controller) {
-        console.log('_onUpdateModel:', arguments);
-        /* After [this.$model(...)] on constructor
+        controller.$view(BY_ID, 'info-title').text(newState.title);
+        controller.$view(BY_ID, 'info-description').text(newState.description);
 
-        modelPath = null
+        var pathItems = 'websites',
+            cbItems = (modelPath
+                ? function () { }
+                : _onUpdateItems);
 
-        oldState = null 
-
-        newState = {
-            title: 'Card title',
-            description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-            imageUrl: 'https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg',
-            list: {
-                itens: [
-                    'https://github.com/e5r'
-                ]
-            }
-        } */
+        cbItems.call(
+            null,
+            utils.getObjectItemByPath(oldState, pathItems),
+            utils.getObjectItemByPath(newState, pathItems),
+            pathItems,
+            controller
+        );
     }
 
     function _onUpdateItems(oldState, newState, modelPath, controller) {
-        console.log('_onUpdateItems:', arguments);
-        /* After [this.$model(...)] on constructor
+        var list = controller.$view(BY_ID, 'info-list');
 
-        modelPath = 'test.list.items'
+        list.empty();
 
-        oldState = null 
+        $.each(newState || [], function (_, itemText) {
+            itemText = (itemText || '');
 
-        newState =  [
-            'https://github.com/e5r'
-        ] */
+            var item = $('<li>')
+                .addClass('list-group-item');
 
-        /* After [self.$model(...)] on onAddOrgSaveClick
+            if (itemText.indexOf('http://') >= 0 || itemText.indexOf('https://') >= 0) {
+                var link = $('<a>')
+                    .attr('href', itemText)
+                    .attr('target', '_blank')
+                    .text(itemText);
+                item.append(link);
+            } else
+                item.text(itemText);
 
-        modelPath = 'test.list.items'
-
-        oldState =  [
-            'https://github.com/e5r'
-        ]
-        
-        newState = [
-            'https://github.com/e5r',
-            '{new.org.url}',
-        ] */
+            list.append(item);
+        });
     }
 
     exports.HomeController = register('home', HomeController);

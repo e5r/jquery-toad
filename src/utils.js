@@ -1,4 +1,47 @@
 $namespace(0, 'utils', function (exports) {
+    /**
+     * Extrai o valor da propridade de um objeto por um caminho informado
+     * 
+     * @param {object} obj - Objeto com a propriedade
+     * @param {string} path - Caminho da propriedade
+     */
+    exports.getObjectItemByPath = function (obj, path) {
+        var value = obj,
+            keys = path.split('.'),
+            k = 0;
+
+        while (value && k < keys.length) {
+            value = value[keys[k]];
+            k++;
+        }
+
+        return value;
+    }
+
+    /**
+     * Altera o valor da propriedade de um objeto por um caminho informado
+     * 
+     * @param {object} obj - Objeto com a propriedade
+     * @param {string} path  - Caminho da propriedade
+     * @param {any} newValue - Novo valor da propriedade
+     */
+    exports.setObjectItemByPath = function (obj, path, newValue) {
+        var value = obj,
+            keys = path.split('.'),
+            k = 0;
+
+        while (value && k < keys.length) {
+            if (typeof value[keys[k]] !== 'object')
+                value[keys[k]] = {};
+
+            if (k + 1 !== keys.length)
+                value = value[keys[k]];
+
+            k++;
+        }
+
+        return value[keys[--k]] = newValue;
+    }
 
     /**
      * Verifica se referencia uma string

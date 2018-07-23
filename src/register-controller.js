@@ -119,10 +119,19 @@ $namespace(3, '@', function (exports) {
         }
 
         // this.$model({ object }): Set a full model
-        if (arguments.length === 1
-            && utils.isObject(arguments[0])) {
+        // this.$model({ jQueryEl }, { object }): Set a full model from @constructor
+        if ((arguments.length === 1 && utils.isObject(arguments[0])) ||
+            (arguments.length === 2 && arguments[0] instanceof $
+                && utils.isObject(arguments[1]))) {
 
-            var clonerNew = new internals.PlainObjectCloner(arguments[0]),
+            var _modelArg = arguments[0];
+
+            if (_modelArg instanceof $) {
+                _modelArg = arguments[1];
+                this[CONTROLLER_VIEW_FIELD_PRIVATE] = arguments[0];
+            }
+
+            var clonerNew = new internals.PlainObjectCloner(_modelArg),
                 newState = clonerNew.cloneObject();
 
             this[CONTROLLER_MODEL_FIELD_PRIVATE] = newState;
@@ -142,7 +151,7 @@ $namespace(3, '@', function (exports) {
             if (path.length === 0)
                 return stateFull;
 
-            return internals.getObjectItemByPath(stateFull, path)
+            return utils.getObjectItemByPath(stateFull, path)
         }
 
         // this.$model('string', { object }): Get path of model
@@ -155,7 +164,7 @@ $namespace(3, '@', function (exports) {
                 clonerNew = new internals.PlainObjectCloner(arguments[1]),
                 newState = clonerNew.cloneObject();
 
-            internals.setObjectItemByPath(stateFull, path, newState);
+            utils.setObjectItemByPath(stateFull, path, newState);
 
             this[CONTROLLER_MODEL_FIELD_PRIVATE] = stateFull;
 
@@ -231,8 +240,8 @@ $namespace(3, '@', function (exports) {
                     _newState = newState;
 
                 if (tgr.path) {
-                    _oldState = internals.getObjectItemByPath(_oldState, tgr.path);
-                    _newState = internals.getObjectItemByPath(_newState, tgr.path);
+                    _oldState = utils.getObjectItemByPath(_oldState, tgr.path);
+                    _newState = utils.getObjectItemByPath(_newState, tgr.path);
                 }
 
                 // function(oldState, newState, modelPath, controller) { }
@@ -240,7 +249,7 @@ $namespace(3, '@', function (exports) {
                     null, /* this -> null */
                     _oldState,
                     _newState,
-                    tgr.path,
+                    modelPath,
                     controller);
             });
         });

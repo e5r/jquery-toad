@@ -246,55 +246,20 @@ $namespace(9, 'core', function (exports) {
 // ========================================================================
 $namespace(1, '@', function (exports) {
     var CONFIG = {},
-        utils = $require('utils'),
-        internals = exports.__internals__ = exports.__internals__ || {};
-
-    internals.getObjectItemByPath = _getObjectItemByPath;
-    internals.setObjectItemByPath = _setObjectItemByPath;
-
-    function _getObjectItemByPath(obj, path) {
-        var value = obj,
-            keys = path.split('.'),
-            k = 0;
-
-        while (value && k < keys.length) {
-            value = value[keys[k]];
-            k++;
-        }
-
-        return value;
-    }
-
-    function _setObjectItemByPath(obj, path, newValue) {
-        var value = obj,
-            keys = path.split('.'),
-            k = 0;
-
-        while (value && k < keys.length) {
-            if (typeof value[keys[k]] !== 'object')
-                value[keys[k]] = {};
-
-            if (k + 1 !== keys.length)
-                value = value[keys[k]];
-
-            k++;
-        }
-
-        return value[keys[--k]] = newValue;
-    }
+        utils = $require('utils');
 
     function _getConfig(key, defaultValue) {
         if (!utils.isString(key))
             return;
 
-        return internals.getObjectItemByPath(CONFIG, key) || defaultValue;
+        return utils.getObjectItemByPath(CONFIG, key) || defaultValue;
     }
 
     function _setConfig(key, newValue) {
         if (!utils.isString(key))
             return;
 
-        return internals.setObjectItemByPath(CONFIG, key, newValue);
+        return utils.setObjectItemByPath(CONFIG, key, newValue);
     }
 
     exports.config = {
@@ -706,10 +671,19 @@ $namespace(3, '@', function (exports) {
         }
 
         // this.$model({ object }): Set a full model
-        if (arguments.length === 1
-            && utils.isObject(arguments[0])) {
+        // this.$model({ jQueryEl }, { object }): Set a full model from @constructor
+        if ((arguments.length === 1 && utils.isObject(arguments[0])) ||
+            (arguments.length === 2 && arguments[0] instanceof $
+                && utils.isObject(arguments[1]))) {
 
-            var clonerNew = new internals.PlainObjectCloner(arguments[0]),
+            var _modelArg = arguments[0];
+
+            if (_modelArg instanceof $) {
+                _modelArg = arguments[1];
+                this[CONTROLLER_VIEW_FIELD_PRIVATE] = arguments[0];
+            }
+
+            var clonerNew = new internals.PlainObjectCloner(_modelArg),
                 newState = clonerNew.cloneObject();
 
             this[CONTROLLER_MODEL_FIELD_PRIVATE] = newState;
@@ -729,7 +703,7 @@ $namespace(3, '@', function (exports) {
             if (path.length === 0)
                 return stateFull;
 
-            return internals.getObjectItemByPath(stateFull, path)
+            return utils.getObjectItemByPath(stateFull, path)
         }
 
         // this.$model('string', { object }): Get path of model
@@ -742,7 +716,7 @@ $namespace(3, '@', function (exports) {
                 clonerNew = new internals.PlainObjectCloner(arguments[1]),
                 newState = clonerNew.cloneObject();
 
-            internals.setObjectItemByPath(stateFull, path, newState);
+            utils.setObjectItemByPath(stateFull, path, newState);
 
             this[CONTROLLER_MODEL_FIELD_PRIVATE] = stateFull;
 
@@ -818,8 +792,8 @@ $namespace(3, '@', function (exports) {
                     _newState = newState;
 
                 if (tgr.path) {
-                    _oldState = internals.getObjectItemByPath(_oldState, tgr.path);
-                    _newState = internals.getObjectItemByPath(_newState, tgr.path);
+                    _oldState = utils.getObjectItemByPath(_oldState, tgr.path);
+                    _newState = utils.getObjectItemByPath(_newState, tgr.path);
                 }
 
                 // function(oldState, newState, modelPath, controller) { }
@@ -827,7 +801,7 @@ $namespace(3, '@', function (exports) {
                     null, /* this -> null */
                     _oldState,
                     _newState,
-                    tgr.path,
+                    modelPath,
                     controller);
             });
         });
@@ -839,6 +813,49 @@ $namespace(3, '@', function (exports) {
 // utils.js
 // ========================================================================
 $namespace(0, 'utils', function (exports) {
+    /**
+     * Extrai o valor da propridade de um objeto por um caminho informado
+     * 
+     * @param {object} obj - Objeto com a propriedade
+     * @param {string} path - Caminho da propriedade
+     */
+    exports.getObjectItemByPath = function (obj, path) {
+        var value = obj,
+            keys = path.split('.'),
+            k = 0;
+
+        while (value && k < keys.length) {
+            value = value[keys[k]];
+            k++;
+        }
+
+        return value;
+    }
+
+    /**
+     * Altera o valor da propriedade de um objeto por um caminho informado
+     * 
+     * @param {object} obj - Objeto com a propriedade
+     * @param {string} path  - Caminho da propriedade
+     * @param {any} newValue - Novo valor da propriedade
+     */
+    exports.setObjectItemByPath = function (obj, path, newValue) {
+        var value = obj,
+            keys = path.split('.'),
+            k = 0;
+
+        while (value && k < keys.length) {
+            if (typeof value[keys[k]] !== 'object')
+                value[keys[k]] = {};
+
+            if (k + 1 !== keys.length)
+                value = value[keys[k]];
+
+            k++;
+        }
+
+        return value[keys[--k]] = newValue;
+    }
 
     /**
      * Verifica se referencia uma string
