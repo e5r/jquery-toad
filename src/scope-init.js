@@ -32,7 +32,7 @@ $toad.$jq = $;
  */
 $toad.namespace = function (name, factory) {
     if (typeof name !== 'string') {
-        throw 'Invalid namespace.';
+        throw new Error('Invalid namespace.');
     }
 
     // TODO: Mudar para abordagem semelhante a  $namespace
@@ -47,7 +47,7 @@ utils.func(utils.data)
  */
 $toad.require = function (name) {
     if (typeof name !== 'string' || $.trim(name).length < 1) {
-        throw 'Invalid namespace to import.';
+        throw new Error('Invalid namespace to import.');
     }
 
     var required = {},

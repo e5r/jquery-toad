@@ -17,13 +17,13 @@ $namespace(1, '@', function (exports) {
      */
     function _setConstant(constName, constValue) {
         if (typeof constName !== 'string')
-            throw 'Invalid constName "' + constName + '"';
+            throw new Error('Invalid constName "' + constName + '"');
 
         if (!constValue)
-            throw 'constValue is required!';
+            throw new Error('constValue is required!');
 
         if (typeof constants[constName] !== 'undefined')
-            throw 'Constant "' + constName + '" already exists!';
+            throw new Error('Constant "' + constName + '" already exists!');
 
         // Quando [Object.defineProperty] não está disponível (ex: IE8 <) simplesmente
         // guardamos um valor para uso, porém sem nenhuma proteção de imutabilidade

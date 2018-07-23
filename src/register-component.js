@@ -25,7 +25,7 @@ $namespace(3, '@', function (exports) {
             selector = '[data-gui="{name}"]'.replace('{name}', componentName);
 
         if (components[componentName]) {
-            throw 'Component ' + componentName + ' already registered!';
+            throw new Error('Component ' + componentName + ' already registered!');
         }
 
         var fnCmp = function (ctrl) {
@@ -76,11 +76,11 @@ $namespace(3, '@', function (exports) {
 
     function _getComponent(componentName) {
         if (typeof componentName !== 'string' || componentName == '') {
-            throw 'Parameter componentName is required.';
+            throw new Error('Parameter componentName is required.');
         }
 
         if (!components[componentName]) {
-            throw 'Controller ' + componentName + ' not registered!';
+            throw new Error('Controller ' + componentName + ' not registered!');
         }
 
         return components[componentName];

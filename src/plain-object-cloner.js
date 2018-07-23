@@ -37,7 +37,7 @@ $namespace(1, '@', function (exports) {
                 continue;
 
             if (this.cloning.indexOf(prop) >= 0)
-                throw 'Circular reference detected!';
+                throw new Error('Circular reference detected!');
 
             this.cloning.push(prop);
 
@@ -73,7 +73,7 @@ $namespace(1, '@', function (exports) {
                 continue;
 
             if (this.cloning.indexOf(prop) >= 0)
-                throw 'Circular reference detected!';
+                throw new Error('Circular reference detected!');
 
             this.cloning.push(prop);
 
