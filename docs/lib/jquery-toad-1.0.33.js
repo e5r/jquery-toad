@@ -1,5 +1,5 @@
 /*!
- * jquery-toad v1.0.32
+ * jquery-toad v1.0.33
  * jQuery TOAD - O velho e querido jQuery (https://e5r.github.io/jquery-toad)
  * Copyright (c) Erlimar Silva Campos. All rights reserved.
  * Licensed under the Apache-2.0 License. More license information in LICENSE.
@@ -179,6 +179,8 @@ $namespace(9, 'core', function (exports) {
 
             _setupEvents(el, ctrl)
             _setupComponents(el, ctrl);
+
+            internals.callLazyTriggers(ctrl);
         });
     }
 
@@ -563,10 +565,12 @@ $namespace(3, '@', function (exports) {
         CONTROLLER_TRIGGER_FIELD_PRIVATE = '__triggers__',
         CONTROLLER_TRIGGER_FIELD = '$onUpdateModel';
 
+    var lazyTriggers = [];
     var controllers = [];
     var internals = exports.__internals__ = exports.__internals__ || {};
 
     internals.getController = _getController;
+    internals.callLazyTriggers = _callLazyTriggers;
 
     // Registra constantes públicas
     internals.setConstant('VIEW_BY_ID', 1);
@@ -671,19 +675,10 @@ $namespace(3, '@', function (exports) {
         }
 
         // this.$model({ object }): Set a full model
-        // this.$model({ jQueryEl }, { object }): Set a full model from @constructor
-        if ((arguments.length === 1 && utils.isObject(arguments[0])) ||
-            (arguments.length === 2 && arguments[0] instanceof $
-                && utils.isObject(arguments[1]))) {
+        if (arguments.length === 1
+            && utils.isObject(arguments[0])) {
 
-            var _modelArg = arguments[0];
-
-            if (_modelArg instanceof $) {
-                _modelArg = arguments[1];
-                this[CONTROLLER_VIEW_FIELD_PRIVATE] = arguments[0];
-            }
-
-            var clonerNew = new internals.PlainObjectCloner(_modelArg),
+            var clonerNew = new internals.PlainObjectCloner(arguments[0]),
                 newState = clonerNew.cloneObject();
 
             this[CONTROLLER_MODEL_FIELD_PRIVATE] = newState;
@@ -762,6 +757,11 @@ $namespace(3, '@', function (exports) {
     }
 
     function _callTriggers(oldState, newState, modelPath, controller) {
+        if (!controller[CONTROLLER_VIEW_FIELD_PRIVATE]) {
+            _setLazyTriggers(oldState, newState, modelPath, controller);
+            return;
+        }
+
         var eligibleTriggers = [],
             path = (modelPath || ''),
             pathParts = path === '' ? [] : path.split('.');
@@ -805,6 +805,55 @@ $namespace(3, '@', function (exports) {
                     controller);
             });
         });
+    }
+
+    function _setLazyTriggers(oldState, newState, modelPath, controller) {
+        var triggerIdx = -1,
+            triggerRecord = {
+                controller: controller,
+                trigger: {
+                    oldState: oldState,
+                    newState: newState,
+                    modelPath: modelPath
+                }
+            };
+
+        $.each(lazyTriggers, function (idx, item) {
+            if (item.controller === controller)
+                triggerIdx = idx;
+        });
+
+        if (triggerIdx >= 0)
+            lazyTriggers[triggerIdx] = triggerRecord;
+        else
+            lazyTriggers.push(triggerRecord);
+    }
+
+    function _callLazyTriggers(controller) {
+        var triggerIdx = -1,
+            triggerRecord;
+
+        $.each(lazyTriggers, function (idx, record) {
+            if (record.controller === controller) {
+                triggerIdx = idx;
+                triggerRecord = record;
+            }
+        });
+
+        if (triggerRecord) {
+            try {
+                _callTriggers(
+                    triggerRecord.trigger.oldState,
+                    triggerRecord.trigger.newState,
+                    triggerRecord.trigger.modelPath,
+                    triggerRecord.controller
+                );
+            } catch (_) { }
+        }
+
+        if (triggerIdx >= 0) {
+            lazyTriggers.splice(triggerIdx, 1);
+        }
     }
 })
 
