@@ -41,6 +41,8 @@ $namespace(9, 'core', function (exports) {
 
             _setupEvents(el, ctrl)
             _setupComponents(el, ctrl);
+
+            internals.callLazyTriggers(ctrl);
         });
     }
 

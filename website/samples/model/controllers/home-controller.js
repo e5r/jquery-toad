@@ -8,7 +8,7 @@ E5R.namespace('app/controllers', function (exports) {
         BY_ID = E5R.require('@constants').VIEW_BY_ID;
 
     function HomeController(el, options) {
-        var model = {
+        this.$model({
             title: 'E5R Development Team',
             description: 'O E5R Development Team, é um projeto de construção de um time de desenvolvimento de softwares',
             f1: function () { /* functions are discarded */ },
@@ -20,12 +20,10 @@ E5R.namespace('app/controllers', function (exports) {
                 'https://www.youtube.com/channel/UC6zPtVBfcAdkzq7-dpSlhdw'
             ],
             f2: function () { /* functions are discarded */ }
-        };
+        });
 
         this.$onUpdateModel(_onUpdateModel);
         this.$onUpdateModel('websites', _onUpdateItems);
-
-        this.$model(el, model);
     };
 
     HomeController.prototype.onAddItemClick = function (event) {
