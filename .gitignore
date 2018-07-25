@@ -63,5 +63,3 @@ typings/
 
 # Project
 dist/
-
-*.nupkg

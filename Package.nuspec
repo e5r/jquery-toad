@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>jquery-toad</id>
-    <version>1.0.31</version>
+    <version>1.0.32</version>
     <authors>Erlimar Silva Campos</authors>
     <owners>Erlimar Silva Campos, E5R Development Team</owners>
     <licenseUrl>http://apache.org/licenses/LICENSE-2.0</licenseUrl>

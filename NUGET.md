@@ -4,7 +4,7 @@ Operações com NUGET
 ## pack
 
 ```powershell
- $ ./build/nuget.exe pack
+ $ ./build/nuget.exe pack -OutputDirectory dist
 ```
 
 # push
