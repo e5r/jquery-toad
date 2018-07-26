@@ -18,7 +18,7 @@ $namespace(9, 'core', function (exports) {
         BIND_EVENT_SPLITER = '=>';
 
     function _installControllers() {
-        $(CONTROLLER_SELECTOR, $elm).each(function () {
+        $(CONTROLLER_SELECTOR, document).each(function () {
             var el = $(this),
                 name = el.attr(CONTROLLER_DATA_IDENTIFIER),
                 ctor = internals.getController(name),
@@ -101,5 +101,5 @@ $namespace(9, 'core', function (exports) {
         _installControllers();
     }
 
-    $($elm).ready(_installToad);
+    $(document).ready(_installToad);
 })

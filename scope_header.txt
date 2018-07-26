@@ -1,2 +1,2 @@
 
-(function ($, $elm, $toad) { "use strict";
+window[__TOAD__] = window[__TOAD__] || (function (window, $) { "use strict";

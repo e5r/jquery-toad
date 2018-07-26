@@ -8,3 +8,5 @@ _NAMESPACES_.sort(function (a, b) {
 for (var n in _NAMESPACES_) {
     _NAMESPACES_[n].cb();
 }
+
+return $toad;

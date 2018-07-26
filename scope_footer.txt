@@ -1,11 +1,5 @@
 
 }) (
-    /* $ */
-    jQuery,
-
-    /* $elm */
-    window.document,
-
-    /* $toad */
-    window[__TOAD__]
+    window,
+    jQuery
 );

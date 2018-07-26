@@ -1,4 +1,29 @@
 
+/* jQuery 1.12.4 é pré-requisito */
+(function () {
+    'use strict';
+    
+    if (typeof $ !== 'function') {
+        throw new Error('jQuery TOAD\'s requires jQuery!');
+    }
+    
+    var versionAll = $.fn.jquery.split(' ')[0].split('.'),
+        vMajor = versionAll[0],
+        vMinor = versionAll[1],
+        vPath = versionAll[2];
+
+    if (vMajor > 1) return;
+    if (vMajor == 1 && vMinor > 12) return;
+    if (vMajor == 1 && vMinor == 12 && vPath >= 4) return;
+
+    throw new Error('jQuery TOAD\'s requires jQuery version 1.12.4 or higher!');
+})();
+
+var $toad = {
+    '$jq': $
+};
+
+var document = window.document;
 var _NAMESPACES_ = [];
 var _APP_NAMESPACE_KEY_ = '_app_namespace_';
 
@@ -17,8 +42,6 @@ var $namespace = function (order, name, factory) {
         }
     });
 };
-
-$toad.$jq = $;
 
 /**
  * @code
