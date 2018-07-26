@@ -1,22 +1,51 @@
 /*!
- * jquery-toad v1.0.33
+ * jquery-toad v1.0.34
  * jQuery TOAD - O velho e querido jQuery (https://e5r.github.io/jquery-toad)
  * Copyright (c) Erlimar Silva Campos. All rights reserved.
  * Licensed under the Apache-2.0 License. More license information in LICENSE.
  */
 
+(function(global, factory ) { "use strict";
+
+if(typeof module === 'object' && typeof module.exports === 'object' && typeof require === 'function') {
+    module.exports = function(w) {
+        /* DOM - Document Object Model é pré-requisito */
+        if (typeof w !== 'object' || typeof w.document !== 'object') {
+            throw new Error("jQuery TOAD\'s requires a DOM (Document Object Model)!");
+        }
+
+        var jQuery = require('jquery')(w);
+
+        return factory(w, jQuery, 'CommonJS');
+    }
+}
+
+else if(typeof define === 'function' && typeof define.amd === 'object') {
+    define('jquery-toad', ['jquery'], function(jQuery) {
+        return factory(global, jQuery, 'AMD');
+    });
+}
+
+else {
+    /* É necessário definir um valor para __TOAD__ explicitamente.
+       Esse será o nome do objeto de aplicação disponível em window. */
+    if (typeof global.__TOAD__ !== 'string') {
+        throw new Error('You have not set a value for __TOAD__!');
+    }
+
+    global[global.__TOAD__] = factory(global, global.jQuery, 'Browser');
+}
+
+})(typeof window !== "undefined" ? window : this, function(window, $, $ml) {
+
 /* jQuery 1.12.4 é pré-requisito */
-if (typeof jQuery !== 'function') {
-    throw new Error('jQuery TOAD\'s requires jQuery!');
-}
-
-/* DOM - Document Object Model é pré-requisito */
-if (typeof window !== 'object' || typeof window.document !== 'object') {
-    throw new Error("jQuery TOAD\'s requires a DOM (Document Object Model)!");
-}
-
-(function ($) {
+(function () {
     'use strict';
+    
+    if (typeof $ !== 'function') {
+        throw new Error('jQuery TOAD\'s requires jQuery!');
+    }
+    
     var versionAll = $.fn.jquery.split(' ')[0].split('.'),
         vMajor = versionAll[0],
         vMinor = versionAll[1],
@@ -27,18 +56,20 @@ if (typeof window !== 'object' || typeof window.document !== 'object') {
     if (vMajor == 1 && vMinor == 12 && vPath >= 4) return;
 
     throw new Error('jQuery TOAD\'s requires jQuery version 1.12.4 or higher!');
-})(jQuery);
+})();
 
-/* É necessário definir um valor para __TOAD__ explicitamente.
-   Esse será o nome do objeto de aplicação disponível em window. */
-if (typeof __TOAD__ !== 'string') {
-    throw new Error('You have not set a value for __TOAD__!');
-}
+var $toad = {
+    '$jq': $,
+    '$toad': {
+        version: '1.0.34',
+        author: 'Erlimar Silva Campos',
+        license: 'Apache-2.0',
+        homepage: 'https://e5r.github.io/jquery-toad',
+        moduleLoader: $ml
+    }
+};
 
-window[__TOAD__] = window[__TOAD__] || {};
-
-(function ($, $elm, $toad) { "use strict";
-
+var document = window.document;
 var _NAMESPACES_ = [];
 var _APP_NAMESPACE_KEY_ = '_app_namespace_';
 
@@ -57,8 +88,6 @@ var $namespace = function (order, name, factory) {
         }
     });
 };
-
-$toad.$jq = $;
 
 /**
  * @code
@@ -156,7 +185,7 @@ $namespace(9, 'core', function (exports) {
         BIND_EVENT_SPLITER = '=>';
 
     function _installControllers() {
-        $(CONTROLLER_SELECTOR, $elm).each(function () {
+        $(CONTROLLER_SELECTOR, document).each(function () {
             var el = $(this),
                 name = el.attr(CONTROLLER_DATA_IDENTIFIER),
                 ctor = internals.getController(name),
@@ -239,7 +268,7 @@ $namespace(9, 'core', function (exports) {
         _installControllers();
     }
 
-    $($elm).ready(_installToad);
+    $(document).ready(_installToad);
 })
 
 
@@ -966,7 +995,7 @@ $namespace(0, 'utils', function (exports) {
      * Recupera o titulo do elemento principal (document)
      */
     exports.getPageTitle = function (newTitle) {
-        return $($elm).attr('title');
+        return $(document).attr('title');
     }
 
     /**
@@ -975,7 +1004,7 @@ $namespace(0, 'utils', function (exports) {
      * @param {string} newTitle - Novo título
      */
     exports.setPageTitle = function (title) {
-        $($elm).attr('title', title);
+        $(document).attr('title', title);
     }
 })
 
@@ -989,13 +1018,5 @@ for (var n in _NAMESPACES_) {
     _NAMESPACES_[n].cb();
 }
 
-}) (
-    /* $ */
-    jQuery,
-
-    /* $elm */
-    window.document,
-
-    /* $toad */
-    window[__TOAD__]
-);
+return $toad;
+});
