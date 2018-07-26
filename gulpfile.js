@@ -67,7 +67,7 @@ gulp.task('build:js-min-version', ['build:js-min'], function () {
 })
 
 gulp.task('build:website-assets', function () {
-    return gulp.src('website/assets/**/*')
+    return gulp.src('website/assets/**/*.{jpg,png,gif,css}')
         .pipe(gulp.dest('docs'))
 })
 
