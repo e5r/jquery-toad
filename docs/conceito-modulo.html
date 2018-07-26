@@ -91,9 +91,9 @@
               Com essa ferramenta você cria um espaço de nomes, e assim pode colocar o que quiser lá dentro, e depois poderá encontrá-lo
               para reutilização simplesmente importando esse nome de onde precisar.
             </p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-1.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-01.js"></div>
             <p class="lead">Exemplo:</p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-2.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-02.js"></div>
             <p class="lead">
               Quando você garante que todo o seu código de aplicação está envolvido dentro de um namespace, você consegue garantir
               primeiramente a segurança de seu código, ou seja, todas as variáveis definidas aqui não irão vazar para fora do escopo.
@@ -102,16 +102,16 @@
               Mas isso só é totalmente verdade se você estiver no <a href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Strict_mode" target="_blank">modo estrito</a>,
               por isso vamos acordar aqui que você sempre definirá um namespace assim:
             </p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-3.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-03.js"></div>
             <h4>Porque isso é importante?</h4>
             <p class="lead">Esperimente executar o seguinte código:</p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-4.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-04.js"></div>
             <p class="lead">
                Se você inspecionar no navegador seu objeto <code>window</code> verá que existe lá a propriedade <code>MINHA_VARIAVEL</code>,
               ou seja, essa variável vazou.
             </p>
             <p class="lead">Agora se você executar esse código:</p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-5.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-05.js"></div>
             <p class="lead">
               Perceberá que o navegador levantará uma exceção parecida com <i>"Variável não definida no modo strict"</i>.
               O seu código falhará ao invés de tentar inferir o que você queria fazer.
@@ -133,12 +133,12 @@
               Já com o modo estrito abrimos mão dessa <i>"facilidade"</i> para não cair em <i>"armadilhas"</i>.
             </p>
             <p class="lead">Voltando ao exemplo.</p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-3.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-03.js"></div>
             <p class="lead">
               Agora sim, com essa assinatura estamos escrevendo código seguro.
               Mas isso também poderia ser conseguido de outra forma que você talvez já conheça:
             </p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-6.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-06.js"></div>
             <p class="lead">A vantagem de usar <code>E5R.namespace</code> é que além do isolamento de escopo também criamos um espaço de nomes.</p>
             <h3 class="text-monospace">exports</h3>
             <p class="lead">
@@ -154,13 +154,13 @@
               Você não deve saber do que estamos falando porque omitimos o parâmetro no exemplo anterior.
               Então vamos finalizar aqui nossa assinatura de namespace de uma vez por todas:
             </p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-7.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-07.js"></div>
             <p class="lead">
               Observe que agora nossa função factory tem um único parâmetro chamado exports.
               Na verdade esse nome pode ser o que você preferir, o nome exports só é bem sugestivo.
             </p>
             <p class="lead">Então agora sempre que você precisar deixar algo no namespace, basta exportá-lo assim:</p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-8.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-08.js"></div>
             <p class="lead">
               Agora você já tem um módulo de utilitários da aplicação no espaço de nomes <code>app/utils</code>, e ele
               conta com uma variável <code>DEFAULT_MESSAGE</code> e também um método <code>showAlert</code>
@@ -175,9 +175,9 @@
               E é aí que entra a segunda ferramenta, o utilitário <code>require</code>.
               Com essa ferramenta você carrega os objetos de um espaço de nomes para então poder usá-los.
             </p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-9.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-09.js"></div>
             <p class="lead">Exemplo:</p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-10.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-10.js"></div>
             <p class="lead">
               Ao executar esse código você verá a mensagem <code>"Hello world!"</code> sendo exibida em seu navegador.
               E isso graças a reutilização de código e comunicação entre os seus dois módulos do sistema, <code>app/utils</code> e <code>app/ui</code>.
@@ -191,15 +191,15 @@
               também tem um outro arquivo que faz a mesma coisa só que ao invés de um <code>alert</code> exibe a mensagem no
               <code>console</code>, esse poderia ser o arquivo <code>show-console-util.js</code>:
             </p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-11.js"></div>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-12.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-11.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-12.js"></div>
             <p class="lead">
               Agora você tem 2 <i>(dois)</i> arquivos definindo cada um o seu próprio utilitário.
               Você não precisa saber da existência dos dois arquivos quando estiver lá no módulo <code>app/ui</code>,
               bastará saber que tudo está no namespace <code>app/utils</code> e isso será o suficiente para tirar proveito
               dos dois códigos:
             </p>
-            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module-snippet-13.js"></div>
+            <div data-gui="code-block" data-lang="js" data-file-path="samples/snippets/module/module-snippet-13.js"></div>
             <p class="lead">
               Observe que agora você terá a mensagem sendo exibida tanto no <code>alert</code> do navegador, quanto no
               <code>console</code> do mesmo, e isso ficou transparente para o uso no módulo <code>app/ui</code>, porque

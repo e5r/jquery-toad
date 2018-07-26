@@ -5,6 +5,138 @@ block content
         | O padrão MVC
 
     blockquote.blockquote
-        | Em construção!
+        | Não vou aqui tentar explicar o que é o padrão MVC em si. Você pode saber mais aqui na 
+        | <a href="https://pt.wikipedia.org/wiki/MVC" target="_blank">Wikipédia</a>.
+        | Aqui eu só vou fazer alguns comentários e mostrar como usamos esse padrão em nossas
+        | aplicações jQuery com o auxílio da jQuery TOAD.
 
+    p.lead
+        | Quem programa para back-end primariamente e desenvolve front-end só <i>de vez em quando</i>,
+        | vai tentar relacionar imediatamente o assunto com o que sabe do seu Framework MVC preferido,
+        | ASP.NET MVC para os de .NET, Sprint MVC para os de Java, Laravel para os de PHP, e etc.
+
+    p.lead É bom já conhecer do assunto, mas ao mesmo tempo, cuidado para não confundir as coisas.
+
+    p.lead
+        | O que queremos apresentar aqui é a base de tudo, a essência, e como podemos adotar o padrão MVC
+        | para separar as responsabilidades de nossa aplicação jQuery.
+
+    blockquote.blockquote
+        | Uma outra coisa que vale à pena ressaltar é que: Quando falamos em desenvolvimento front-end,
+        | e mencionamos o padrão MVC, se lembra logo dos frameworks/bibliotecas de SPA, como Angular,
+        | VueJS e Ember.
+        | Mas não estamos falando de SPA aqui. Esses Frameworks/bibliotecas tem muito mais recursos além
+        | do MVC que proporcionam o desenvolvimento de aplicações SPA ricas. E muitas pessoas usam os
+        | recursos sem por vezes nunca ter entendido o que é MVC na prática, e não saberiam desenvolver
+        | uma aplicação front-end só com jQuery ou com puro JavaScript e organizar sua arquitetura seguindo
+        | o padrão MVC.
+
+    h2 Um pouco de teoria
+
+    p.lead Você pode desenvolver uma aplicação usando o padrão MVC sem precisar de um Framework para isso.
+
+    p.lead
+        | Visto que o MVC é um padrão de arquitetura que se utiliza do modelo em camadas para organizar
+        | suas peças, e que define explicitamente 3 (três camadas), são elas:
+    
+    ul.lead.font-weight-bold
+        li Model (modelo)
+        li View (visão)
+        li Controller (controlador)
+
+    p.lead
+        | O desenho que melhor representa o modelo ao meu ver é esse:
+
+    img(class="img-fluid img-thumbnail rounded mx-auto d-block" src="images/mvc.png" alt="MVC")
+
+    p.lead
+        | Aqui o mais importante não é você saber em que camada fica o código que o usuário vê (view)
+        | ou onde ficam seus objetos de modelo (model), e etc.
+        | O mais importante é você saber como as camadas interagem entre si.
+
+    p.lead Esteja atento as setas:
+
+    img(class="img-fluid img-thumbnail rounded" src="images/mvc_seta_atualiza.png")
+
+    p.lead
+        | Essa seta indica que uma camada é a responsável por atualizar o conteúdo de outra camada.
+        | Em outras palavras, tem o controle da outra camada (por isso a seta sólida).
+
+    img(class="img-fluid img-thumbnail rounded" src="images/mvc_seta_notifica.png")
+
+    p.lead
+        | Essa seta indica que uma camada é responsável por notificar ações e mudanças que ocorreram
+        | em seu conteúdo a outra camada. E que não conhece nem tem controle sobre a outra (por isso
+        | a seta tracejada).
+
+    p.lead Vejamos então as responsabilidade de cada camada:
+
+    h3.text-monospace Model
+
+    p.lead
+        | A camada de modelo é a responsável por notificar a camada <strong>Controller</strong>
+        | de qualquer mudança em seu conteúdo.
+        | <i>Essa é controlada exclusivamente pela camada <strong>Controller</strong></i>.
+
+    h3.text-monospace View
+
+    p.lead 
+        | A camada de visão é a responsável por notificar a camada <strong>Controller</strong>
+        | de qualquer interação em seu conteúdo.
+        | <i>Essa é controlada exclusivamente pela camada <strong>Controller</strong></i>.
+
+    h3.text-monospace Controller
+
+    p.lead 
+        | A camada de controle é a responsável por atualizar a camada <strong>Model</strong>
+        | e <strong>View</strong>.
+        | Também é a responsável por direcionar o fluxo entre as interações na camada de visão
+        | e as mudanças na camada de modelo. Em outras palavras: <i>"Controla o fluxo de tudo"</i>.
+
+    h2 De que vale essa teoria?
+
+    p.lead
+        | Sei que a teoria apresentada na seção anterior, parece um pouco mais do <i>de sempre</i>.
+        | Mas eu só queria deixar nessa mesma página, essas definições e essa imagem simples para
+        | que possamos extrair o que realmente interessa à partir desse ponto.
+
+    p.lead
+        | Essa teoria não serve de nada se você não consegue aplicá-la em seus projetos.
+        | E você consegue usar MVC em projetos jQuery e/ou JavaScript puro se simplesmente
+        | <strong>não violar as regras que o MVC impõe</strong>.
+
+    h3.text-monospace E que regras são essas?
+
+    p.lead
+        | <strong>Regra 1:</strong> Um modelo não atualiza a visão quando sofre alteração. Ao invés disso, notifica
+        | o controlador para que ele decida o que fazer.
+
+    p.lead
+        | <strong>Regra 2:</strong> Uma visão não altera o estado do modelo quando o usuário interage pedindo isso.
+        | Ao invés disso, notifica o controlador para que ele decida o que fazer.
+
+    p.lead
+        | Vamos pegar um exemplo bem simples e mostrar como seria construí-lo <i><strong>quebrando as regras
+        |  do MVC</strong></i>, e como seria construí-lo <i><strong>NÃO quebrando as regras do MVC</strong></i>.
+
+    p.lead
+        | O exemplo é esse, um formulário com um campo para você informar um nome de usuário do GitHub, e uma
+        | imagem que mostra o avatar do usuário no GitHub. A lógica é: sempre que ouver interação com o campo
+        | do nome do usuário, a parte de visão do avatar seja atualizado pra condizer a informação.
+
+    div(data-gui="demo" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc.html")
+
+    p.lead
+        | Você que já conhece e usa jQuery no seu dia-a-dia, sabe que consegue construir essa funcionalidade
+        | facilmente com um código parecido com esse:
+    
+    div(data-gui="code-block"
+        data-lang="html"
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean.html")
+
+//- div(data-gui="code-block"
+//-     data-lang="js"
+//-     data-file-path="samples/snippets/module/module-snippet-13.js")
+//- h2 Subtitulo
+//- h3.text-monospace Subtitulo
 //- block append scripts

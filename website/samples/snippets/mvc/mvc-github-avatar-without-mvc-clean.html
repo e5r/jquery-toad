@@ -1,0 +1,16 @@
+<body>
+  <!-- HTML -->
+  <form>
+    <label>Nome no GitHub:</label>
+    <input type="text" id="nome">
+    <img id="avatar" src="">
+  </form>
+  <!-- JavaScript -->
+  <script>
+    $('#nome').on('change', function () {
+      var avatarUrl = 'https://avatars.githubusercontent.com/' + $(this).val();
+
+      $('#avatar').attr('src', avatarUrl);
+    });
+  </script>
+</body>

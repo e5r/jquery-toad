@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Exemplo MVC GitHub Avatar - jQuery TOAD</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <form>
+          <div class="form-group">
+            <label>Nome no GitHub:</label>
+            <input type="text" id="nome" class="form-control">
+          </div>
+          <div class="form-group">
+            <img id="avatar" src="https://avatars.githubusercontent.com/nao-existe" class="img-fluid img-thumbnail d-block mx-auto">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script>
+    $('#nome').on('change', function () {
+      var avatarUrl = 'https://avatars.githubusercontent.com/'
+        + $(this).val();
+      $('#avatar').attr('src', avatarUrl);
+    });
+  </script>
+</body>
+
+</html>
