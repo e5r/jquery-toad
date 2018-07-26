@@ -20,7 +20,14 @@
 })();
 
 var $toad = {
-    '$jq': $
+    '$jq': $,
+    '$toad': {
+        version: '${ pkg.version }',
+        author: '${ pkg.author }',
+        license: '${ pkg.license }',
+        homepage: '${ pkg.homepage }',
+        moduleLoader: $ml
+    }
 };
 
 var document = window.document;

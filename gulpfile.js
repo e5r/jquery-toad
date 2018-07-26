@@ -8,16 +8,17 @@ var fs = require('fs'),
     serve = require('gulp-serve'),
     pkg = require('./package.json'),
 
-    globalInitJs = fs.readFileSync('./src/global-init.js'),
+    umdJs = fs.readFileSync('./src/umd.js'),
     scopeInitJs = fs.readFileSync('./src/scope-init.js'),
     scopeFinishJs = fs.readFileSync('./src/scope-finish.js'),
     headerTxt = fs.readFileSync('./header.txt'),
-    scopeHeaderTxt = fs.readFileSync('./scope_header.txt'),
-    scopeFooterTxt = fs.readFileSync('./scope_footer.txt'),
+    umdHeaderTxt = fs.readFileSync('./umd_header.js.txt'),
+    umdFactoryTxt = fs.readFileSync('./umd_factory.js.txt'),
+    umdFooterTxt = fs.readFileSync('./umd_footer.js.txt'),
     bannerTxt = fs.readFileSync('./banner.txt'),
 
     libs = [
-        "!src/global-init.js",
+        "!src/umd.js",
         "!src/scope-init.js",
         "!src/scope-finish.js",
 
@@ -35,11 +36,12 @@ gulp.task('build:js', function () {
     return gulp.src(libs)
         .pipe(concat.header(bannerTxt, { pkg: pkg }))
         .pipe(concat('jquery-toad.js'))
-        .pipe(concat.header(scopeInitJs))
+        .pipe(concat.header(scopeInitJs, { pkg: pkg }))
         .pipe(concat.footer(scopeFinishJs))
-        .pipe(concat.header(scopeHeaderTxt))
-        .pipe(concat.footer(scopeFooterTxt))
-        .pipe(concat.header(globalInitJs))
+        .pipe(concat.header(umdFactoryTxt))
+        .pipe(concat.footer(umdFooterTxt))
+        .pipe(concat.header(umdJs, { pkg: pkg }))
+        .pipe(concat.header(umdHeaderTxt))
         .pipe(concat.header(headerTxt, { pkg: pkg }))
         .pipe(gulp.dest('dist'));
 });
