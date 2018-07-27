@@ -116,6 +116,12 @@ block content
         | Ao invés disso, notifica o controlador para que ele decida o que fazer.
 
     p.lead
+        | <strong>Regra 3:</strong> Uma visão não <i>se altera</i> sem notificar a mudança no modelo.
+        | Ao invés disso, suas mudanças de visão são reflexos das mudanças do modelo.
+
+    h4 Um exemplo
+
+    p.lead
         | Vamos pegar um exemplo bem simples e mostrar como seria construí-lo <i><strong>quebrando as regras
         |  do MVC</strong></i>, e como seria construí-lo <i><strong>NÃO quebrando as regras do MVC</strong></i>.
 
@@ -124,19 +130,252 @@ block content
         | imagem que mostra o avatar do usuário no GitHub. A lógica é: sempre que ouver interação com o campo
         | do nome do usuário, a parte de visão do avatar seja atualizado pra condizer a informação.
 
-    div(data-gui="demo" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc.html")
+    div(data-gui="demo" data-file-path="samples/snippets/mvc/mvc-github-avatar.html")
+
+    h4 Algo sobre o modelo
+
+    p.lead
+        | Vou aproveitar e definir aqui o que é o modelo pra mim:
+        | Não se trata de uma class do tipo <code>FormularioModel</code>, ou <code>FormViewModel</code>.
+        | É antes de mais nada: <i>"Todo o dado que faz sentido pra você conseguir exibir determinada informação"</i>.
+        | Dependendo da linguagem/plataforma que você está desenvolvendo, isso pode ser uma classe, arquivo, tipo, etc.,
+        | mas isso são detalhes, o que importa é <strong><i>você conhecer que dados são necessários para se conseguir exibir
+        | algum tipo de informação</i></strong>.
+
+    p.lead
+        | No nosso exemplo, temos um <code>NOME</code> e uma <code>IMAGEM</code>, que nesse caso é na verdade 
+        | uma <code>URL de uma imagem</code>. Isso poderia ser expresso da seguinte forma:
+    
+    div(data-gui="code-block"
+        data-lang="json"
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-model.json")
+
+    h4 Voltando ao exemplo
 
     p.lead
         | Você que já conhece e usa jQuery no seu dia-a-dia, sabe que consegue construir essa funcionalidade
         | facilmente com um código parecido com esse:
+
+    h5 Solução 1
     
     div(data-gui="code-block"
         data-lang="html"
-        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean.html")
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-1.html")
 
-//- div(data-gui="code-block"
-//-     data-lang="js"
-//-     data-file-path="samples/snippets/module/module-snippet-13.js")
-//- h2 Subtitulo
-//- h3.text-monospace Subtitulo
+    blockquote.blockquote
+        p
+            | Nós estamos omitindo as classes do Bootstrap além de parte da estrutura do HTML completo
+            | e deixando somente o que importa para entender a estrutura do que apresentamos.
+            | Mas se você abrir o código do exemplo <code>samples/snippets/mvc/mvc-github-avatar.html</code>
+            | em seu navegador vai enxergá-lo por completo.
+        footer.blockquote-footer Uma nota sobre o código de exemplo
+
+    p.lead
+        | Pronto, está funcionando! Mas com esse código estamos <i><strong>quebrando as regras do MVC</strong></i>,
+        | mas especificamente a <strong>regra 3</strong>.
+        | Porque estamos (visão) reagindo a uma interação do usuário e refletindo isso em outra parte da visão
+        | diretamente sem notificar essa mudança no modelo. E se houver outra parte da visão que dependa também
+        | dessa parte do modelo? Teríamos que adicionar o tratamento também no <code>onclick</code> até isso ficar
+        | insustentável.
+
+    h5 Solução 2
+    
+    div(data-gui="code-block"
+        data-lang="html"
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-2.html")
+
+    p.lead
+        | Então tá. Criamos um objeto para representar o modelo e criamos um método pra atualizar
+        | e pronto!
+
+    p.lead
+        | Só que agora estamos quebrando 2 regras ao mesmo tempo. Porque a <strong>regra 1</strong> diz que
+        | um modelo não atualiza a visão, e o método que atualiza a imagem na visão está no objeto de modelo.
+        | Também a <strong>regra 2</strong> diz que a visão não altera o estado do modelo, e isso ocorre
+        | quando estamos chamando <code>model.changeName()</code> diretamente de <code>onchange</code> na visão.
+
+    h5 Solução 3
+    
+    div(data-gui="code-block"
+        data-lang="html"
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-3.html")
+
+    p.lead
+        | Ok! Então agora não é o modelo que está atualizando a visão, e a visão também não está mais
+        | atualizando o modelo.
+
+    h4 Confirmando se obedecemos todas as regras:
+
+    ul.lead.list-unstyled.text-success
+        li <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 1:</span>
+            | Um modelo não atualiza a visão quando sofre alteração.
+        li <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 2:</span>
+            | Uma visão não altera o estado do modelo quando o usuário interage pedindo isso.
+        li <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 3:</span>
+            | Uma visão não altera a si própria.
+
+    p.lead
+        | Parece que está tudo bem. Ou melhor: <i>Estaria tudo bem se não fossem os 
+        | <strong>"Ao invés disso, notifica ..."</strong></i>.
+
+    p.lead
+        | Quando há uma interação do usuário na visão alterando o nome, a visão está nofiticando o
+        | controlador chamando o método <code>onChangeName</code>. Este método do controlador por sua
+        | vez é que atualiza o modelo, e isso está correto, porém ao mesmo tempo já está adiantando
+        | o trabalho visto que está <i>com a faca e o queijo na mão</i> e já aproveitou para atualizar
+        | a visão chamando o trecho <code>$('#avatar').attr('src', model.avatarUrl)</code>.
+
+    p.lead
+        | Aqui apesar de ser o controlador que está atualizando o modelo e também atualizando a visão,
+        | e essas são realmente responsabilidades do controlador. O problema é que já estamos com a mesma
+        | peça fazendo dois trabalhos.
+
+    p.lead Cadê a separação de responsabilidades?
+
+    p.lead
+        | Esse método <code>onChangeName</code> deveria ser responsável somente por tratar de atender a
+        | notificação feita pela visão, ou seja, algo foi alterado (o nome) e isso deve refletir no modelo.
+        | Aqui o trabalho deste método termina quando ele atualiza o modelo.
+
+    p.lead
+        | O modelo por sua vez é que deveria <strong><i>"notifica o controlador para que ele decida o 
+        | que fazer"</i></strong>
+
+    p.lead Em resumo, quase conseguimos atender todas as regras. Ficamos assim:
+
+    ul.lead.list-unstyled
+        li.text-info <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 1 (50%):</span>
+            | Um modelo não atualiza a visão quando sofre alteração.
+            | <del class="text-danger">Ao invés disso, notifica o controlador para que ele decida o que fazer.</del>
+        li.text-success <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 2 (100%):</span>
+            | Uma visão não altera o estado do modelo quando o usuário interage pedindo isso.
+            | Ao invés disso, notifica o controlador para que ele decida o que fazer.
+        li.text-info <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 3 (50%):</span>
+            | Uma visão não altera a si própria.
+            | <del class="text-danger">Ao invés disso, suas mudanças de visão são reflexos das mudanças do modelo.</del>
+
+    p.lead
+        | Ficou faltando o modelo ser o responsável por notificar o controlador de sua mudança para que esse
+        | decida o que fazer. E com isso podemos dizer que toda a alteração na visão é reflexo das mudanças
+        | do modelo.
+
+    h5 Solução 4
+    
+    div(data-gui="code-block"
+        data-lang="html"
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-4.html")
+
+    p.lead Agora sim temos um exemplo que <i><strong>NÃO quebra as regras do MVC</strong></i>.
+
+    ul.lead.list-unstyled
+        li.text-success <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 1:</span>
+            | Um modelo não atualiza a visão quando sofre alteração.
+            | Ao invés disso, notifica o controlador para que ele decida o que fazer.
+        p
+            | Observe o método <code>model.changeName()</code>, ele agora é o responsável por alterar
+            | o nome, e de quebra já atualiza a URL e tira essa responsabilidade do controlador, visto
+            | que é algo realmente relacionado ao modelo, ou seja, a URL é um valor calculado à partir
+            | do valor <code>name</code> do próprio modelo. Esse já se encarrega de notificar o controlador
+            | da sua mudança que sofreu através da chamada <code>onUpdateModel(this)</code>.
+
+        li.text-success <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 2:</span>
+            | Uma visão não altera o estado do modelo quando o usuário interage pedindo isso.
+            | Ao invés disso, notifica o controlador para que ele decida o que fazer.
+        p
+            | Observe que a visão está lá somente para apresentar os dados, o máximo que ela faz é
+            | notificar o controlador quando o campo <code>nome</code> sofreu uma interação do usuário.
+            | E foi o próprio controlador que configurou esse gatilho com o trecho 
+            | <code>$('#nome').on('change', onChangeName)</code>.
+
+        li.text-success <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 3:</span>
+            | Uma visão não altera a si própria.
+            | Ao invés disso, suas mudanças de visão são reflexos das mudanças do modelo.
+
+        p
+            | Não existe nenhum código na própria visão que manipule a si mesmo para formatar como
+            | a informação deve representar o modelo. Ela somente reage as mudanças obedecendo ao controlador.
+
+    h2 Isso é MVC!
+
+    p.lead
+        | Sei que talvez você esperava mais coisas, mas esse código realmente obedece ao padrão MVC de
+        | arquitetura. Com isso queremos dizer que desenvolver aplicações MVC é uma questão de entender
+        | os princípios propostos por essa arquitetura.
+
+    p.lead 
+        | Vamos voltar a dar uma olhada na nossa imagem do início e perceber como nosso código está
+        | seguindo rigorosamente o fluxo proposto pelo diagrama:
+
+    img(class="img-fluid img-thumbnail rounded mx-auto d-block" src="images/mvc.png" alt="MVC")
+
+    p.lead
+        | 1. Primeiro quando o usuário altera o campo <code>nome</code> no componente de visão, esse
+        | <strong><i>notifica</i></strong> o controlador de tal.
+
+    p.lead
+        | 2. Em seguida nosso controlador decide que isso deve refletir em uma mudança no componente
+        | de modelo, e <strong>atualiza</strong> o modelo.
+
+    p.lead
+        | 3. O componente <i>calcula as mudanças</i> e em seguida <strong><i>notifica</i></strong>
+        | o controlador de suas mudanças já passando o resultado final de seus cálculos e entrega
+        | um modelo <i>"prontinho"</i> para o consumo.
+
+    p.lead
+        | 4. O controlador quando recebe essa <i>notificação</i> de mudança no modelo imediatamente
+        | <strong>atualiza</strong> o componente de visão para refletir exatamente o estado final
+        | do modelo.
+
+    h3 Os detalhes
+
+    p.lead
+        | O resto são detalhes, e é exatamente isso que os Frameworks e Bibliotecas de MVC nos entregam,
+        | a implementação de vários detalhes que tornam nossa vida mais fácil. Porém o entendimento do
+        | padrão MVC nos faz construir aplicações mais fluidas e manuteníveis mesmo sem o uso de um
+        | desses frameworks/bibliotecas. Nesse exemplo que apresentamos aqui, nós conseguimos com o uso
+        | de puro JavaScript e do <strong><i>"Velho e Querido jQuery"</i></strong> implementar uma peça
+        | de software usando essa arquitetura.
+
+    p.lead
+        | Talvez a falta das classes <code>Model</code>, <code>View</code> e <code>Controller</code>
+        | tenha te deixado desconfortável pelo seu costume com Frameworks diversos, mas entenda que isso
+        | são só utilitários para nos ajudar a ser mais produtivos.
+
+    p.lead
+        | Mas pra não te deixar tão desapontado, vamos separar o nosso código melhor e deixá-lo mais
+        | profissional.
+
+    h3.text-monospace O componente de visão <code>mvc-view.html</code> e <code>mvc-view.js</code>
+
+    div(data-gui="code-block"
+        data-lang="html"
+        data-file-path="samples/snippets/mvc/mvc-view.html")
+
+    div(data-gui="code-block"
+        data-lang="js"
+        data-file-path="samples/snippets/mvc/mvc-view.js")
+
+    h3.text-monospace O componente de modelo <code>mvc-model.js</code>
+
+    div(data-gui="code-block"
+        data-lang="js"
+        data-file-path="samples/snippets/mvc/mvc-model.js")
+
+    h3.text-monospace O componente controlador <code>mvc-controller.js</code>
+
+    div(data-gui="code-block"
+        data-lang="js"
+        data-file-path="samples/snippets/mvc/mvc-controller.js")
+
+    h2 Concluindo
+
 //- block append scripts

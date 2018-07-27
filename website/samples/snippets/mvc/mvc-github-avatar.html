@@ -28,11 +28,30 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script>
-    $('#nome').on('change', function () {
-      var avatarUrl = 'https://avatars.githubusercontent.com/'
-        + $(this).val();
-      $('#avatar').attr('src', avatarUrl);
-    });
+    var model = {
+      name: '',
+      avatarUrl: '',
+
+      changeName: function (name) {
+        console.log('changeName:', name, this);
+        this.name = name;
+        this.avatarUrl = 'https://avatars.githubusercontent.com/' + name;
+
+        onUpdateModel(this);
+      }
+    }
+
+    function onChangeName() {
+      console.log('onChangeName:', this);
+      model.changeName($(this).val());
+    }
+
+    function onUpdateModel(model) {
+      console.log('onUpdateModel:', model);
+      $('#avatar').attr('src', model.avatarUrl);
+    }
+
+    $('#nome').on('change', onChangeName);
   </script>
 </body>
 

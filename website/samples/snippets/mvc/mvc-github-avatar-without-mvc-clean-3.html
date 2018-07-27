@@ -1,0 +1,22 @@
+<body>
+  <form>
+    <label>Nome no GitHub:</label>
+    <input type="text" id="nome">
+    <img id="avatar" src="">
+  </form>
+  <script>
+    var model = {
+      name: '',
+      avatarUrl: ''
+    }
+
+    function onChangeName() {
+      model.name = $(this).val();
+      model.avatarUrl = 'https://avatars.githubusercontent.com/' + model.name;
+
+      $('#avatar').attr('src', model.avatarUrl);
+    }
+
+    $('#nome').on('change', onChangeName);
+  </script>
+</body>
