@@ -1,7 +1,7 @@
 <body>
   <form>
     <label>Nome no GitHub:</label>
-    <input type="text" id="nome" onchange="model.changeName($(this).val())">
+    <input type="text" id="nome" onkeyup="model.changeName($(this).val())">
     <img id="avatar" src="">
   </form>
   <script>

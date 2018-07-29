@@ -27,9 +27,9 @@
                 <li class="nav-item active"><a class="nav-link" href="motivacao.html">Qual a motivação?</a></li>
                 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="submenu-documentacao" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Documentação</a>
                   <div class="dropdown-menu" aria-labelledby="submenu-documentacao">
-                    <h6 class="dropdown-header">TUTORIAIS</h6><a class="dropdown-item" href="tutorial-quickstart.html">Guia de início rápido</a>
+                    <h6 class="dropdown-header">TUTORIAIS</h6><a class="dropdown-item" href="tutorial-quickstart.html">Guia de início rápido</a><a class="dropdown-item" href="tutorial-mvc.html">O padrão MVC</a>
                     <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">CONCEITOS</h6><a class="dropdown-item" href="conceito-variavel-toad.html">A variável <kbd>__TOAD__</kbd></a><a class="dropdown-item" href="conceito-modulo.html">Modularização</a><a class="dropdown-item" href="conceito-mvc.html">O padrão MVC</a><a class="dropdown-item" href="conceito-componente.html">Componentes</a><a class="dropdown-item" href="conceito-utilitario.html">Utilitários</a>
+                    <h6 class="dropdown-header">CONCEITOS</h6><a class="dropdown-item" href="conceito-variavel-toad.html">A variável <kbd>__TOAD__</kbd></a><a class="dropdown-item" href="conceito-modulo.html">Modularização</a><a class="dropdown-item" href="conceito-componente.html">Componentes</a><a class="dropdown-item" href="conceito-utilitario.html">Utilitários</a><a class="dropdown-item" href="conceito-configuracao.html">Configurações</a><a class="dropdown-item" href="conceito-constante.html">Constantes</a>
                   </div>
                 </li>
               </ul>
@@ -38,33 +38,23 @@
           <div class="toad-content-box col-md-10 offset-md-1">
             <h1 class="display-4 text-center">O padrão MVC</h1>
             <blockquote class="blockquote">
-              Não vou aqui tentar explicar o que é o padrão MVC em si. Você pode saber mais aqui na 
-              <a href="https://pt.wikipedia.org/wiki/MVC" target="_blank">Wikipédia</a>.
-              Aqui eu só vou fazer alguns comentários e mostrar como usamos esse padrão em nossas
-              aplicações jQuery com o auxílio da jQuery TOAD.
+              Saiba mais sobre o padrão MVC na <a href="https://pt.wikipedia.org/wiki/MVC" target="_blank">Wikipédia</a>.
+              Aqui eu vou só tecer alguns comentários e apresentar o meu ponto de vista com relação ao assunto
+              aplicado exclusivamente ao desenvolvimento de front-end com jQuery e JavaScript puro.
             </blockquote>
             <p class="lead">
-              Quem programa para back-end primariamente e desenvolve front-end só <i>de vez em quando</i>,
-              vai tentar relacionar imediatamente o assunto com o que sabe do seu Framework MVC preferido,
-              ASP.NET MVC para os de .NET, Sprint MVC para os de Java, Laravel para os de PHP, e etc.
-            </p>
-            <p class="lead">É bom já conhecer do assunto, mas ao mesmo tempo, cuidado para não confundir as coisas.</p>
-            <p class="lead">
-              O que queremos apresentar aqui é a base de tudo, a essência, e como podemos adotar o padrão MVC
-              para separar as responsabilidades de nossa aplicação jQuery.
+              Tento reunir aqui o que é, para mim, a base, a essência, e como podemos adotar o padrão MVC
+              para separar as responsabilidades de nossa aplicação front-end.
             </p>
             <blockquote class="blockquote">
-              Uma outra coisa que vale à pena ressaltar é que: Quando falamos em desenvolvimento front-end,
-              e mencionamos o padrão MVC, se lembra logo dos frameworks/bibliotecas de SPA, como Angular,
-              VueJS e Ember.
-              Mas não estamos falando de SPA aqui. Esses Frameworks/bibliotecas tem muito mais recursos além
-              do MVC que proporcionam o desenvolvimento de aplicações SPA ricas. E muitas pessoas usam os
-              recursos sem por vezes nunca ter entendido o que é MVC na prática, e não saberiam desenvolver
-              uma aplicação front-end só com jQuery ou com puro JavaScript e organizar sua arquitetura seguindo
-              o padrão MVC.
+              Não tente fazer comparações com Frameworks/Bibliotecas como Angular, VueJS e Ember por exemplo.
+              Esses também tratam o padrão MVC, mas estão mais ligados ao padrão
+              <a href="https://en.wikipedia.org/wiki/MVVM" target="_blank">MVVM</a> além de nos fornecer
+              inúmeras ferramentas para suportar SPA's, mas esses são outros assuntos,
+              aqui focamos no entendimento do padrão MVC para front-end Web.
             </blockquote>
-            <h2>Um pouco de teoria</h2>
             <p class="lead">Você pode desenvolver uma aplicação usando o padrão MVC sem precisar de um Framework para isso.</p>
+            <h2>Um pouco de teoria</h2>
             <p class="lead">
               Visto que o MVC é um padrão de arquitetura que se utiliza do modelo em camadas para organizar
               suas peças, e que define explicitamente 3 (três camadas), são elas:
@@ -74,7 +64,7 @@
               <li>View (visão)</li>
               <li>Controller (controlador)</li>
             </ul>
-            <p class="lead">O desenho que melhor representa o modelo ao meu ver é esse:</p><img class="img-fluid img-thumbnail rounded mx-auto d-block" src="images/mvc.png" alt="MVC">
+            <p class="lead">Pra mim, o desenho que melhor representa essa arquitetura é esse:</p><img class="img-fluid img-thumbnail rounded mx-auto d-block" src="images/mvc.png" alt="MVC">
             <p class="lead">
               Aqui o mais importante não é você saber em que camada fica o código que o usuário vê (view)
               ou onde ficam seus objetos de modelo (model), e etc.
@@ -87,8 +77,13 @@
             </p><img class="img-fluid img-thumbnail rounded" src="images/mvc_seta_notifica.png">
             <p class="lead">
               Essa seta indica que uma camada é responsável por notificar ações e mudanças que ocorreram
-              em seu conteúdo a outra camada. E que não conhece nem tem controle sobre a outra (por isso
-              a seta tracejada).
+              em seu conteúdo a outra camada, e que não conhece nem tem controle sobre a outra
+              (por isso a seta tracejada).
+            </p><img class="img-fluid img-thumbnail rounded" src="images/mvc_seta_usa.png">
+            <p class="lead">
+              Essa seta indica que uma camada usa os dados de outra camada, e apesar de não controlá-la,
+              conhece sua estrutura. Podemos dizer que tem acesso de leitura à outra camada
+              (por isso a seta sólida, porém menos acentuada).
             </p>
             <p class="lead">Vejamos então as responsabilidade de cada camada:</p>
             <h3 class="text-monospace">Model</h3>
@@ -100,108 +95,139 @@
             <h3 class="text-monospace">View</h3>
             <p class="lead">
                A camada de visão é a responsável por notificar a camada <strong>Controller</strong>
-              de qualquer interação em seu conteúdo.
-              <i>Essa é controlada exclusivamente pela camada <strong>Controller</strong></i>.
+              de qualquer interação que o usuário faz em seu conteúdo.
+              Ela <i>conhece e usa</i> os dados da camada <strong>Model</strong>, e <i>também é
+              controlada exclusivamente pela camada <strong>Controller</strong></i>.
             </p>
             <h3 class="text-monospace">Controller</h3>
             <p class="lead">
                A camada de controle é a responsável por atualizar a camada <strong>Model</strong>
               e <strong>View</strong>.
               Também é a responsável por direcionar o fluxo entre as interações na camada de visão
-              e as mudanças na camada de modelo. Em outras palavras: <i>"Controla o fluxo de tudo"</i>.
+              e as mudanças na camada de modelo.
+              Em outras palavras: <i>"Controla e orquestra tudo"</i>.
             </p>
             <h2>De que vale essa teoria?</h2>
             <p class="lead">
-              Sei que a teoria apresentada na seção anterior, parece um pouco mais do <i>de sempre</i>.
-              Mas eu só queria deixar nessa mesma página, essas definições e essa imagem simples para
-              que possamos extrair o que realmente interessa à partir desse ponto.
+              Essa teoria não serve de nada se você não consegue aplicá-la em seus projetos,
+              e você consegue aplicar MVC em projetos jQuery e/ou JavaScript puro se simplesmente
+              <strong>não violar algumas regras que o MVC nos impõe</strong>.
+              Se você conhece e obedece essas regras durante o desenvolvimento de sua aplicação,
+              pode dizer que está construindo uma aplicação com a arquitetura MVC.
             </p>
-            <p class="lead">
-              Essa teoria não serve de nada se você não consegue aplicá-la em seus projetos.
-              E você consegue usar MVC em projetos jQuery e/ou JavaScript puro se simplesmente
-              <strong>não violar as regras que o MVC impõe</strong>.
-            </p>
-            <h3 class="text-monospace">E que regras são essas?</h3>
+            <h3>E que regras são essas?</h3>
             <p class="lead">
               <strong>Regra 1:</strong> Um modelo não atualiza a visão quando sofre alteração. Ao invés disso, notifica
               o controlador para que ele decida o que fazer.
+            </p>
+            <p class="text-info">
+              Até porque <strong>Model</strong> não conhece nem controla <strong>View</strong>, além
+              de, é claro, um único modelo poder ser representado por <strong>N views</strong>.
             </p>
             <p class="lead">
               <strong>Regra 2:</strong> Uma visão não altera o estado do modelo quando o usuário interage pedindo isso.
               Ao invés disso, notifica o controlador para que ele decida o que fazer.
             </p>
             <p class="lead">
-              <strong>Regra 3:</strong> Uma visão não <i>se altera</i> sem notificar a mudança no modelo.
+              <strong>Regra 3:</strong> Uma visão não <i>altera a si própria</i>.
               Ao invés disso, suas mudanças de visão são reflexos das mudanças do modelo.
-            </p>
-            <h4>Um exemplo</h4>
-            <p class="lead">
-              Vamos pegar um exemplo bem simples e mostrar como seria construí-lo <i><strong>quebrando as regras
-               do MVC</strong></i>, e como seria construí-lo <i><strong>NÃO quebrando as regras do MVC</strong></i>.
+              Sua única responsabilidade é representar o estado atual de um modelo em um meio
+              específico.
             </p>
             <p class="lead">
-              O exemplo é esse, um formulário com um campo para você informar um nome de usuário do GitHub, e uma
-              imagem que mostra o avatar do usuário no GitHub. A lógica é: sempre que ouver interação com o campo
-              do nome do usuário, a parte de visão do avatar seja atualizado pra condizer a informação.
+              <strong>Regra 4:</strong> O controlador não deve atualizar os detalhes da visão por ela.
+              Ao invés disso, deve requerer <strong>uma visão atualizada do modelo que tem em mãos</strong>.
+              Essa é uma responsabilidade da própria camada de <code>visão</code>, afinal ela é que conhece os
+              detalhes do meio a que a informação precisa ser apresentada.
             </p>
+            <h2>Um exemplo prático</h2>
+            <p class="lead">
+              Vamos usar um exemplo bem simples pra demonstrar como seria construí-lo <i><strong>quebrando as regras
+              do MVC</strong></i> a princípio, e em seguida ir corrigindo para atender a todas as regras
+              e finalizar com o exemplo <i><strong>NÃO quebrando as regras do MVC</strong></i>.
+            </p>
+            <p class="lead">O exemplo é esse:</p>
+            <p class="lead">
+              Uma tela onde o usuário pode informar seu nome no GitHub através de um campo de texto,
+              e uma imagem que mostra o avatar desse usuário no GitHub.
+              Sempre que ouver interação com o campo de nome do usuário, a parte de visão do avatar
+              deve ser atualizada pra representar a informação.
+            </p>
+            <p class="lead">Nessa demonstração abaixo, temos o nosso resultado final em funcionamento:</p>
             <div data-gui="demo" data-file-path="samples/snippets/mvc/mvc-github-avatar.html"></div>
-            <h4>Algo sobre o modelo</h4>
+            <h3>Um "pitaco" sobre o modelo</h3>
             <p class="lead">
-              Vou aproveitar e definir aqui o que é o modelo pra mim:
-              Não se trata de uma class do tipo <code>FormularioModel</code>, ou <code>FormViewModel</code>.
-              É antes de mais nada: <i>"Todo o dado que faz sentido pra você conseguir exibir determinada informação"</i>.
-              Dependendo da linguagem/plataforma que você está desenvolvendo, isso pode ser uma classe, arquivo, tipo, etc.,
-              mas isso são detalhes, o que importa é <strong><i>você conhecer que dados são necessários para se conseguir exibir
-              algum tipo de informação</i></strong>.
+              O modelo não se trata de uma classe do tipo <code>FormularioModel</code>, ou <code>FormViewModel</code>,
+              apesar de normalmente ser representado por coisas desse tipo.
+              Mas antes de mais nada: <i>"O modelo é todo o dado que faz sentido pra que você consiga exibir determinada
+              informação"</i>, porque isso será usado para firmar um <i>contrato</i> entre as partes envolvidas.
+            </p>
+            <p class="lead">
+              Dependendo da linguagem/plataforma que você está utilizando, isso pode ser uma classe, um arquivo, um tipo,
+              um módulo, etc.
+              Mas isso são detalhes, e não a essência, e o que importa é <strong><i>você conhecer que dados são necessários
+              para que consiga exibir algum tipo de informação útil em um meio específico</i></strong>.
             </p>
             <p class="lead">
               No nosso exemplo, temos um <code>NOME</code> e uma <code>IMAGEM</code>, que nesse caso é na verdade 
-              uma <code>URL de uma imagem</code>. Isso poderia ser expresso da seguinte forma:
+              a <code>URL de uma imagem</code>.
+              Independente de você usar uma <code>classe</code> ou um <code>objeto</code> para isso,
+              deve concordar comigo que <i>isso aqui</i> representa claramente o nosso modelo:
             </p>
             <div data-gui="code-block" data-lang="json" data-file-path="samples/snippets/mvc/mvc-github-avatar-model.json"></div>
-            <h4>Voltando ao exemplo</h4>
             <p class="lead">
-              Você que já conhece e usa jQuery no seu dia-a-dia, sabe que consegue construir essa funcionalidade
-              facilmente com um código parecido com esse:
+              Então vamos <code>acordar</code> que isso é tudo que precisamos para conseguir
+              desenvolver essa funcionalidade.
             </p>
-            <h5>Solução 1</h5>
+            <h3>Voltando ao exemplo</h3>
+            <p class="lead">
+              Você que já conhece e usa jQuery no seu dia-a-dia, sabe que consegue construir essa
+              funcionalidade facilmente com um código básico. Então vamos ao código de nossa primeira
+              solução.
+            </p>
+            <h4>Solução 1</h4>
             <div data-gui="code-block" data-lang="html" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-1.html"></div>
             <blockquote class="blockquote">
-              <p>
+              <p>Uma nota sobre o código de exemplo:</p>
+              <footer class="blockquote-footer">
                 Nós estamos omitindo as classes do Bootstrap além de parte da estrutura do HTML completo
                 e deixando somente o que importa para entender a estrutura do que apresentamos.
                 Mas se você abrir o código do exemplo <code>samples/snippets/mvc/mvc-github-avatar.html</code>
                 em seu navegador vai enxergá-lo por completo.
-              </p>
-              <footer class="blockquote-footer">Uma nota sobre o código de exemplo</footer>
+              </footer>
             </blockquote>
             <p class="lead">
               Pronto, está funcionando! Mas com esse código estamos <i><strong>quebrando as regras do MVC</strong></i>,
               mas especificamente a <strong>regra 3</strong>.
-              Porque estamos (visão) reagindo a uma interação do usuário e refletindo isso em outra parte da visão
-              diretamente sem notificar essa mudança no modelo. E se houver outra parte da visão que dependa também
-              dessa parte do modelo? Teríamos que adicionar o tratamento também no <code>onclick</code> até isso ficar
-              insustentável.
+              Porque nossa visão está reagindo a uma interação do usuário e refletindo isso em outra parte da visão
+              diretamente sem notificar essa mudança ao modelo.
+              E se houvesse mais outra parte da visão que dependa também dessa parte do modelo?
+              Teríamos que adicionar o tratamento também no <code>onkeyup</code> até isso ficar insustentável?
             </p>
-            <h5>Solução 2</h5>
+            <h4>Solução 2</h4>
+            <p class="lead">
+              Então tá! Vamos ver outra solução.
+              Podemos criar um objeto para representar o modelo e criar também um método pra atualizar a visão 
+              e pronto! Com isso a <code>visão</code> não altera a si mesma.
+            </p>
             <div data-gui="code-block" data-lang="html" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-2.html"></div>
             <p class="lead">
-              Então tá. Criamos um objeto para representar o modelo e criamos um método pra atualizar
-              e pronto!
-            </p>
-            <p class="lead">
-              Só que agora estamos quebrando 2 regras ao mesmo tempo. Porque a <strong>regra 1</strong> diz que
+              Só que agora estamos quebrando 2 (duas) regras ao mesmo tempo. Porque a <strong>regra 1</strong> diz que
               um modelo não atualiza a visão, e o método que atualiza a imagem na visão está no objeto de modelo.
               Também a <strong>regra 2</strong> diz que a visão não altera o estado do modelo, e isso ocorre
-              quando estamos chamando <code>model.changeName()</code> diretamente de <code>onchange</code> na visão.
+              quando estamos chamando <code>model.changeName()</code> diretamente de <code>onkeyup</code> na visão.
             </p>
-            <h5>Solução 3</h5>
+            <h4>Solução 3</h4>
+            <p class="lead">
+              Então vamos a outra solução. Criemos um método de controle que possamos somente
+              notificar, e ele ser o responsável por decidir essas coisas.
+            </p>
             <div data-gui="code-block" data-lang="html" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-3.html"></div>
             <p class="lead">
-              Ok! Então agora não é o modelo que está atualizando a visão, e a visão também não está mais
-              atualizando o modelo.
+              Parece que resolvemos o problema! Então agora não é o modelo que está atualizando
+              a visão, e a visão também não está mais atualizando o modelo.
             </p>
-            <h4>Confirmando se obedecemos todas as regras:</h4>
+            <p class="lead font-weight-bold">Façamos então uma conferência nas regras pra ver se estamos obedecendo a todas elas:</p>
             <ul class="lead list-unstyled text-success">
               <li>
                 <i class="fas fa-check-square"></i><span class="font-weight-bold">Regra 1:</span>
@@ -215,10 +241,15 @@
                 <i class="fas fa-check-square"></i><span class="font-weight-bold">Regra 3:</span>
                 Uma visão não altera a si própria.
               </li>
+              <li>
+                <i class="fas fa-check-square"></i><span class="font-weight-bold">Regra 4:</span>
+                O controlador não deve atualizar os detalhes da visão por ela.
+              </li>
             </ul>
+            <p class="lead text-danger">O problema é que ainda tem a <strong>REGRA 4</strong> além dos "Ao invés disso...".</p>
             <p class="lead">
               Parece que está tudo bem. Ou melhor: <i>Estaria tudo bem se não fossem os 
-              <strong>"Ao invés disso, notifica ..."</strong></i>.
+              <strong>"Ao invés disso..."</strong></i>.
             </p>
             <p class="lead">
               Quando há uma interação do usuário na visão alterando o nome, a visão está nofiticando o
@@ -229,8 +260,7 @@
             </p>
             <p class="lead">
               Aqui apesar de ser o controlador que está atualizando o modelo e também atualizando a visão,
-              e essas são realmente responsabilidades do controlador. O problema é que já estamos com a mesma
-              peça fazendo dois trabalhos.
+              e essas são realmente responsabilidades do controlador.
             </p>
             <p class="lead">Cadê a separação de responsabilidades?</p>
             <p class="lead">
