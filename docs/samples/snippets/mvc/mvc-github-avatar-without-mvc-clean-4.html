@@ -7,24 +7,23 @@
   <script>
     var model = {
       name: '',
-      avatarUrl: '',
+      avatarUrl: ''
+    }
 
-      changeName: function (name) {
-        this.name = name;
-        this.avatarUrl = 'https://avatars.githubusercontent.com/' + name;
-        
-        onUpdateModel(this);
+    var view = {
+      updateView: function (model) {
+        $('#nome').val(model.name);
+        $('#avatar').attr('src', model.avatarUrl);
       }
     }
 
     function onChangeName() {
-      model.changeName($(this).val());
+      model.name = $(this).val();
+      model.avatarUrl = 'https://avatars.githubusercontent.com/' + model.name;
+
+      view.updateView(model);
     }
 
-    function onUpdateModel(model) {
-      $('#avatar').attr('src', model.avatarUrl);
-    }
-
-    $('#nome').on('change', onChangeName);
+    $('#nome').on('keyup', onChangeName);
   </script>
 </body>

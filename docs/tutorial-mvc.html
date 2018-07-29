@@ -224,8 +224,21 @@
             </p>
             <div data-gui="code-block" data-lang="html" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-3.html"></div>
             <p class="lead">
+              Quase deu, mas esse método de controle está atualizando os detalhes da visão, e
+              isso é uma quebra da <strong>regra 4</strong>.
+              Essa é uma responsabilidade da própria camada de visão, afinal ela é que conhece os
+              detalhes do meio a que a informação precisa ser apresentada.
+            </p>
+            <h4>Solução 4</h4>
+            <p class="lead">
+              Então vejamos logo outra solução.
+              Vamos criar um objeto de visão para que o controlador possa requerer a atualização.
+            </p>
+            <div data-gui="code-block" data-lang="html" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-4.html"></div>
+            <p class="lead">
               Parece que resolvemos o problema! Então agora não é o modelo que está atualizando
-              a visão, e a visão também não está mais atualizando o modelo.
+              a visão, e a visão também não está mais atualizando o modelo, além de o controlador
+              não ter mais que se preocupar com os detalhes da visão.
             </p>
             <p class="lead font-weight-bold">Façamos então uma conferência nas regras pra ver se estamos obedecendo a todas elas:</p>
             <ul class="lead list-unstyled text-success">
@@ -246,7 +259,6 @@
                 O controlador não deve atualizar os detalhes da visão por ela.
               </li>
             </ul>
-            <p class="lead text-danger">O problema é que ainda tem a <strong>REGRA 4</strong> além dos "Ao invés disso...".</p>
             <p class="lead">
               Parece que está tudo bem. Ou melhor: <i>Estaria tudo bem se não fossem os 
               <strong>"Ao invés disso..."</strong></i>.
@@ -295,8 +307,8 @@
               decida o que fazer. E com isso podemos dizer que toda a alteração na visão é reflexo das mudanças
               do modelo.
             </p>
-            <h5>Solução 4</h5>
-            <div data-gui="code-block" data-lang="html" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-4.html"></div>
+            <h5>Solução 5</h5>
+            <div data-gui="code-block" data-lang="html" data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-5.html"></div>
             <p class="lead">Agora sim temos um exemplo que <i><strong>NÃO quebra as regras do MVC</strong></i>.</p>
             <ul class="lead list-unstyled">
               <li class="text-success">

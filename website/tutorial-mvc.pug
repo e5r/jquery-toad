@@ -230,8 +230,25 @@ block content
         data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-3.html")
 
     p.lead
+        | Quase deu, mas esse método de controle está atualizando os detalhes da visão, e
+        | isso é uma quebra da <strong>regra 4</strong>.
+        | Essa é uma responsabilidade da própria camada de visão, afinal ela é que conhece os
+        | detalhes do meio a que a informação precisa ser apresentada.
+
+    h4 Solução 4
+
+    p.lead
+        | Então vejamos logo outra solução.
+        | Vamos criar um objeto de visão para que o controlador possa requerer a atualização.
+
+    div(data-gui="code-block"
+        data-lang="html"
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-4.html")
+
+    p.lead
         | Parece que resolvemos o problema! Então agora não é o modelo que está atualizando
-        | a visão, e a visão também não está mais atualizando o modelo.
+        | a visão, e a visão também não está mais atualizando o modelo, além de o controlador
+        | não ter mais que se preocupar com os detalhes da visão.
 
     p.lead.font-weight-bold
         | Façamos então uma conferência nas regras pra ver se estamos obedecendo a todas elas:
@@ -249,9 +266,6 @@ block content
         li <i class="fas fa-check-square"></i>
             | <span class="font-weight-bold">Regra 4:</span>
             | O controlador não deve atualizar os detalhes da visão por ela.
-
-    p.lead.text-danger
-        | O problema é que ainda tem a <strong>REGRA 4</strong> além dos "Ao invés disso...".
 
     p.lead
         | Parece que está tudo bem. Ou melhor: <i>Estaria tudo bem se não fossem os 
@@ -300,11 +314,11 @@ block content
         | decida o que fazer. E com isso podemos dizer que toda a alteração na visão é reflexo das mudanças
         | do modelo.
 
-    h5 Solução 4
+    h5 Solução 5
     
     div(data-gui="code-block"
         data-lang="html"
-        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-4.html")
+        data-file-path="samples/snippets/mvc/mvc-github-avatar-without-mvc-clean-5.html")
 
     p.lead Agora sim temos um exemplo que <i><strong>NÃO quebra as regras do MVC</strong></i>.
 
