@@ -109,7 +109,7 @@ gulp.task('build:website', [
 })
 
 gulp.task('test:unit', ['build:js'], function (cb) {
-    exec('qunit "test/unit/**/*-spec.js"', function (err, stdout, stderr) {
+    exec('npx qunit "test/unit/**/*-spec.js"', function (err, stdout, stderr) {
         console.log(stdout);
         if (err)
             console.log(stderr);

@@ -38,9 +38,9 @@
     "qunitjs": "^2.4.1"
   },
   "scripts": {
-    "build": "npm i && gulp",
-    "start": "npm i && gulp serve",
-    "test": "npm i && gulp test"
+    "build": "npm i && npx gulp",
+    "start": "npm i && npx gulp serve",
+    "test": "npm i && npx gulp test"
   },
   "dependencies": {
     "jquery": "^1.12.4"
