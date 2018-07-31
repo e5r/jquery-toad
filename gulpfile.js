@@ -6,6 +6,9 @@ var fs = require('fs'),
     uglify = require('gulp-uglify'),
     pug = require('gulp-pug'),
     serve = require('gulp-serve'),
+    qunit = require('gulp-qunit'),
+    exec = require('child_process').exec,
+
     pkg = require('./package.json'),
 
     umdJs = fs.readFileSync('./src/umd.js'),
@@ -105,6 +108,21 @@ gulp.task('build:website', [
         .pipe(gulp.dest('docs'))
 })
 
+gulp.task('test:unit', ['build:js'], function (cb) {
+    exec('qunit "test/unit/**/*-spec.js"', function (err, stdout, stderr) {
+        console.log(stdout);
+        if (err)
+            console.log(stderr);
+        cb(err);
+    });
+})
+
+gulp.task('test:e2e', ['build:js'], function () {
+    return gulp.src('./test/e2e/test-runner.html')
+        .pipe(qunit());
+});
+
 gulp.task('serve', ['build:website'], serve('docs/'));
 gulp.task('dist', ['build:js-version', 'build:js-min-version', 'build:website']);
+gulp.task('test', ['test:unit', 'test:e2e']);
 gulp.task('default', ['dist']);

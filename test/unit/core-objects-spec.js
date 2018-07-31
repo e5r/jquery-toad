@@ -1,16 +1,16 @@
 var setup = require('./setup'),
     env = setup();
 
-describe('Funções principais', function () {
-    it('Expõe as funções principais', function () {
-        expect(typeof env.toad['namespace']).toBe('function');
-        expect(typeof env.toad['require']).toBe('function');
-        expect(typeof env.toad['constant']).toBe('function');
+QUnit.module('Objetos principais', function () {
+    QUnit.test('Expõe as funções principais', function (assert) {
+        assert.ok(typeof env.toad['namespace'] === 'function');
+        assert.ok(typeof env.toad['require'] === 'function');
+        assert.ok(typeof env.toad['constant'] === 'function');
     });
 
-    it('Expõe os objetos principais', function () {
-        expect(typeof env.toad['utils']).toBe('object');
-        expect(typeof env.toad['@']).toBe('object');
-        expect(typeof env.toad['core']).toBe('object');
+    QUnit.test('Expõe os objetos principais', function (assert) {
+        assert.ok(typeof env.toad['utils'] === 'object');
+        assert.ok(typeof env.toad['@'] === 'object');
+        assert.ok(typeof env.toad['core'] === 'object');
     })
 });
