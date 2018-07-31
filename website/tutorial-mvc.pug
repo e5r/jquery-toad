@@ -275,12 +275,12 @@ block content
         | Quando há uma interação do usuário na visão alterando o nome, a visão está nofiticando o
         | controlador chamando o método <code>onChangeName</code>. Este método do controlador por sua
         | vez é que atualiza o modelo, e isso está correto, porém ao mesmo tempo já está adiantando
-        | o trabalho visto que está <i>com a faca e o queijo na mão</i> e já aproveitou para atualizar
-        | a visão chamando o trecho <code>$('#avatar').attr('src', model.avatarUrl)</code>.
+        | o trabalho, visto que está <i><strong>com a faca e o queijo na mão</strong></i> já aproveitou para atualizar
+        | a visão chamando <code>view.updateView(model)</code>.
 
     p.lead
         | Aqui apesar de ser o controlador que está atualizando o modelo e também atualizando a visão,
-        | e essas são realmente responsabilidades do controlador.
+        | e essas são realmente responsabilidades do controlador, tem um problema...
 
     p.lead Cadê a separação de responsabilidades?
 
@@ -290,7 +290,7 @@ block content
         | Aqui o trabalho deste método termina quando ele atualiza o modelo.
 
     p.lead
-        | O modelo por sua vez é que deveria <strong><i>"notifica o controlador para que ele decida o 
+        | O modelo por sua vez é que deveria <strong><i>"notificar o controlador para que ele decida o 
         | que fazer"</i></strong>
 
     p.lead Em resumo, quase conseguimos atender todas as regras. Ficamos assim:
@@ -308,6 +308,10 @@ block content
             | <span class="font-weight-bold">Regra 3 (50%):</span>
             | Uma visão não altera a si própria.
             | <del class="text-danger">Ao invés disso, suas mudanças de visão são reflexos das mudanças do modelo.</del>
+        li.text-success <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 4 (100%):</span>
+            | O controlador não deve atualizar os detalhes da visão por ela.
+            | Ao invés disso, deve requerer uma visão atualizada do modelo que tem em mãos.
 
     p.lead
         | Ficou faltando o modelo ser o responsável por notificar o controlador de sua mudança para que esse
@@ -342,7 +346,7 @@ block content
             | Observe que a visão está lá somente para apresentar os dados, o máximo que ela faz é
             | notificar o controlador quando o campo <code>nome</code> sofreu uma interação do usuário.
             | E foi o próprio controlador que configurou esse gatilho com o trecho 
-            | <code>$('#nome').on('change', onChangeName)</code>.
+            | <code>$('#nome').on('keyup', onChangeName)</code>.
 
         li.text-success <i class="fas fa-check-square"></i>
             | <span class="font-weight-bold">Regra 3:</span>
@@ -351,59 +355,88 @@ block content
 
         p
             | Não existe nenhum código na própria visão que manipule a si mesmo para formatar como
-            | a informação deve representar o modelo. Ela somente reage as mudanças obedecendo ao controlador.
+            | a informação deve representar o modelo.
+            | Ela somente reage as mudanças obedecendo ao modelo informado pelo controlador.
+            | Isso é tão <i>legal</i> que nós aproveitamos pra incluir o trecho <code>model.changeName('erlimar')</code>
+            | logo no <i>bootstrap</i> do controlador; já que a view já está reagindo as mudanças do modelo,
+            | aproveitamos pra inicializar o modelo já com algum dado.
+            | Assim a aplicação já inicia mostrando valores pre-definidos, e veja que fizemos isso somente adicionando
+            | mais uma linha de código e nossa aplicação atendeu prontamente.
 
     h2 Isso é MVC!
 
     p.lead
-        | Sei que talvez você esperava mais coisas, mas esse código realmente obedece ao padrão MVC de
-        | arquitetura. Com isso queremos dizer que desenvolver aplicações MVC é uma questão de entender
-        | os princípios propostos por essa arquitetura.
+        | Sei que talvez você esperasse algo mais. Mas esse código realmente obedece ao padrão MVC de arquitetura.
+        | Com isso queremos dizer que desenvolver aplicações MVC é uma questão de conceito mais do que ferramentas.
+
+    p.lead
+        | E se você conseguir observar melhor, vai perceber que basicamente desenvolvemos uma aplicação mais
+        | <i>reativa</i> do que imperativa/estruturada, e nós usamos uma abordagem de troca de mensagens entre
+        | as camadas, àpesar de não termos explicitamente um mecanismo de mensagem, algo como, <code>sendMessage()</code>
+        | ou <code>receiveMessage()</code>. Essa é a lógica de desenvolver em uma arquitetura baseada em MVC.
 
     p.lead 
-        | Vamos voltar a dar uma olhada na nossa imagem do início e perceber como nosso código está
+        | Vamos voltar e dar mais uma olhada na nossa imagem do início e perceber como nosso código está
         | seguindo rigorosamente o fluxo proposto pelo diagrama:
 
     img(class="img-fluid img-thumbnail rounded mx-auto d-block" src="images/mvc.png" alt="MVC")
 
     p.lead
-        | 1. Primeiro quando o usuário altera o campo <code>nome</code> no componente de visão, esse
-        | <strong><i>notifica</i></strong> o controlador de tal.
+        | 1. Primeiro, nós já inicializamos nosso modelo com algum valor, e a visão o apresentou perfeitamente.
 
     p.lead
-        | 2. Em seguida nosso controlador decide que isso deve refletir em uma mudança no componente
-        | de modelo, e <strong>atualiza</strong> o modelo.
+        | 2. Em seguida, quando o usuário altera o campo <code>nome</code> no componente de visão, esse
+        | <strong><i>notifica</i></strong> o controlador de tal interação.
 
     p.lead
-        | 3. O componente <i>calcula as mudanças</i> e em seguida <strong><i>notifica</i></strong>
-        | o controlador de suas mudanças já passando o resultado final de seus cálculos e entrega
-        | um modelo <i>"prontinho"</i> para o consumo.
+        | 3. O controlador por sua vez decide que isso deve refletir em uma mudança no componente
+        | de modelo; e <strong>atualiza</strong> o modelo.
 
     p.lead
-        | 4. O controlador quando recebe essa <i>notificação</i> de mudança no modelo imediatamente
-        | <strong>atualiza</strong> o componente de visão para refletir exatamente o estado final
-        | do modelo.
+        | 4. O componente então, <i>calcula as mudanças</i> e em seguida <strong><i>notifica</i></strong>
+        | o controlador que suas mudanças já estão prontas e passa o resultado final de seus cálculos,
+        | com isso entrega um modelo <i>"prontinho"</i> para o consumo.
+
+    p.lead
+        | 5. Seguindo, o controlador recebe essa <i>notificação</i> de mudança no modelo, e imediatamente
+        | pede uma <strong>atualização</strong> ao componente de visão para refletir exatamente esse
+        | novo estado do modelo.
+
+    p.lead
+        | Pronto, nossa aplicação está viva! Com as responsabilidades bem distribuídas entre camadas distintas
+        | que se comunicam perfeitamente em um fluxo bem orquestrado.
 
     h3 Os detalhes
 
     p.lead
         | O resto são detalhes, e é exatamente isso que os Frameworks e Bibliotecas de MVC nos entregam,
-        | a implementação de vários detalhes que tornam nossa vida mais fácil. Porém o entendimento do
-        | padrão MVC nos faz construir aplicações mais fluidas e manuteníveis mesmo sem o uso de um
-        | desses frameworks/bibliotecas. Nesse exemplo que apresentamos aqui, nós conseguimos com o uso
-        | de puro JavaScript e do <strong><i>"Velho e Querido jQuery"</i></strong> implementar uma peça
-        | de software usando essa arquitetura.
+        | <i>"a implementação de vários detalhes que tornam nossa vida mais fácil"</i>.
+        | Porém o entendimento do padrão MVC nos faz construir aplicações mais fluidas e manuteníveis mesmo 
+        | sem o uso de um desses frameworks/bibliotecas.
+        | Nesse exemplo que apresentamos aqui, nós conseguimos com o uso de puro JavaScript e do 
+        | <strong><i>"Velho e Querido jQuery"</i></strong> implementar uma peça de software usando essa arquitetura.
 
     p.lead
         | Talvez a falta das classes <code>Model</code>, <code>View</code> e <code>Controller</code>
-        | tenha te deixado desconfortável pelo seu costume com Frameworks diversos, mas entenda que isso
+        | tenha te deixado desconfortável pelo seu costume com frameworks diversos, mas entenda que isso
         | são só utilitários para nos ajudar a ser mais produtivos.
+
+    p.lead
+        | Caso você ache o código final uma bagunça e não consiga distinguir as peças separadametne, imagine
+        | que:
+        
+    ul.lead
+        li A página <code>HTML</code> em si junto com o objeto <code>view</code> no <i>script</i> formam o componente de visão;
+        li O objeto <code>model</code> no script é o componente de modelo;
+        li O restante do código no script, ou seja, os métodos <code>onChangeName</code> e <code>onUpdateModel</code>,
+            | junto ao código de inicialização <code>model.changeName('erlimar')</code> e
+            | <code>$('#nome').on('keyup', onChangeName)</code> compõem a <code>controller</code>.
 
     p.lead
         | Mas pra não te deixar tão desapontado, vamos separar o nosso código melhor e deixá-lo mais
         | profissional.
 
-    h3.text-monospace O componente de visão <code>mvc-view.html</code> e <code>mvc-view.js</code>
+    h3.text-monospace <code>View</code>
 
     div(data-gui="code-block"
         data-lang="html"
@@ -413,13 +446,13 @@ block content
         data-lang="js"
         data-file-path="samples/snippets/mvc/mvc-view.js")
 
-    h3.text-monospace O componente de modelo <code>mvc-model.js</code>
+    h3.text-monospace <code>Model</code>
 
     div(data-gui="code-block"
         data-lang="js"
         data-file-path="samples/snippets/mvc/mvc-model.js")
 
-    h3.text-monospace O componente controlador <code>mvc-controller.js</code>
+    h3.text-monospace <code>Controller</code>
 
     div(data-gui="code-block"
         data-lang="js"

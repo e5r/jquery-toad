@@ -1,11 +1,19 @@
-function Model(onUpdateModel) {
-    var name = '',
-        url = '';
+function Model() {
+    var self = this;
+    var name = '';
+    var url = '';
 
-    this.changeName = function (name) {
-        name = name;
+    self.changeName = function (textName) {
+        name = textName;
         url = 'https://avatars.githubusercontent.com/' + name;
 
-        onUpdateModel({ name: namE, avatarUrl: url });
+        _doUpdate({
+            name: name,
+            avatarUrl: url
+        });
+    }
+
+    function _doUpdate(model) {
+        self.onUpdate && self.onUpdate(model);
     }
 }

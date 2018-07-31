@@ -12,8 +12,15 @@
       changeName: function (name) {
         this.name = name;
         this.avatarUrl = 'https://avatars.githubusercontent.com/' + name;
-        
+
         onUpdateModel(this);
+      }
+    }
+
+    var view = {
+      updateView: function (model) {
+        $('#nome').val(model.name);
+        $('#avatar').attr('src', model.avatarUrl);
       }
     }
 
@@ -22,9 +29,10 @@
     }
 
     function onUpdateModel(model) {
-      $('#avatar').attr('src', model.avatarUrl);
+      view.updateView(model);
     }
 
-    $('#nome').on('change', onChangeName);
+    model.changeName('erlimar');
+    $('#nome').on('keyup', onChangeName);
   </script>
 </body>

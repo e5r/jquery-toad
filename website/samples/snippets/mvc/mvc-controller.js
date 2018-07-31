@@ -1,16 +1,15 @@
-function Controller(idImg, idName) {
-    var model = new Model(this.onUpdateModel);
-    var view = new View(idImg, idName);
+function Controller(model, view) {
+    view.onChange = function (value) {
+        model.changeName(value);
+    }
 
-    this.idImg = idImg;
+    model.onUpdate = function (model) {
+        view.update(model);
+    }
 
-    $('#' + idName).on('change', function () {
-        model.changeName($(this).val());
-    });
+    model.changeName('erlimar');
 }
 
-Controller.prototype.onUpdateModel = function (model) {
-    $('#' + this.idImg).attr('src', model.avatarUrl);
-}
-
-new Controller('avatar', 'nome');
+var model = new Model();
+var view = new View('name', 'avatar');
+var controller = new Controller(model, view);

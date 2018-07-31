@@ -19,7 +19,7 @@
             <input type="text" id="nome" class="form-control">
           </div>
           <div class="form-group">
-            <img id="avatar" src="https://avatars.githubusercontent.com/nao-existe" class="img-fluid img-thumbnail d-block mx-auto">
+            <img id="avatar" src="" class="img-fluid img-thumbnail d-block mx-auto">
           </div>
         </form>
       </div>
@@ -27,32 +27,9 @@
   </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-  <script>
-    var model = {
-      name: '',
-      avatarUrl: '',
-
-      changeName: function (name) {
-        console.log('changeName:', name, this);
-        this.name = name;
-        this.avatarUrl = 'https://avatars.githubusercontent.com/' + name;
-
-        onUpdateModel(this);
-      }
-    }
-
-    function onChangeName() {
-      console.log('onChangeName:', this);
-      model.changeName($(this).val());
-    }
-
-    function onUpdateModel(model) {
-      console.log('onUpdateModel:', model);
-      $('#avatar').attr('src', model.avatarUrl);
-    }
-
-    $('#nome').on('keyup', onChangeName);
-  </script>
+  <script src="mvc-model.js"></script>
+  <script src="mvc-view.js"></script>
+  <script src="mvc-controller.js"></script>
 </body>
 
 </html>
