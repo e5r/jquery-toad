@@ -70,15 +70,16 @@ block content
     h3.text-monospace Model
 
     p.lead
-        | A camada de modelo é a responsável por notificar a camada <strong>Controller</strong>
-        | de qualquer mudança em seu conteúdo.
+        | A camada de modelo é a responsável por determinar o formato do modelo de dados, além de
+        | notificar a camada <strong>Controller</strong> de qualquer mudança em seu conteúdo.
         | <i>Essa é controlada exclusivamente pela camada <strong>Controller</strong></i>.
 
     h3.text-monospace View
 
     p.lead 
-        | A camada de visão é a responsável por notificar a camada <strong>Controller</strong>
-        | de qualquer interação que o usuário faz em seu conteúdo.
+        | A camada de visão é a responsável por apresentar os dados determinados na camada de modelo em
+        | um meio específico (aqui, na página HTML), além de notificar a camada <strong>Controller</strong>
+        | de qualquer interação que o usuário faça com ela.
         | Ela <i>conhece e usa</i> os dados da camada <strong>Model</strong>, e <i>também é
         | controlada exclusivamente pela camada <strong>Controller</strong></i>.
 
@@ -363,6 +364,15 @@ block content
             | Assim a aplicação já inicia mostrando valores pre-definidos, e veja que fizemos isso somente adicionando
             | mais uma linha de código e nossa aplicação atendeu prontamente.
 
+        li.text-success <i class="fas fa-check-square"></i>
+            | <span class="font-weight-bold">Regra 4:</span>
+            | O controlador não deve atualizar os detalhes da visão por ela.
+            | Ao invés disso, deve requerer uma visão atualizada do modelo que tem em mãos.
+
+        p
+            | Agora o controlador simplesmente repassa a responsabilidade por mostrar os detalhes a camada de
+            | visão, isso é percebido na chamada a <code>view.updateView(model)</code>.
+
     h2 Isso é MVC!
 
     p.lead
@@ -459,5 +469,47 @@ block content
         data-file-path="samples/snippets/mvc/mvc-controller.js")
 
     h2 Concluindo
+
+    p.lead
+        | De tempos em tempos nasce algum framework/ferramenta que nos possibilita criar aplicações
+        | web de forma mais parecida com que temos para desenvolver aplicações do lado do servidor, e
+        | desktop. Esses frameworks já são bem consolidados e talvez os mais conhecidos de todos sejam
+        | os frameworks MVC.
+
+    p.lead
+        | Porém o que sempre me intrigou foi o fato de por vezes ouvir relatos como: <i>"agora podemos desenvolver
+        | com MVC no JavaScript"</i>.
+        | Isso passa a falsa idéia de que seria algo novo no JavaScript, enquanto na verdade sempre se pode
+        | fazer isso porque não se tratam de recursos da linguagem em si, mas de uma arquitetura de desenvolvimento.
+
+    p.lead
+        | Se nós considerarmos que o padrão foi descrito pela primeira vez em 1979, e que o JavaScript também
+        | já está aí nos navegadores a um bom tempo. Porque nunca usamos?
+
+    p.lead
+        | A minha suposição é que nunca tratamos a programação JavaScript como uma coisa séria, e sim como
+        | algum tipo de <i>brinquedinho</i>.
+        | Talvez por isso a maioria dos programadores nunca dedicou um esforço sério para aprendê-lo, e isso é
+        | uma pena, porque acabam ficando dependentes de aguardar um programador de verdade criar algum tipo de
+        | Framework/Ferramenta para que ele possa usá-la.
+
+    p.lead
+        | Bom, chega de <i>desabafo</i>!
+        | Espero que tenha conseguido mostrar que é possível desenvolver uma aplicação front-end web em MVC,
+        | com puro JavaScript e o <strong><i>Velho e Querido jQuery</i></strong>, pois esse era o objetivo
+        | deste artigo.
+
+    p.lead
+        | Aqui com certeza tem inúmeros erros e problemas, e até você deva descordar comigo em algum ponto ou outro,
+        | mas esse é o meu entendimento sobre o assunto, e como eu falei no princípio, quero simplesmente tecer alguns
+        | comentários sobre o assunto e mostrar meu ponto de vista.
+
+    p.lead
+        | Porém isso não quer dizer que eu não queira ouvir o seu pronto de vista. Sinta-se a vontade para
+        | comentar, informar problemas, sugerir melhoria, eu irei aprender muito mais se puder discutir com você de
+        | uma forma bem produtiva.
+
+    p.lead Muito obrigado!
+
 
 //- block append scripts

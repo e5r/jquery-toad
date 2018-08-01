@@ -9,10 +9,12 @@ function View(idName, idImg) {
     }
 
     $('#nome').on('keyup', function () {
-        _doChange($(this).val());
+        var value = $(nameSelector).val();
+
+        doChange(value);
     });
 
-    function _doChange(value) {
+    function doChange(value) {
         self.onChange && self.onChange(value);
     }
 }

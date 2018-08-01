@@ -1,4 +1,7 @@
-function Controller(model, view) {
+(function Controller() {
+    var model = new Model();
+    var view = new View('nome', 'avatar');
+
     view.onChange = function (value) {
         model.changeName(value);
     }
@@ -8,8 +11,4 @@ function Controller(model, view) {
     }
 
     model.changeName('erlimar');
-}
-
-var model = new Model();
-var view = new View('name', 'avatar');
-var controller = new Controller(model, view);
+})();

@@ -7,13 +7,13 @@ function Model() {
         name = textName;
         url = 'https://avatars.githubusercontent.com/' + name;
 
-        _doUpdate({
+        doUpdate();
+    }
+
+    function doUpdate(model) {
+        self.onUpdate && self.onUpdate({
             name: name,
             avatarUrl: url
         });
-    }
-
-    function _doUpdate(model) {
-        self.onUpdate && self.onUpdate(model);
     }
 }
