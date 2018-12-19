@@ -116,9 +116,11 @@ TOAD.namespace('app/components', function (exports) {
         _loadFinish(el)
 
         var fullMessage = 'Erro ao carregar bloco de código '
-            + '<strong>'
+            + '<a style="font-weight:bold" href="'
             + (options.filePath || '')
-            + '</strong>'
+            + '" target="_blank">'
+            + (options.filePath || '')
+            + '</a>'
             + '!'
             + (typeof message === 'string'
                 ? '<hr /><p>' + message + '</p>'

@@ -4,6 +4,9 @@ mixin unpkg-js(pkg, path)
 mixin unpkg-css(pkg, path)
     link(rel="stylesheet", href="https://unpkg.com/" + pkg + "/" + path)
 
+mixin lib-js(name)
+    script(src="lib/" + name + ".js")
+
 mixin controller-js(name)
     script(src="app/controllers/" + name + "-controller.js")
 
