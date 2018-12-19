@@ -10,7 +10,7 @@ function Model() {
         doUpdate();
     }
 
-    function doUpdate(model) {
+    function doUpdate() {
         self.onUpdate && self.onUpdate({
             name: name,
             avatarUrl: url

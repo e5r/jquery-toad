@@ -8,7 +8,7 @@ function View(idName, idImg) {
         $(avatarSelector).attr('src', model.avatarUrl);
     }
 
-    $('#nome').on('keyup', function () {
+    $(nameSelector).on('keyup', function () {
         var value = $(nameSelector).val();
 
         doChange(value);
