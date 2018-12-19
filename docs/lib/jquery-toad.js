@@ -1,5 +1,5 @@
 /*!
- * jquery-toad v1.0.34
+ * jquery-toad v1.0.35
  * jQuery TOAD - O velho e querido jQuery (https://e5r.github.io/jquery-toad)
  * Copyright (c) Erlimar Silva Campos. All rights reserved.
  * Licensed under the Apache-2.0 License. More license information in LICENSE.
@@ -61,7 +61,7 @@ else {
 var $toad = {
     '$jq': $,
     '$toad': {
-        version: '1.0.34',
+        version: '1.0.35',
         author: 'Erlimar Silva Campos',
         license: 'Apache-2.0',
         homepage: 'https://e5r.github.io/jquery-toad',
@@ -1010,7 +1010,7 @@ $namespace(0, 'utils', function (exports) {
 
 // Inicializa os namespaces na ordem especificada
 _NAMESPACES_.sort(function (a, b) {
-    return a.idx > b.idx;
+    return a.idx - b.idx;
 });
 
 // Não usamos (map) para compatibilidade com IE8
